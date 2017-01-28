@@ -3,8 +3,7 @@
 
 
 ## How to run
-mvn package
-java -jar
+mvn exec:java
 
 ## Git
 git add README.md<br/>
