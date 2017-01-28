@@ -41,7 +41,7 @@ public class Server {
 			String cxtHandlers=config.get("contextHandler."+contextPath);
 			ctx.setHandler(ContextHandlerFactory.get(cxtHandlers));
 			List<Filter> filters=ctx.getFilters();
-			filters.add(new AuthFilter());
+			filters.add(new AuthFilter(config.get("login.path")));
 			filters.add(new ParamsFilter());
 			//ctx.setAuthenticator(new BasicAuthenticator(contextPath));
 		}
