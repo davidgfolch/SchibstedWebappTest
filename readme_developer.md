@@ -4,13 +4,13 @@
 
 ## How to run
 mvn package
-java -jar 
+java -jar
 
 ## Git
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/davidgfolch/SchibstedWebappTest.git
-git push -u origin master
+git add README.md<br/>
+git commit -m "first commit"<br/>
+git remote add origin https://github.com/davidgfolch/SchibstedWebappTest.git<br/>
+git push -u origin master<br/>
 
 ## Sources
 http://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html
