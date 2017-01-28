@@ -12,7 +12,7 @@ git remote add origin https://github.com/davidgfolch/SchibstedWebappTest.git<br/
 git push -u origin master<br/>
 
 ### Generating ssh key for ssh connection
-[Source]https://help.github.com/articles/connecting-to-github-with-ssh/<br/>
+[Source](https://help.github.com/articles/connecting-to-github-with-ssh/)<br/>
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"<br/>
 sudo apt-get install xclip<br/>
 xclip -sel clip < ~/.ssh/id_rsa.pub<br/>
