@@ -19,11 +19,12 @@ That is the same as:<br/>
 
 ## Technical description
 
-**backend**
+### Backend
 Using filters (com.sun.net.httpserver.Filter): see "AuthFilter" & "ParamsFilter" implementations.<br/>
 Using Apache org.apache.httpcomponents.httpclient to parse params and response status constants<br/>
 Using Apache log4j2 as default logger.<br/>
 Using Apache log4j2 JUL bridge to log httpserver logs.<br/>
-**front-end**
+
+### Front-end
 Using jtwig for templates.<br/>
 
