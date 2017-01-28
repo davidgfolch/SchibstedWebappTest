@@ -6,7 +6,7 @@
 ### Run with logs (using maven-assembly-plugin)
 	mvn clean package
 	java -jar target/webapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-
+<br/>
 **With colored output (perl required)**
 	./run.sh
 That is the same as:
