@@ -7,9 +7,9 @@
 	mvn clean package
 	java -jar target/webapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
-**With colored output (perl required)**<br/>
+**With colored output (perl required)**
 	./run.sh
-That is the same as:<br/>
+That is the same as:
 	mvn clean package | perl colorTail.pl
 	java -jar target/webapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar | perl colorTail.pl
 
