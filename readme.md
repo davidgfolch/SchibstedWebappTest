@@ -10,6 +10,7 @@
 #### With colored output (perl required)
 	./run.sh
 That is the same as:<br/>
+
 	mvn clean package | perl colorTail.pl
 	java -jar target/webapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar | perl colorTail.pl
 
