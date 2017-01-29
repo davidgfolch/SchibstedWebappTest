@@ -15,5 +15,9 @@ public interface IController {
 	
 	void doLogic();
 	ViewModel getModel();
+
+	void checkPermisionDenied();
+	void setStatusCode(int statusCode);
+	int getStatusCode();
 	
 }

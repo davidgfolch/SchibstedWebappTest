@@ -3,7 +3,6 @@ package com.schibsted.webapp.server.contextHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +30,7 @@ public class WebContextHandler extends MVCHandler implements HttpHandler {
 			redirect=HttpServerHelper.isRedirect(ex);
 			if (!redirect) {
 				String res = getView(ex.getRequestURI(), model);
-				ex.sendResponseHeaders(HttpStatus.SC_OK, res.length());
+				ex.sendResponseHeaders(getStatusCode(ex), res.length());
 				os.write(res.getBytes());
 			}
 		} catch (Exception e) {

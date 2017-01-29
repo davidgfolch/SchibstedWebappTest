@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Config {
 
+	public static final String CONTROLLER = "controller";
+
 	private static final String PROPERTIES_EXT = ".properties";
 
 	private static final Logger LOG = LogManager.getLogger(Config.class);

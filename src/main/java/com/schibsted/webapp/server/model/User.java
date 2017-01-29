@@ -1,31 +1,32 @@
 package com.schibsted.webapp.server.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
 
-	List<Role> role;
+	List<Role> roles;
 	String name;
 	String password; // TODO: encript passwords
 
-	public User(String name, String password) {
-		this(new ArrayList<Role>(), name, password);
+	public User(String name, String password, String... roles) {
+		this(Arrays.asList(roles).stream().map(Role::new).collect(Collectors.toList()), name, password);
 	}
 
-	public User(List<Role> role, String name, String password) {
+	public User(List<Role> roles, String name, String password) {
 		super();
-		this.role = role;
+		this.roles = roles;
 		this.name = name;
 		this.password = password;
 	}
 
-	public List<Role> getRole() {
-		return role;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
 	public void setRole(List<Role> role) {
-		this.role = role;
+		this.roles = role;
 	}
 
 	public String getName() {

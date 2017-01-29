@@ -33,7 +33,6 @@ public class MVCHandler {
 		config = Server.getConfig();
 	}
 
-	private static final String CONTROLLER = "controller";
 	private static final String EXT = config.get("templates.extension");
 	private static final String TEMPLATES = config.get("templates.folder");
 
@@ -60,7 +59,7 @@ public class MVCHandler {
 	
 	private IController getController(HttpExchange ex) {
 		HttpContext ctx = ex.getHttpContext();
-		IController ctrl = (IController) ctx.getAttributes().get(CONTROLLER);
+		IController ctrl = (IController) ctx.getAttributes().get(Config.CONTROLLER);
 		ctrl.setHttpMethod(ex.getRequestMethod());
 		ctrl.setParameters((Parameters) ctx.getAttributes().get(ParamsFilter.PARAMETERS));
 		return ctrl; 
@@ -68,7 +67,7 @@ public class MVCHandler {
 	
 	private IMVCController getMVCController(HttpExchange ex) {
 		HttpContext ctx = ex.getHttpContext();
-		IMVCController mvcCtrl = (IMVCController) ctx.getAttributes().get(CONTROLLER);
+		IMVCController mvcCtrl = (IMVCController) ctx.getAttributes().get(Config.CONTROLLER);
 		mvcCtrl.setSession(SessionHelper.getSession(ex));
 		return mvcCtrl;
 		
@@ -81,15 +80,21 @@ public class MVCHandler {
 	public static void setWebControllers(List<Object> webControllers) {
 		MVCHandler.webControllers = webControllers;
 	}
+	
+	protected int getStatusCode(HttpExchange ex) {
+		IController ctrl =getController(ex);
+		return ctrl.getStatusCode();
+	}
 
 	private void checkRedirect(HttpExchange ex, IMVCController mvcCtrl) {
 		if (mvcCtrl.getRedirect() == null)
 			return;
 		try {
 			HttpServerHelper.redirect(ex, mvcCtrl.getRedirect());
+			mvcCtrl.sendRedirect(null);
 		} catch (IOException e) {
 			LOG.error("Cannot redirect", e);
 		}
 	}
-
+	
 }

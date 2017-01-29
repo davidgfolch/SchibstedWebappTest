@@ -37,8 +37,8 @@ public class Session extends LinkedHashMap<String, Object> {
 		put(LOGGED_USER,user);
 	}
 
-	public Object getLoggedUser() {
-		return get(LOGGED_USER);
+	public User getLoggedUser() {
+		return (User)get(LOGGED_USER);
 	}
 
 }

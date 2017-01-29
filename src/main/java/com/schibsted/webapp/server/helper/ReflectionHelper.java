@@ -5,6 +5,12 @@ import java.lang.reflect.Modifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.IMVCController;
+import com.schibsted.webapp.server.annotation.Authenticated;
+import com.sun.net.httpserver.HttpExchange;
+
+@SuppressWarnings("restriction") 
 public class ReflectionHelper {
 
 	private static final Logger LOG = LogManager.getLogger(ReflectionHelper.class);
@@ -25,6 +31,12 @@ public class ReflectionHelper {
 		return claz.isInterface() || //
 				!hasDefaultConstructor(claz) || //
 				Modifier.isAbstract(claz.getModifiers());
+	}
+
+	public static String getAuthenticationRoles(HttpExchange ex) {
+		IMVCController ctrl=(IMVCController) ex.getAttribute(Config.CONTROLLER);
+		Authenticated authAnnon=ctrl.getClass().getAnnotation(Authenticated.class);
+		return authAnnon.role();
 	}
 
 }

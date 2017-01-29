@@ -1,5 +1,6 @@
 package com.schibsted.webapp.server;
 
+@Deprecated
 @SuppressWarnings("restriction")
 public class BasicAuthenticator extends com.sun.net.httpserver.BasicAuthenticator {
 

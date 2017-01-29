@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 
+import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.annotation.ContextPath;
 import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
@@ -100,12 +101,13 @@ public class Server {
 			ch = claz.getAnnotatedSuperclass().getAnnotation(ContextPath.class);
 		String contextPath = ch.value();
 		HttpContext ctx = serverInstance.createContext(contextPath);
-		ctx.getAttributes().put("controller", ctrl);
+		ctx.getAttributes().put(Config.CONTROLLER, ctrl);
 		String cxtHandlers = config.get("contextHandler." + contextPath);
 		cxtHandlers = cxtHandlers == null ? WebContextHandler.class.getSimpleName() : cxtHandlers;
 		ctx.setHandler(ContextHandlerFactory.get(cxtHandlers));
 		List<Filter> filters = ctx.getFilters();
-		filters.add(authFilter);
+		if (claz.getAnnotation(Authenticated.class)!=null)
+			filters.add(authFilter);
 		filters.add(paramsFilter);
 	}
 

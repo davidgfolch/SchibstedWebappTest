@@ -16,7 +16,6 @@ public class LogoutController extends BaseController {
 		LOG.debug("Logout controller method {}, params {}", getHttpMethod(), getParameters().size());
 		invalidateSession();
 		sendRedirect(Server.getConfig().get(Server.LOGIN_PATH));		
-		setMessage("Logged out");
 	}
 
 }

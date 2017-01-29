@@ -7,7 +7,7 @@ import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextPath;
 
 @ContextPath("/page2")
-@Authenticated
+@Authenticated(role="PAGE_2")
 public class Page2Controller extends BaseController {
 
 	private static final Logger LOG = LogManager.getLogger(Page2Controller.class);
