@@ -9,7 +9,9 @@ public class BasicAuthenticator extends com.sun.net.httpserver.BasicAuthenticato
 
 	@Override
 	public boolean checkCredentials(String username, String password) {
-		return username!=null && username.equals(password); //TODO: STUPID DUMMY AUTH :))
+		return username != null && username.equals(password); // TODO: STUPID
+																// DUMMY AUTH
+																// :))
 	}
 
 }

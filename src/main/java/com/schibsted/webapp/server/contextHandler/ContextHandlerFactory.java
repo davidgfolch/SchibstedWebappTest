@@ -43,12 +43,12 @@ public class ContextHandlerFactory {
 	// }
 	// return get(handlersTyped);
 	public static HttpHandler get(String handler) {
-		String handlerEnum=handler.replaceAll("([a-z])([A-Z]+)","$1_$2").toUpperCase();
+		String handlerEnum = handler.replaceAll("([a-z])([A-Z]+)", "$1_$2").toUpperCase();
 		try {
-			CONTEXT_HANDLER ctxHdl=CONTEXT_HANDLER.valueOf(handlerEnum);
+			CONTEXT_HANDLER ctxHdl = CONTEXT_HANDLER.valueOf(handlerEnum);
 			return get(ctxHdl);
 		} catch (IllegalArgumentException iae) {
-			throw new IllegalArgumentException("No contextHandler found: "+handler,iae);
+			throw new IllegalArgumentException("No contextHandler found: " + handler, iae);
 		}
 	}
 

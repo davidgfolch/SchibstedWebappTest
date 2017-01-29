@@ -14,19 +14,19 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction")
 public class ErrorHandler {
 
-	public static final Logger LOG = LogManager.getLogger(ErrorHandler.class);
+	private static final Logger LOG = LogManager.getLogger(ErrorHandler.class);
 
 	public static void handle(HttpExchange ex, Throwable t, OutputStream os) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		t.printStackTrace(new PrintStream(bos));
-//		ByteBuffer bb = ByteBuffer.wrap(bos.toByteArray());
+		// ByteBuffer bb = ByteBuffer.wrap(bos.toByteArray());
 		try {
 			ex.sendResponseHeaders(HttpStatus.SC_INTERNAL_SERVER_ERROR, bos.size());
 			os.write(bos.toByteArray());
 		} catch (IOException e) {
 			e.initCause(t);
-			LOG.error("",e);
+			LOG.error("", e);
 		}
 	}
-	
+
 }

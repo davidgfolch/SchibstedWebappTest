@@ -6,9 +6,12 @@
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Root level="all">
+		<Root level="info">
 			<AppenderRef ref="Console" />
 		</Root>
+		<Logger name="com.schibsted" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
 		<Logger name="com.sun.net.httpserver" level="TRACE" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>

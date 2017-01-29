@@ -1,7 +1,7 @@
-package com.schibsted.webapp.model;
+package com.schibsted.webapp.server.model;
 
 public class Role {
-	
+
 	String role;
 
 	public Role(String role) {
@@ -16,5 +16,5 @@ public class Role {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
 }

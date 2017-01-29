@@ -1,7 +1,6 @@
 package com.schibsted.webapp.server.contextHandler;
 
 import java.io.IOException;
-
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -16,7 +15,7 @@ import com.sun.net.httpserver.HttpHandler;
 @SuppressWarnings("restriction")
 public class RestContextHandler implements HttpHandler {
 
-	public static final Logger LOG = LogManager.getLogger(RestContextHandler.class);
+	private static final Logger LOG = LogManager.getLogger(RestContextHandler.class);
 
 	@Override
 	public void handle(HttpExchange ex) throws IOException {
@@ -34,7 +33,7 @@ public class RestContextHandler implements HttpHandler {
 				}
 			});
 		} catch (UncheckedIOException e) {
-			LOG.error("",e);
+			LOG.error("", e);
 		}
 		os.flush();
 		ex.close();
