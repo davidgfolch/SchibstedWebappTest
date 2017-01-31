@@ -24,7 +24,7 @@ public class AppTest {
 	
 	@Test
 	public void _302() throws Exception {
-	    assertTrue(HttpStatus.SC_OK==getResponseCode(serverUrl+"/page1"));
+	    assertTrue(HttpStatus.SC_MOVED_TEMPORARILY==getResponseCode(serverUrl+"/page1"));
 	}
 	
 	@Test
@@ -45,6 +45,7 @@ public class AppTest {
 	private int getResponseCode(String url) throws Exception {
 	    URL u = new URL(url);
 	    URLConnection con = u.openConnection();
+	    HttpURLConnection.setFollowRedirects(false);
 	    HttpURLConnection httpCon = (HttpURLConnection) con;
 	    httpCon.setInstanceFollowRedirects(false);
 	    con.connect();
@@ -53,3 +54,4 @@ public class AppTest {
 	}
 
 }
+
