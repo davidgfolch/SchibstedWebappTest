@@ -1,17 +1,17 @@
 package com.schibsted.webapp.server.model;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import com.schibsted.webapp.server.helper.UserHelper;
 
 public class User {
 
 	List<Role> roles;
 	String name;
-	String password; // TODO: encript passwords
+	String password;
 
 	public User(String name, String password, String... roles) {
-		this(Arrays.asList(roles).stream().map(Role::new).collect(Collectors.toList()), name, password);
+		this(UserHelper.createRoles(roles), name, password);
 	}
 
 	public User(List<Role> roles, String name, String password) {

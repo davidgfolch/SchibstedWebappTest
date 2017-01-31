@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
@@ -53,9 +54,9 @@ public class AuthFilter extends Filter {
 	}
 
 	private boolean permissionDenied(HttpExchange ex) {
-		String roleRequired = ReflectionHelper.getAuthenticationRoles(ex);
+		String roleRequiredInController = ReflectionHelper.getAuthenticationRoles(ex);
 		User user = SessionHelper.getSession(ex).getLoggedUser();
-		return UserHelper.hasUserRole(user, roleRequired);
+		return UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.schibsted.webapp.server;
 
+import com.schibsted.webapp.persistence.InMemory;
+import com.schibsted.webapp.server.helper.UserHelper;
+import com.schibsted.webapp.server.model.User;
+
 @Deprecated
 @SuppressWarnings("restriction")
 public class BasicAuthenticator extends com.sun.net.httpserver.BasicAuthenticator {
@@ -10,9 +14,9 @@ public class BasicAuthenticator extends com.sun.net.httpserver.BasicAuthenticato
 
 	@Override
 	public boolean checkCredentials(String username, String password) {
-		return username != null && username.equals(password); // TODO: STUPID
-																// DUMMY AUTH
-																// :))
+		User user=UserHelper.checkCreadentials(InMemory.getUsers(),username,password);
+		return user!=null;
+		//return username != null && username.equals(password); 
 	}
 
 }
