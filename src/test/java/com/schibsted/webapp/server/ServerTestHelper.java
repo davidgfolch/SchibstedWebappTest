@@ -4,11 +4,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class BaseServerTest {
+public class ServerTestHelper {
 
 	private static final String SERVER_URL="http://localhost:"+Server.getConfig().get("port");
 	
-	public URLConnection connect(String url) throws Exception {
+	public static URLConnection connect(String url) throws Exception {
 	    URL u = new URL(SERVER_URL+url);
 	    URLConnection con = u.openConnection();
 	    HttpURLConnection.setFollowRedirects(false);
@@ -18,7 +18,7 @@ public class BaseServerTest {
 	    return httpCon;
 	}
 	
-	public int getResponseCode(String url) throws Exception {
+	public static int getResponseCode(String url) throws Exception {
 	    return ((HttpURLConnection)connect(url)).getResponseCode();
 	    //BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 	}

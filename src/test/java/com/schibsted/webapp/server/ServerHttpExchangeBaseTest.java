@@ -1,5 +1,8 @@
 package com.schibsted.webapp.server;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.schibsted.webapp.server.contextHandler.HttpHandlerTestCallbak;
 import com.schibsted.webapp.server.contextHandler.WebContextHandlerTestHook;
 import com.schibsted.webapp.server.helper.TestController;
@@ -7,9 +10,14 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class BaseServerHttpExchangeTest extends BaseServerTest implements HttpHandlerTestCallbak {
+public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak {
 
-	protected static Server SERVER = new Server().startServer();
+	protected static Server server = new Server();
+	protected static boolean serverStarted=false;;
+	
+	static {
+		serverStarted=server.startServer();
+	}
 
 	protected HttpExchange httpExchange = null;
 	
@@ -17,8 +25,8 @@ public class BaseServerHttpExchangeTest extends BaseServerTest implements HttpHa
 
 	
 	static  {
-		HttpContext ctx = SERVER.registerHandler("/test", hook);
-		SERVER.setHandlerController(ctx, new TestController());
+		HttpContext ctx = server.registerHandler("/test", hook);
+		server.setHandlerController(ctx, new TestController());
 	}
 
 	@Override
@@ -28,6 +36,11 @@ public class BaseServerHttpExchangeTest extends BaseServerTest implements HttpHa
 
 	@Override
 	public void afterHandle(HttpExchange ex) {
+	}
+	
+	@Test
+	public void startServer() {
+		Assert.assertTrue(serverStarted);
 	}
 
 }

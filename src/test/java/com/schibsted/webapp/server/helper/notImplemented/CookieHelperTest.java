@@ -5,18 +5,19 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.BaseServerHttpExchangeTest;
+import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 
 
-public class CookieHelperTest extends BaseServerHttpExchangeTest {
+public class CookieHelperTest extends ServerHttpExchangeBaseTest {
 	
 	@Before
 	public void before() {
 		hook.setListener(this);
 		try {
-			getResponseCode("/test");
+			ServerTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

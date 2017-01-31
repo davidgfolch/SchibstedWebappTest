@@ -16,7 +16,7 @@ public class ContextHandlerFactoryTest {
 
 	@Test
 	public void getByString() {
-		assertTrue(ContextHandlerFactory.get("WebContextHandler") instanceof WebContextHandler);
+		assertTrue(ContextHandlerFactory.get(WebContextHandler.class.getSimpleName()) instanceof WebContextHandler);
 	}
 
 }

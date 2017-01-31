@@ -44,14 +44,14 @@ public class Server {
 	private ParamsFilter paramsFilter = new ParamsFilter();
 	private AuthFilter authFilter;
 
-	public Server startServer() {
+	public boolean startServer() {
 
 		try {
 			LOG.info("Starting server on port " + config.get(PORT));
 			serverInstance = HttpServer.create(new InetSocketAddress(config.getInt(PORT)), 0);
 		} catch (IOException e) {
 			LOG.error("Cannot start server...", e);
-			return this;
+			return false;
 		}
 
 		/**
@@ -79,7 +79,7 @@ public class Server {
 		// // ctx.setAuthenticator(new BasicAuthenticator(contextPath));
 		// }
 		serverInstance.start();
-		return this;
+		return true;
 	}
 
 

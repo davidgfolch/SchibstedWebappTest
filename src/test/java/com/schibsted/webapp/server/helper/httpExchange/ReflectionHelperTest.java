@@ -5,17 +5,18 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.BaseServerHttpExchangeTest;
+import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.schibsted.webapp.server.helper.TestController;
 
-public class ReflectionHelperTest extends BaseServerHttpExchangeTest {
+public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 	
 	@Before
 	public void before() {
 		hook.setListener(this);
 		try {
-			getResponseCode("/test");
+			ServerTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

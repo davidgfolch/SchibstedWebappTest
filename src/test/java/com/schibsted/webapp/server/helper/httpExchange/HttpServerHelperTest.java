@@ -8,11 +8,12 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.BaseServerHttpExchangeTest;
+import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 
 
-public class HttpServerHelperTest extends BaseServerHttpExchangeTest {
+public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 	
 	private static final String PARAM_TO_ENCODE = "&enc";
 
@@ -20,7 +21,7 @@ public class HttpServerHelperTest extends BaseServerHttpExchangeTest {
 	public void before() {
 		hook.setListener(this);
 		try {
-			getResponseCode("/test");
+			ServerTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

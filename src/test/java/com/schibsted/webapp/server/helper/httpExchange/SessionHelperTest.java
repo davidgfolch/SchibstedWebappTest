@@ -7,13 +7,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.BaseServerHttpExchangeTest;
+import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Session;
 
 
-public class SessionHelperTest extends BaseServerHttpExchangeTest {
+public class SessionHelperTest extends ServerHttpExchangeBaseTest {
 
 	private Long timeout=Long.valueOf(Server.getConfig().getInt(SessionHelper.SESSION_TIMEOUT_MS));
 
@@ -21,7 +22,7 @@ public class SessionHelperTest extends BaseServerHttpExchangeTest {
 	public void before() {
 		hook.setListener(this);
 		try {
-			getResponseCode("/test");
+			ServerTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
