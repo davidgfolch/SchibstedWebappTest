@@ -21,10 +21,6 @@ public class LoginController extends BaseController {
 		getLoggedUser();
 		if (isGet())
 			return;
-		doPost();
-	}
-
-	private void doPost() {
 		String userName=(String)getParameter("user.name");
 		String pass=(String)getParameter("user.password");
 		String redirect=(String)getParameter("redirect");
