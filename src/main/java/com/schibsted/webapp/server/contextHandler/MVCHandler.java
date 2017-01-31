@@ -24,7 +24,7 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class MVCHandler {
+public class MVCHandler { //TODO: MOVE TO A REAL HANDLER, SUPERCLASS OR HELPER
 
 	private static final Logger LOG = LogManager.getLogger(MVCHandler.class);
 

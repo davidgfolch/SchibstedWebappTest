@@ -10,10 +10,12 @@ import com.sun.net.httpserver.HttpHandler;
 @SuppressWarnings("restriction")
 public class ContextHandlerFactory {
 
-	enum CONTEXT_HANDLER {
+	public enum CONTEXT_HANDLER {
 		WEB_CONTEXT_HANDLER, REST_CONTEXT_HANDLER
 	}
 
+	
+	//todo: clean
 	// public static Stack<HttpHandler> get(List<CONTEXT_HANDLER> handlers) {
 	// final Stack<HttpHandler> handlersRes=new Stack<>();
 	// for(CONTEXT_HANDLER handler: handlers) {

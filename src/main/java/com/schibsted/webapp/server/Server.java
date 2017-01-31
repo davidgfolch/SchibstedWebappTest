@@ -44,14 +44,14 @@ public class Server {
 	private ParamsFilter paramsFilter = new ParamsFilter();
 	private AuthFilter authFilter;
 
-	public void startServer() {
+	public Server startServer() {
 
 		try {
 			LOG.info("Starting server on port " + config.get(PORT));
 			serverInstance = HttpServer.create(new InetSocketAddress(config.getInt(PORT)), 0);
 		} catch (IOException e) {
 			LOG.error("Cannot start server...", e);
-			return;
+			return this;
 		}
 
 		/**
@@ -79,6 +79,7 @@ public class Server {
 		// // ctx.setAuthenticator(new BasicAuthenticator(contextPath));
 		// }
 		serverInstance.start();
+		return this;
 	}
 
 	private void addWebControllers(Class<?> claz) {

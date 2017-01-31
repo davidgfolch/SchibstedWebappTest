@@ -12,9 +12,11 @@ import org.apache.logging.log4j.Logger;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class ErrorHandler {
+public class ErrorHandler { //TODO: MOVE TO SUPERCLASS OR HELPER
 
 	private static final Logger LOG = LogManager.getLogger(ErrorHandler.class);
+	
+	private ErrorHandler() {}
 
 	public static void handle(HttpExchange ex, Throwable t, OutputStream os) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
