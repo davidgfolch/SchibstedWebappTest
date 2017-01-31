@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.annotation.Authenticated;
+import com.schibsted.webapp.server.annotation.ContextPath;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction") 
@@ -36,7 +37,14 @@ public class ReflectionHelper {
 	public static String getAuthenticationRoles(HttpExchange ex) {
 		IMVCController ctrl=(IMVCController) ex.getAttribute(Config.CONTROLLER);
 		Authenticated authAnnon=ctrl.getClass().getAnnotation(Authenticated.class);
-		return authAnnon.role();
+		return authAnnon==null?null:authAnnon.role();
+	}
+
+	public static String getContextPath(Class<?> claz) {
+		ContextPath path = claz.getAnnotation(ContextPath.class);
+		if (path == null)
+			path = claz.getAnnotatedSuperclass().getAnnotation(ContextPath.class);
+		return path.value();
 	}
 
 }

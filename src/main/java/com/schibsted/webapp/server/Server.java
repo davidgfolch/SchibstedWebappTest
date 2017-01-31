@@ -11,7 +11,6 @@ import org.reflections.Reflections;
 
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.annotation.ContextPath;
 import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
 import com.schibsted.webapp.server.contextHandler.MVCHandler;
 import com.schibsted.webapp.server.contextHandler.WebContextHandler;
@@ -20,6 +19,7 @@ import com.schibsted.webapp.server.filter.ParamsFilter;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 @SuppressWarnings("restriction")
@@ -60,14 +60,14 @@ public class Server {
 		 */
 		authFilter = new AuthFilter(config.get(LOGIN_PATH));
 		// see https://code.google.com/archive/p/reflections/
-		Reflections reflections = new Reflections("com.schibsted.webapp");
+		Reflections reflections = new Reflections("com.schibsted.webapp.controller");
 		/**
 		 * Set<Class<?>> authenticatedServices =
 		 * reflections.getTypesAnnotatedWith(Authenticated.class);
 		 */
 		Set<Class<?>> webControllersClaz = reflections.getTypesAnnotatedWith(ContextHandler.class);
 
-		webControllersClaz.forEach(this::addWebControllers);
+		webControllersClaz.forEach(this::addWebController);
 
 		// for (String contextPath : config.getList("contexts")) {
 		// HttpContext ctx = server.createContext(contextPath);
@@ -82,34 +82,44 @@ public class Server {
 		return this;
 	}
 
-	private void addWebControllers(Class<?> claz) {
+
+	private void addWebController(Class<?> claz) {
 		try {
 			if (!ReflectionHelper.isControllerCandidate(claz))
 				return;
 			LOG.debug("Adding controller: {}", claz.getName());
-			Object obj = claz.newInstance();
+			IController obj = (IController)claz.newInstance();
 			setWebHandlers(obj);
 			MVCHandler.getWebControllers().add(obj);
 		} catch (InstantiationException | IllegalAccessException e) {
 			LOG.error("", e);
 		}
 	}
-
-	private void setWebHandlers(Object ctrl) {
-		Class<?> claz = ctrl.getClass();
-		ContextPath ch = claz.getAnnotation(ContextPath.class);
-		if (ch == null)
-			ch = claz.getAnnotatedSuperclass().getAnnotation(ContextPath.class);
-		String contextPath = ch.value();
-		HttpContext ctx = serverInstance.createContext(contextPath);
-		ctx.getAttributes().put(Config.CONTROLLER, ctrl);
-		String cxtHandlers = config.get("contextHandler." + contextPath);
-		cxtHandlers = cxtHandlers == null ? WebContextHandler.class.getSimpleName() : cxtHandlers;
-		ctx.setHandler(ContextHandlerFactory.get(cxtHandlers));
+	
+	private void setWebHandlers(IController ctrl) {
+		String contextPath= ReflectionHelper.getContextPath(ctrl.getClass());
+		String handler = config.get("contextHandler." + contextPath,WebContextHandler.class.getSimpleName());
+		HttpContext ctx = registerHandler(contextPath,ContextHandlerFactory.get(handler));
+		setHandlerController(ctx,ctrl);
+	}
+	
+	private void setHandlerFilters(HttpContext ctx, IController ctrl) {
 		List<Filter> filters = ctx.getFilters();
-		if (claz.getAnnotation(Authenticated.class)!=null)
+		if (ctrl.getClass().getAnnotation(Authenticated.class)!=null)
 			filters.add(authFilter);
 		filters.add(paramsFilter);
+	}
+
+
+	public void setHandlerController(HttpContext ctx, IController ctrl) {
+		ctx.getAttributes().put(Config.CONTROLLER, ctrl);
+		setHandlerFilters(ctx,ctrl);
+	}
+	
+	public HttpContext registerHandler(String contextPath, HttpHandler handler) {
+		HttpContext ctx = serverInstance.createContext(contextPath);
+		ctx.setHandler(handler);
+		return ctx;
 	}
 
 	public static Config getConfig() {

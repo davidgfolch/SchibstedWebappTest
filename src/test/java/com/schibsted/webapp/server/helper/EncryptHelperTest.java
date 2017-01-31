@@ -1,4 +1,4 @@
-package webapp.helper;
+package com.schibsted.webapp.server.helper;
 
 import static org.junit.Assert.*;
 

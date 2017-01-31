@@ -10,7 +10,7 @@ import com.schibsted.webapp.server.annotation.ContextPath;
 @Authenticated(role="PAGE_3")
 public class Page3Controller extends BaseController {
 
-	private static final Logger LOG = LogManager.getLogger(Page1Controller.class);
+	private static final Logger LOG = LogManager.getLogger(Page3Controller.class);
 
 	@Override
 	public void doLogic() {

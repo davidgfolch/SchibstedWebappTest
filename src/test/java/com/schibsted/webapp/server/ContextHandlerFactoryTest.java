@@ -1,18 +1,12 @@
-package webapp;
+package com.schibsted.webapp.server;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
-import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory.CONTEXT_HANDLER;
 import com.schibsted.webapp.server.contextHandler.WebContextHandler;
-import com.schibsted.webapp.server.helper.UserHelper;
-import com.schibsted.webapp.server.model.Role;
-import com.schibsted.webapp.server.model.User;
+import com.schibsted.webapp.server.contextHandler.WebContextHandlerTestHook;
 
 public class ContextHandlerFactoryTest {
 

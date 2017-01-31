@@ -15,9 +15,9 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction")
 public class SessionHelper {
 
+	public static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
 	private static final String SESSION_COOKIE_NAME = "session.cookieName";
-	private static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
-
+	
 	private static final Config config = Server.getConfig();
 	private static final long TIMEOUT_MS = config.getInt(SESSION_TIMEOUT_MS);
 	private static final String SCHIBSTED_SESSION = config.get(SESSION_COOKIE_NAME);

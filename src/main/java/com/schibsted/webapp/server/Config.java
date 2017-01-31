@@ -48,6 +48,11 @@ public class Config {
 		return Integer.valueOf(props.getProperty(key));
 	}
 
+	public String get(String key, String defaultValue) {
+		String res=props.getProperty(key);
+		return res == null?defaultValue:res;
+	}
+
 	public String get(String key) {
 		return props.getProperty(key);
 	}

@@ -11,7 +11,8 @@ import com.sun.net.httpserver.HttpHandler;
 public class ContextHandlerFactory {
 
 	public enum CONTEXT_HANDLER {
-		WEB_CONTEXT_HANDLER, REST_CONTEXT_HANDLER
+		WEB_CONTEXT_HANDLER, //
+		REST_CONTEXT_HANDLER
 	}
 
 	
