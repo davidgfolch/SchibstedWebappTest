@@ -83,7 +83,7 @@ public class Server {
 
 	private void addWebControllers(Class<?> claz) {
 		try {
-			if (ReflectionHelper.isControllerCandidate(claz))
+			if (!ReflectionHelper.isControllerCandidate(claz))
 				return;
 			LOG.debug("Adding controller: {}", claz.getName());
 			Object obj = claz.newInstance();

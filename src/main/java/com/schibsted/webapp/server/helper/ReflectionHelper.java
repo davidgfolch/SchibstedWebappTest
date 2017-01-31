@@ -28,9 +28,9 @@ public class ReflectionHelper {
 	}
 
 	public static boolean isControllerCandidate(Class<?> claz) {
-		return claz.isInterface() || //
-				!hasDefaultConstructor(claz) || //
-				Modifier.isAbstract(claz.getModifiers());
+		return !claz.isInterface() && //
+				hasDefaultConstructor(claz) && //
+				!Modifier.isAbstract(claz.getModifiers());
 	}
 
 	public static String getAuthenticationRoles(HttpExchange ex) {
