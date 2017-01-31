@@ -29,7 +29,7 @@ public class UserHelperTest {
 		assertTrue(
 				UserHelper.createRoles(roles) //
 				.stream() //
-				.map(Role::getRole)
+				.map(Role::getName)
 				.filter(a->roles[0].equals(a) || roles[1].equals(a))
 				.toArray()
 				.length==roles.length);

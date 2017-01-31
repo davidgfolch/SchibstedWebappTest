@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
 import com.schibsted.webapp.server.contextHandler.WebContextHandler;
-import com.schibsted.webapp.server.contextHandler.WebContextHandlerTestHook;
 
 public class ContextHandlerFactoryTest {
 

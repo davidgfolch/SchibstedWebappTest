@@ -9,14 +9,10 @@ import org.junit.Test;
 
 import com.schibsted.webapp.server.BaseServerHttpExchangeTest;
 import com.schibsted.webapp.server.Server;
-import com.schibsted.webapp.server.contextHandler.WebContextHandlerTestHook;
 import com.schibsted.webapp.server.helper.SessionHelper;
-import com.schibsted.webapp.server.helper.TestController;
 import com.schibsted.webapp.server.model.Session;
-import com.sun.net.httpserver.HttpContext;
 
 
-@SuppressWarnings("restriction")
 public class SessionHelperTest extends BaseServerHttpExchangeTest {
 
 	private Long timeout=Long.valueOf(Server.getConfig().getInt(SessionHelper.SESSION_TIMEOUT_MS));

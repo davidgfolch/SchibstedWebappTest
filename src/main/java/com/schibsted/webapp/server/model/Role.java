@@ -2,19 +2,19 @@ package com.schibsted.webapp.server.model;
 
 public class Role {
 
-	String role;
+	String name;
 
 	public Role(String role) {
 		super();
-		this.role = role;
+		this.name = role;
 	}
 
-	public String getRole() {
-		return role;
+	public String getName() {
+		return name;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setName(String role) {
+		this.name = role;
 	}
 
 }

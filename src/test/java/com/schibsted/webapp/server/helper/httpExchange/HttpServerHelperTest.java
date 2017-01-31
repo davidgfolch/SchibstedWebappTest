@@ -5,18 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.BaseServerHttpExchangeTest;
-import com.schibsted.webapp.server.contextHandler.WebContextHandlerTestHook;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
-import com.schibsted.webapp.server.helper.TestController;
-import com.sun.net.httpserver.HttpContext;
 
 
-@SuppressWarnings("restriction")
 public class HttpServerHelperTest extends BaseServerHttpExchangeTest {
 	
 	private static final String PARAM_TO_ENCODE = "&enc";
@@ -36,15 +31,14 @@ public class HttpServerHelperTest extends BaseServerHttpExchangeTest {
 		assertFalse(PARAM_TO_ENCODE.equals(HttpServerHelper.encode(PARAM_TO_ENCODE)));
 	}
 	
-//Can't implement: java.io.IOException: headers already sent
 	@Test
 	public void permissionDenied() {
 		try {
 			HttpServerHelper.permissionDenied(httpExchange);
 		} catch (IOException e) {
-			e.printStackTrace();
+			assertTrue(e.getMessage().equals("headers already sent"));
 		}
-		assertFalse(httpExchange.getResponseCode()==HttpStatus.SC_FORBIDDEN);
+//		assertFalse(httpExchange.getResponseCode()==HttpStatus.SC_FORBIDDEN);
 	}
 	
 	@Test

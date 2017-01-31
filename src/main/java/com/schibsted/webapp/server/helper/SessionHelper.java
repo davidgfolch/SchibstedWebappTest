@@ -20,7 +20,7 @@ public class SessionHelper {
 	
 	private static final Config config = Server.getConfig();
 	private static final long TIMEOUT_MS = config.getInt(SESSION_TIMEOUT_MS);
-	private static final String SCHIBSTED_SESSION = config.get(SESSION_COOKIE_NAME);
+	public static final String SCHIBSTED_SESSION = config.get(SESSION_COOKIE_NAME);
 
 	private static final Logger LOG = LogManager.getLogger(SessionHelper.class);
 

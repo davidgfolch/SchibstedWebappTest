@@ -18,7 +18,7 @@ public class UserHelper {
 		if (user == null || user.getRoles().isEmpty())
 			return true;
 		return user.getRoles().stream() //
-				.map(Role::getRole) //
+				.map(Role::getName) //
 				.filter(a -> (roleAdmin != null && roleAdmin.equals(a)) || a.equals(roleRequired)) //
 				.count() == 0;
 	}
