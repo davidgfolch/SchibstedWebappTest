@@ -1,4 +1,4 @@
-package com.schibsted.webapp.server.contextHandler;
+package com.schibsted.webapp.server.handler;
 
 import com.sun.net.httpserver.HttpExchange;
 

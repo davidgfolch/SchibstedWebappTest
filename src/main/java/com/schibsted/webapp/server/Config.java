@@ -34,6 +34,8 @@ public class Config {
 		LOG.info("Loading config {}", file);
 		try {
 			in = getClass().getClassLoader().getResourceAsStream(file);
+			if (in==null)
+				throw new ConfigurationException("Resource not found in class loader: "+file);
 			props.load(in);
 			in.close();
 		} catch (IOException e) {
@@ -54,12 +56,5 @@ public class Config {
 	public String get(String key) {
 		return props.getProperty(key);
 	}
-
-//	public List<String> getList(String key) throws ConfigurationException {
-//		String item = props.getProperty(key);
-//		if (item == null)
-//			throw new ConfigurationException("Config key doesn't exist: {" + key + "}");
-//		return Arrays.asList(item.split(","));
-//	}
 
 }

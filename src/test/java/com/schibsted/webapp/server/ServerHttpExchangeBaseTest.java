@@ -3,8 +3,8 @@ package com.schibsted.webapp.server;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.contextHandler.HttpHandlerTestCallbak;
-import com.schibsted.webapp.server.contextHandler.WebContextHandlerTestHook;
+import com.schibsted.webapp.server.handler.HttpHandlerTestCallbak;
+import com.schibsted.webapp.server.handler.WebContextHandlerTestHook;
 import com.schibsted.webapp.server.helper.TestController;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;

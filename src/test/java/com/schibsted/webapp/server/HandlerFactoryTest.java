@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.schibsted.webapp.server.handler.HandlerFactory;
 import com.schibsted.webapp.server.handler.WebHandler;
 
-public class ContextHandlerFactoryTest {
+public class HandlerFactoryTest {
 
 	@Test
 	public void getByEnumType() {
