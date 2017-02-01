@@ -1,8 +1,8 @@
 package com.schibsted.webapp.server.model;
 
-import java.util.LinkedHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class Session extends LinkedHashMap<String, Object> {
+public class Session extends ConcurrentHashMap<String, Object> {
 
 	public static final String LOGGED_USER = "loggedUser";
 	private static final long serialVersionUID = 1L;

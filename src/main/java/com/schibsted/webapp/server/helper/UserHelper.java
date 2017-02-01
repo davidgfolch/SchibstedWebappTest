@@ -9,9 +9,6 @@ import com.schibsted.webapp.server.model.User;
 
 public class UserHelper {
 
-	private UserHelper() {
-	}
-
 	public static boolean hasUserRole(User user, String roleRequired, String roleAdmin) {
 		if (roleRequired == null)
 			return true;
@@ -19,11 +16,7 @@ public class UserHelper {
 			return false;
 		return user.getRoles().stream() //
 				.map(Role::getName) //
-				.filter(a -> {
-					boolean result=(roleAdmin != null && roleAdmin.equals(a)) || a.equals(roleRequired);
-					System.out.println(a+"->"+result);
-					return result;
-				}) //
+				.filter(a -> (roleAdmin != null && roleAdmin.equals(a)) || a.equals(roleRequired)) //
 				.count() > 0;
 	}
 
