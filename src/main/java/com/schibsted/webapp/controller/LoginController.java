@@ -11,6 +11,7 @@ import com.schibsted.webapp.server.model.User;
 @ContextPath("/login")
 public class LoginController extends BaseController {
 
+	public static final String MSG_LOGGED_IN_SUCCESSFULY = "Logged in successfuly";
 	private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
 	@Override
@@ -21,13 +22,17 @@ public class LoginController extends BaseController {
 		getLoggedUser();
 		if (isGet())
 			return;
+		doPost();
+	}
+
+	private void doPost() {
 		String userName=(String)getParameter("user.name");
 		String pass=(String)getParameter("user.password");
 		String redirect=(String)getParameter("redirect");
 		User user=UserHelper.checkCreadentials(InMemory.getUsers(),userName,pass);
 		if (user!=null) {
 			getSession().setLoggedUser(user);
-			setMessage("Logged in successfuly");
+			setMessage(MSG_LOGGED_IN_SUCCESSFULY);
 			if (redirect!=null)
 				sendRedirect(redirect);
 			putInModel("user", user);
