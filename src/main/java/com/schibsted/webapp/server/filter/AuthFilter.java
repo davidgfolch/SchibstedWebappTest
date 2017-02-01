@@ -56,7 +56,7 @@ public class AuthFilter extends Filter {
 	private boolean permissionDenied(HttpExchange ex) {
 		String roleRequiredInController = ReflectionHelper.getAuthenticationRoles(ex);
 		User user = SessionHelper.getSession(ex).getLoggedUser();
-		return UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
+		return !UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
 	}
 
 }

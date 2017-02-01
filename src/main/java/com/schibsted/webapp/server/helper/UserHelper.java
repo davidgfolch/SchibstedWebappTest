@@ -14,13 +14,17 @@ public class UserHelper {
 
 	public static boolean hasUserRole(User user, String roleRequired, String roleAdmin) {
 		if (roleRequired == null)
-			return false;
-		if (user == null || user.getRoles().isEmpty())
 			return true;
+		if (user == null || user.getRoles().isEmpty())
+			return false;
 		return user.getRoles().stream() //
 				.map(Role::getName) //
-				.filter(a -> (roleAdmin != null && roleAdmin.equals(a)) || a.equals(roleRequired)) //
-				.count() == 0;
+				.filter(a -> {
+					boolean result=(roleAdmin != null && roleAdmin.equals(a)) || a.equals(roleRequired);
+					System.out.println(a+"->"+result);
+					return result;
+				}) //
+				.count() > 0;
 	}
 
 	public static User getUser(List<User> users, String userName) {

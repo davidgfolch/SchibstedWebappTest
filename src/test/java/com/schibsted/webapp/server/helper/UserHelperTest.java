@@ -17,10 +17,11 @@ public class UserHelperTest {
 	private final String testUserName="user1";
 	private final String testUserPwd="user1";
 	
-	private final String[] roles= new String[]{"ADMIN","PAGE_1"};
+	private final String[] roles= new String[]{InMemory.ROLE_ADMIN,"PAGE_1"};
 
 	@Test
 	public void checkCreadentials() {
+		assertNotNull(UserHelper.checkCreadentials(InMemory.getUsers(), null, testUserPwd));
 		assertNotNull(UserHelper.checkCreadentials(InMemory.getUsers(), testUserName, testUserPwd));
 	}
 
@@ -34,9 +35,17 @@ public class UserHelperTest {
 				.toArray()
 				.length==roles.length);
 	}
+	
+	@Test
+	public void hasUserRole() {
+		assertTrue(UserHelper.hasUserRole(null, "PAGE_1", InMemory.ROLE_ADMIN));
+		assertTrue(UserHelper.hasUserRole(users.get(0), null, InMemory.ROLE_ADMIN));
+		assertTrue(UserHelper.hasUserRole(users.get(0), "PAGE_1", InMemory.ROLE_ADMIN));
+	}
 
 	@Test
 	public void getUser() {
+		assertNull(UserHelper.getUser(users, null));
 		assertNotNull(UserHelper.getUser(users, testUserName));
 	}
 

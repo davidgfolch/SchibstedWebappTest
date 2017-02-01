@@ -6,7 +6,6 @@ import java.util.List;
 import com.schibsted.webapp.server.helper.EncryptHelper;
 import com.schibsted.webapp.server.model.User;
 
-//TODO: INTERFACE, FACADE, FACTORY FOR PERSISTENCE IMPLEMENTATIONS
 public class InMemory {
 	
 	public static final String ROLE_ADMIN = "ADMIN";
