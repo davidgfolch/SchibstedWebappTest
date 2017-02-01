@@ -21,7 +21,7 @@ public class UserHelperTest {
 
 	@Test
 	public void checkCreadentials() {
-		assertNotNull(UserHelper.checkCreadentials(InMemory.getUsers(), null, testUserPwd));
+		assertNull(UserHelper.checkCreadentials(InMemory.getUsers(), null, testUserPwd));
 		assertNotNull(UserHelper.checkCreadentials(InMemory.getUsers(), testUserName, testUserPwd));
 	}
 
@@ -38,7 +38,7 @@ public class UserHelperTest {
 	
 	@Test
 	public void hasUserRole() {
-		assertTrue(UserHelper.hasUserRole(null, "PAGE_1", InMemory.ROLE_ADMIN));
+		assertFalse(UserHelper.hasUserRole(null, "PAGE_1", InMemory.ROLE_ADMIN));
 		assertTrue(UserHelper.hasUserRole(users.get(0), null, InMemory.ROLE_ADMIN));
 		assertTrue(UserHelper.hasUserRole(users.get(0), "PAGE_1", InMemory.ROLE_ADMIN));
 	}
