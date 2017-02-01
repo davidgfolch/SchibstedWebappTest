@@ -3,10 +3,13 @@ package com.schibsted.webapp.server;
 import static org.junit.Assert.*;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.message.BasicNameValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.schibsted.webapp.controller.LoginController;
+import com.schibsted.webapp.server.helper.HttpServerHelper;
+import com.schibsted.webapp.server.model.Parameter;
 
 public class AppTest extends ServerHttpExchangeBaseTest {
 	
@@ -27,18 +30,42 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void loginFail() {
-		assertFalse(login("user1","XXXX").contains(LoginController.MSG_LOGGED_IN_SUCCESSFULY));
+		assertFalse(doLogin("user1","XXXX","page1").contains(LoginController.MSG_LOGGED_IN_SUCCESSFULY));
+	}
+
+	@Test
+	public void logout() {
+		assertTrue(doLogout());
 	}
 
 	@Test
 	public void login() {
-		assertTrue(login("user1","user1").contains(LoginController.MSG_LOGGED_IN_SUCCESSFULY));
+//		assertTrue(logout());
+		assertTrue(doLogin("user1","user1","").contains(LoginController.MSG_LOGGED_IN_SUCCESSFULY));
 	}
-	
-	private String login(String user, String pwd) {
-		String data="user.name="+user+"&user.password="+pwd;
+	/**
+	 * connection implementation don't save cookies, should not redirect to page1 cause session is lost
+	 */
+	@Test
+	public void loginRedirect() {
+		assertFalse(doLogin("user1","user1","page1").contains("<h1>Page1</h1>")); 
+	}
+
+	private boolean doLogout() {
 		try {
-			return ServerTestHelper.getResponseBody("/login",data);
+			return ServerTestHelper.getResponseCode("/logout")==HttpStatus.SC_MOVED_TEMPORARILY;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private String doLogin(String user, String pwd, String redirect) {
+		String postParams=HttpServerHelper.setUriParameters("/uri", new Parameter("user.name",user),new Parameter("user.password",pwd),new Parameter("redirect",redirect));
+		postParams=postParams.replaceAll("/uri\\?", "");
+		try {
+			boolean followRedirects=true;
+			return ServerTestHelper.getResponseBody("/login",postParams,followRedirects);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.model.Parameter;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
@@ -35,22 +36,8 @@ public class HttpServerHelper {
 		return ex.getResponseCode()==HttpStatus.SC_MOVED_TEMPORARILY;
 	}
 
-	public static String setUriParameter(String uriPath, String parameter, String paramValue) {
-		String encodedValue=encode(paramValue);
-		String parameterEq=parameter+"=";
-		try {
-			String q=new URI(uriPath).getRawQuery();
-			if (q==null || q.length()==0) {
-				return uriPath+"?"+parameterEq+encodedValue;
-			} else if (q.contains(parameterEq)){
-				return uriPath+"?"+q.replaceAll(parameterEq+"^(&)+",parameterEq+encodedValue); //todo: check this works
-			}
-			return uriPath+"?"+q+"&"+parameterEq+encodedValue;
-		} catch (URISyntaxException e) {
-			LOG.error("",e);
-		}
-		//URI.create(uriPath);
-		return null;
+	public static String setUriParameter(String uriPath, Parameter param) {
+		return setUriParameter(uriPath, param.getName(), param.getValue());
 	}
 	
 	public static String encode(String paramValue) {
@@ -60,6 +47,32 @@ public class HttpServerHelper {
 			LOG.error("",e);
 			return paramValue;
 		}
+	}
+
+	public static String setUriParameters(String uri, Parameter... parameters) {
+		String res=uri;
+		for (Parameter param: parameters) {
+			res=setUriParameter(res,param);
+		}
+		return res;
+	}
+
+	public static String setUriParameter(String uriPath, String paramName, String paramValue) {
+		String parameterEq=paramName+"=";
+		String encodedValue=encode(paramValue);
+		String uriNoParams=uriPath.replaceAll("\\?.*", "");
+		try {
+			String q=new URI(uriPath).getRawQuery();
+			if (q==null || q.length()==0) {
+				return uriNoParams+"?"+parameterEq+encodedValue;
+			} else if (q.contains(parameterEq)){
+				return uriNoParams+"?"+q.replaceAll(parameterEq+"([^&]*)",parameterEq+encodedValue);
+			}
+			return uriNoParams+"?"+q+"&"+parameterEq+encodedValue;
+		} catch (URISyntaxException e) {
+			LOG.error("",e);
+		}
+		return null;
 	}
 
 }

@@ -64,9 +64,8 @@ public class SessionHelper {
 		sessions.remove(session.getUuid());
 	}
 
-	public static boolean isAuthenticated(HttpExchange ex) { // todo: move
-																// somewhere
-																// else
+	public static boolean isAuthenticated(HttpExchange ex) { 
+		// todo: move somewhere else
 		return getSession(ex).getLoggedUser() != null;
 	}
 

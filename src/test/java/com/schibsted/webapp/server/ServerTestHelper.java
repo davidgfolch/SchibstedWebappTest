@@ -14,16 +14,17 @@ public class ServerTestHelper {
 	private static final String SERVER_URL = "http://localhost:" + Server.getConfig().get("port");
 
 	public static URLConnection connect(String url) throws Exception {
-		return connect(url, null);
+		boolean followRedirects=false;
+		return connect(url, null, followRedirects);
 	}
 
-	public static URLConnection connect(String url, String data) throws Exception {
+	public static URLConnection connect(String url, String data, boolean followRedirects) throws Exception {
 		URL u = new URL(SERVER_URL + url);
 		URLConnection con = u.openConnection();
 		post(con, data);
-		HttpURLConnection.setFollowRedirects(false);
 		HttpURLConnection httpCon = (HttpURLConnection) con;
-		httpCon.setInstanceFollowRedirects(false);
+		HttpURLConnection.setFollowRedirects(followRedirects);
+		httpCon.setInstanceFollowRedirects(followRedirects);
 		con.connect();
 		return httpCon;
 	}
@@ -54,13 +55,23 @@ public class ServerTestHelper {
 	}
 
 	public static String getResponseBody(String url) throws Exception {
-		return getResponseBody(url,null);
+		boolean followRedirects=true;
+		return getResponseBody(url,null,followRedirects);
 	}
 
-	public static String getResponseBody(String url, String data) throws Exception {
-		URLConnection con = connect(url,data);
+	public static String getResponseBody(String url, String data, boolean followRedirects) throws Exception {
+		URLConnection con = connect(url,data,followRedirects);
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		return in.lines().collect(Collectors.joining("\n"));
 	}
+	
+	public static boolean contains(String container, String... content) {
+		for (String str: content) {
+			if (!container.contains(str))
+				return false;
+		}
+		return true;
+	}
+	
 
 }

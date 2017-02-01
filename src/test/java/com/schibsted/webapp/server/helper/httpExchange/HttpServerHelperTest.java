@@ -2,19 +2,21 @@ package com.schibsted.webapp.server.helper.httpExchange;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
-
+import com.schibsted.webapp.server.model.Parameter;
 
 public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
-	
+
 	private static final String PARAM_TO_ENCODE = "&enc";
 
 	@Before
@@ -26,12 +28,12 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void encode() {
 		assertFalse(PARAM_TO_ENCODE.equals(HttpServerHelper.encode(PARAM_TO_ENCODE)));
 	}
-	
+
 	@Test
 	public void permissionDenied() {
 		try {
@@ -39,22 +41,48 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 		} catch (IOException e) {
 			assertTrue(e.getMessage().equals("headers already sent"));
 		}
-//		assertFalse(httpExchange.getResponseCode()==HttpStatus.SC_FORBIDDEN);
+		// assertFalse(httpExchange.getResponseCode()==HttpStatus.SC_FORBIDDEN);
 	}
-	
+
 	@Test
 	public void notRedirect() {
 		assertFalse(HttpServerHelper.isRedirect(httpExchange));
 	}
-	
+
 	@Test
 	public void redirect() {
 		try {
-			HttpServerHelper.redirect(httpExchange,"/page1");
+			HttpServerHelper.redirect(httpExchange, "/page1");
 		} catch (IOException e) {
 			assertTrue(e.getMessage().equals("headers already sent"));
 		}
-//		assertTrue(HttpServerHelper.isRedirect(httpExchange)); for page1 not running testController hook don't work
+		// assertTrue(HttpServerHelper.isRedirect(httpExchange)); for page1 not
+		// running testController hook don't work
+	}
+
+	Parameter param = new Parameter("param", "paramValue");
+	Parameter param1 = new Parameter("param1", "param1Value");
+	Parameter param2 = new Parameter("param2", "param2Value");
+	Parameter paramNewVal = new Parameter("param", "paramNewVal");
+
+	@Test
+	public void setParameter() {
+		assertTrue(HttpServerHelper.setUriParameter("/prueba", param).contains(param.toString()));
+		assertTrue(HttpServerHelper.setUriParameter("/prueba", param).contains(param.toString()));
+		assertTrue(HttpServerHelper.setUriParameter("/prueba?" + param, paramNewVal).contains(paramNewVal.toString()));
+		assertTrue(HttpServerHelper.setUriParameter("/prueba?" + param1, paramNewVal).contains(paramNewVal.toString()));
+
+		assertTrue(ServerTestHelper.contains(
+				HttpServerHelper.setUriParameter("/prueba?" + param1 + "&" + param, paramNewVal),
+				paramNewVal.toString(), param1.toString()));
+
+		assertEquals("/prueba?"+param1+"&"+paramNewVal+"&"+param2, 
+				HttpServerHelper.setUriParameter("/prueba?"+param1+"&"+param+"&"+param2, paramNewVal));
+	}
+
+	@Test
+	public void setParameters() {
+		assertEquals("/prueba?"+param.toString()+"&"+param1.toString(),HttpServerHelper.setUriParameters("/prueba", param, param1));
 	}
 
 }
