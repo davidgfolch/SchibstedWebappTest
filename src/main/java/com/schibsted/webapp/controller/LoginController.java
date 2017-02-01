@@ -1,11 +1,11 @@
 package com.schibsted.webapp.controller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.annotation.ContextPath;
+import com.schibsted.webapp.server.helper.StringHelper;
 import com.schibsted.webapp.server.helper.UserHelper;
 import com.schibsted.webapp.server.model.User;
 
@@ -34,7 +34,7 @@ public class LoginController extends BaseController {
 		if (user!=null) {
 			getSession().setLoggedUser(user);
 			setMessage(MSG_LOGGED_IN_SUCCESSFULY);
-			if (StringUtils.isNotEmpty(redirect))
+			if (StringHelper.isNotEmpty(redirect))
 				sendRedirect(redirect);
 			putInModel("user", user);
 			return;
