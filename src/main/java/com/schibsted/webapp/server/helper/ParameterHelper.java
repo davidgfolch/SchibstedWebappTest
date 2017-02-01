@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.schibsted.webapp.server.model.Parameter;
 
-@SuppressWarnings("restriction")
 public class ParameterHelper {
 	
 	private static final Logger LOG = LogManager.getLogger(ParameterHelper.class);

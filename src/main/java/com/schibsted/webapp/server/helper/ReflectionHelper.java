@@ -44,6 +44,8 @@ public class ReflectionHelper {
 		ContextPath path = claz.getAnnotation(ContextPath.class);
 		if (path == null)
 			path = claz.getAnnotatedSuperclass().getAnnotation(ContextPath.class);
+		if (path == null)
+			return null;
 		return path.value();
 	}
 

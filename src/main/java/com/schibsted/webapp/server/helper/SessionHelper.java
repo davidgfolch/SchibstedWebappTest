@@ -11,6 +11,7 @@ import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.model.Session;
 
+//todo: find & remove timedout sessions in an scheduled thread 
 public class SessionHelper {
 
 	public static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
@@ -47,7 +48,7 @@ public class SessionHelper {
 	}
 
 	public static boolean isSessionTimedOut(Session session) {
-		boolean timedOut = session.getLastUsed() > System.currentTimeMillis() + TIMEOUT_MS;
+		boolean timedOut = session.getLastUsed() + TIMEOUT_MS < System.currentTimeMillis();
 		if (timedOut) {
 			LOG.debug("Session timeout, removing: {}", session.getUuid());
 			sessions.remove(session.getUuid());

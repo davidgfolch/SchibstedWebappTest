@@ -71,6 +71,7 @@ public class CookieHelper {
 			return null;
 		for (String c2 : c.split(COOKIE_SEPARATOR)) {
 			String cs = c2.trim();
+			LOG.debug("Parsing cookie: {}",cs);
 			List<HttpCookie> lstHttpCookie = HttpCookie.parse(cs);
 			for (HttpCookie cookie : lstHttpCookie) {
 				LOG.trace(cookie);
@@ -90,16 +91,16 @@ public class CookieHelper {
 	 * @param value
 	 */
 	public static void setCookie(HttpExchange ex, String cookie, String value) {
-		setCookie(ex, cookie, value, null, null);
+		setCookie(ex, cookie, value, true, null);
 	}
 
 	public static synchronized void setCookie(HttpExchange ex, String cookie, String value, Boolean httpOnly, Long expires) {
 		String cookieValue = cookie + "=" + value + COOKIE_SEPARATOR + " version=1";
-		if (httpOnly != null)
-			cookieValue += COOKIE_SEPARATOR + " HttpOnly";
 		if (expires != null) {
 			cookieValue += COOKIE_SEPARATOR + " expires=" + formatExpiresDate(expires);
 		}
+		if (httpOnly != null)
+			cookieValue += COOKIE_SEPARATOR + " HttpOnly=1";
 		ex.getResponseHeaders().add(RES_HEADER_COOKIE, cookieValue);
 	}
 	

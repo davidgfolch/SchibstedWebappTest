@@ -3,6 +3,7 @@ package com.schibsted.webapp.server.helper.httpExchange;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,15 +32,23 @@ public class SessionHelperTest extends ServerHttpExchangeBaseTest {
 	
 
 	@Test
-	public void test() {
+	public void invalidateSession() {
 		Session session=HttpExchangeHelper.getSession(httpExchange);
 		assertNotNull(session);
 		SessionHelper.invalidateSession(session);
 		assertFalse(session.equals(HttpExchangeHelper.getSession(httpExchange)));
 		assertFalse(HttpExchangeHelper.isAuthenticated(httpExchange));
-		assertTrue(!SessionHelper.isSessionTimedOut(session));
-		session.setLastUsed(timeout*2);
-		assertTrue(!SessionHelper.isSessionTimedOut(session));
+		assertFalse(SessionHelper.isSessionTimedOut(session));
+	}
+	
+	@Test
+	public void timeout() {
+		Session session=HttpExchangeHelper.getSession(httpExchange);
+		assertNotNull(session);
+		session.setLastUsed(System.currentTimeMillis()-timeout*2);
+		assertNotEquals(session.getUuid(),SessionHelper.getSession(session.getUuid()).getUuid());
+		session.setLastUsed(System.currentTimeMillis()-timeout*2);
+		assertTrue(SessionHelper.isSessionTimedOut(session));
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.stream.Collectors;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 
@@ -34,15 +35,13 @@ public class ParamsFilter extends Filter {
 			return;
 		URLEncodedUtils.parse(query, Charset.defaultCharset())
 				.forEach(x -> getParams(ex).put(x.getName(), x.getValue()));
-		// getParams(ex).addAll();
 	}
 
 	private void parsePostParams(HttpExchange ex) throws IOException {
 		if (POST.equals(ex.getRequestMethod())) {
 			InputStreamReader isr = new InputStreamReader(ex.getRequestBody(), UTF_8);
 			BufferedReader br = new BufferedReader(isr);
-			String query = br.readLine(); // TODO: CHECK IF WITH ONLY 1 READLINE
-											// IS OK
+			String query = br.lines().collect(Collectors.joining("\n"));
 			URLEncodedUtils.parse(query, Charset.defaultCharset())
 					.forEach(x -> getParams(ex).put(x.getName(), x.getValue()));
 		}
