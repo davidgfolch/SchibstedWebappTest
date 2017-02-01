@@ -1,4 +1,4 @@
-package com.schibsted.webapp.server.helper.notImplemented;
+package com.schibsted.webapp.server.helper.httpExchange;
 
 import static org.junit.Assert.*;
 

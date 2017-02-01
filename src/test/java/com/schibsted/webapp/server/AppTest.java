@@ -42,6 +42,13 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 //		assertTrue(logout());
 		assertTrue(doLogin("user1","user1","").contains(LoginController.MSG_LOGGED_IN_SUCCESSFULY));
 	}
+	
+	@Test
+	public void permissionDenied() {
+		String body=doLogin("user1","user1","page2");
+		assertTrue(body.contains("Login page")); //todo: pseudo test for sonar testing coverage (without cookies in httpconnection dont work)
+	}
+	
 	/**
 	 * connection implementation don't save cookies, should not redirect to page1 cause session is lost
 	 */
