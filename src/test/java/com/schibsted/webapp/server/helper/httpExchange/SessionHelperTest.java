@@ -35,11 +35,18 @@ public class SessionHelperTest extends ServerHttpExchangeBaseTest {
 		Session session=HttpExchangeHelper.getSession(httpExchange);
 		assertNotNull(session);
 		SessionHelper.invalidateSession(session);
-		assertTrue(session.equals(HttpExchangeHelper.getSession(httpExchange)));
+		assertFalse(session.equals(HttpExchangeHelper.getSession(httpExchange)));
 		assertFalse(HttpExchangeHelper.isAuthenticated(httpExchange));
 		assertTrue(!SessionHelper.isSessionTimedOut(session));
 		session.setLastUsed(timeout*2);
 		assertTrue(!SessionHelper.isSessionTimedOut(session));
+	}
+
+	@Test
+	public void equals() {
+		Session session=HttpExchangeHelper.getSession(httpExchange);
+		Session session2=HttpExchangeHelper.getSession(httpExchange);
+		assertTrue(session.equals(session2));
 	}
 
 }

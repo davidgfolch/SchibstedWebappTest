@@ -10,8 +10,12 @@ public class Session extends ConcurrentHashMap<String, Object> {
 	private String uuid;
 	private Long lastUsed;
 
-	public Session(String uuid, Long lastUsed) {
+	private Session() {
 		super();
+	}
+
+	public Session(String uuid, Long lastUsed) {
+		this();
 		this.uuid = uuid;
 		this.lastUsed = lastUsed;
 	}
@@ -41,4 +45,16 @@ public class Session extends ConcurrentHashMap<String, Object> {
 		return (User)get(LOGGED_USER);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o==null || !(o instanceof Session)) 
+			return false;
+		return this.uuid.equals(((Session)o).getUuid());
+	}
+
+	@Override
+	public int hashCode() {
+		return uuid.hashCode() ^ super.hashCode();
+	}
+	
 }
