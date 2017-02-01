@@ -6,6 +6,8 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction")
 public class HttpExchangeHelper {
 	
+	private HttpExchangeHelper() {}
+	
 	public static Session getSession(HttpExchange ex) {
 		String uuid=CookieHelper.getCookie(ex, SessionHelper.SCHIBSTED_SESSION);
 		Session session=SessionHelper.getSession(uuid);

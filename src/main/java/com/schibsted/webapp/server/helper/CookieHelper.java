@@ -22,6 +22,8 @@ public class CookieHelper {
 	private static final String COOKIE_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
 
 	private static final Logger LOG = LogManager.getLogger(CookieHelper.class);
+	
+	private CookieHelper() {}
 
 	/**
 	 * Get cookie from request or response headers

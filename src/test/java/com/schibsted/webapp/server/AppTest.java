@@ -7,7 +7,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import com.schibsted.webapp.controller.web.LoginController;
-import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.model.Parameter;
 

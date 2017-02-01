@@ -4,16 +4,12 @@ import java.io.IOException;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
 public class HttpServerHelper {
 	
-	private static final Logger LOG = LogManager.getLogger(HttpServerHelper.class);
-
 	private HttpServerHelper() {}
 
 	public static void redirect(HttpExchange ex, String path) throws IOException {

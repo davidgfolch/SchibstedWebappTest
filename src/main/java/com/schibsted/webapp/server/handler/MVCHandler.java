@@ -1,4 +1,4 @@
-package com.schibsted.webapp.server.contextHandler;
+package com.schibsted.webapp.server.handler;
 
 import java.io.IOException;
 import java.net.URI;

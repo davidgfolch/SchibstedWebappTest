@@ -10,7 +10,6 @@ import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
-import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.helper.UserHelper;
 import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.User;

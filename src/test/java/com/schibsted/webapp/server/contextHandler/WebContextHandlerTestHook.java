@@ -2,6 +2,7 @@ package com.schibsted.webapp.server.contextHandler;
 
 import java.io.IOException;
 
+import com.schibsted.webapp.server.handler.WebHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 //@Authenticated(role="ADMIN")

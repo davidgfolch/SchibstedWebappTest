@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.schibsted.webapp.server.contextHandler.HandlerFactory;
-import com.schibsted.webapp.server.contextHandler.WebHandler;
+import com.schibsted.webapp.server.handler.HandlerFactory;
+import com.schibsted.webapp.server.handler.WebHandler;
 
 public class ContextHandlerFactoryTest {
 

@@ -5,7 +5,7 @@ import org.apache.http.HttpStatus;
 import com.schibsted.webapp.server.IController;
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.contextHandler.WebHandler;
+import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Parameters;
 import com.schibsted.webapp.server.model.Session;

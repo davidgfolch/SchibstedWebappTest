@@ -11,12 +11,12 @@ import org.reflections.Reflections;
 
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.contextHandler.HandlerFactory;
-import com.schibsted.webapp.server.contextHandler.MVCHandler;
-import com.schibsted.webapp.server.contextHandler.WebHandler;
 import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.filter.AuthFilter;
 import com.schibsted.webapp.server.filter.ParamsFilter;
+import com.schibsted.webapp.server.handler.HandlerFactory;
+import com.schibsted.webapp.server.handler.MVCHandler;
+import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpContext;

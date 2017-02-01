@@ -8,6 +8,8 @@ import com.schibsted.webapp.server.model.Role;
 import com.schibsted.webapp.server.model.User;
 
 public class UserHelper {
+	
+	private UserHelper() {}
 
 	public static boolean hasUserRole(User user, String roleRequired, String roleAdmin) {
 		if (roleRequired == null)
