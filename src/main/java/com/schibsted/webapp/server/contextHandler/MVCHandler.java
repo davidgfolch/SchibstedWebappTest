@@ -4,27 +4,27 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.IController;
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.filter.ParamsFilter;
+import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
-import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Parameters;
+import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.ViewModel;
+import com.schibsted.webapp.server.template.ITemplateRenderer;
+import com.schibsted.webapp.server.template.JTwigTemplateRenderer;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class MVCHandler { //TODO: MOVE TO A REAL HANDLER, SUPERCLASS OR HELPER
+public abstract class MVCHandler extends BaseHandler {
 
 	private static final Logger LOG = LogManager.getLogger(MVCHandler.class);
 
@@ -35,18 +35,13 @@ public class MVCHandler { //TODO: MOVE TO A REAL HANDLER, SUPERCLASS OR HELPER
 
 	private static final String EXT = config.get("templates.extension");
 	private static final String TEMPLATES = config.get("templates.folder");
+	
+	private static final ITemplateRenderer templateRenderer = new JTwigTemplateRenderer(TEMPLATES,EXT);
 
 	private static List<Object> webControllers = new ArrayList<>();
 
 	public synchronized String getView(URI uri, ViewModel model) {
-		String templatePath = TEMPLATES + uri.getPath() + EXT;
-		// todo: move JTwig outside here
-		JtwigTemplate template = JtwigTemplate.classpathTemplate(templatePath);
-		JtwigModel wigModel = JtwigModel.newModel();
-		for (Entry<String, Object> entry : model.entrySet()) {
-			wigModel.with(entry.getKey(), entry.getValue());
-		}
-		return template.render(wigModel);
+		return templateRenderer.render(uri,model);
 	}
 
 	public synchronized ViewModel execute(HttpExchange ex) {
@@ -68,7 +63,8 @@ public class MVCHandler { //TODO: MOVE TO A REAL HANDLER, SUPERCLASS OR HELPER
 	private IMVCController getMVCController(HttpExchange ex) {
 		HttpContext ctx = ex.getHttpContext();
 		IMVCController mvcCtrl = (IMVCController) ctx.getAttributes().get(Config.CONTROLLER);
-		mvcCtrl.setSession(SessionHelper.getSession(ex));
+		Session session=HttpExchangeHelper.getSession(ex);
+		mvcCtrl.setSession(session);
 		return mvcCtrl;
 		
 	}

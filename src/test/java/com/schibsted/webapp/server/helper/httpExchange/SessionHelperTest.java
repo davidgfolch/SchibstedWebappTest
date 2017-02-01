@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.Server;
+import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Session;
 
@@ -31,11 +32,11 @@ public class SessionHelperTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void test() {
-		Session session=SessionHelper.getSession(httpExchange);
+		Session session=HttpExchangeHelper.getSession(httpExchange);
 		assertNotNull(session);
 		SessionHelper.invalidateSession(session);
-		assertTrue(session.equals(SessionHelper.getSession(httpExchange)));
-		assertFalse(SessionHelper.isAuthenticated(httpExchange));
+		assertTrue(session.equals(HttpExchangeHelper.getSession(httpExchange)));
+		assertFalse(HttpExchangeHelper.isAuthenticated(httpExchange));
 		assertTrue(!SessionHelper.isSessionTimedOut(session));
 		session.setLastUsed(timeout*2);
 		assertTrue(!SessionHelper.isSessionTimedOut(session));

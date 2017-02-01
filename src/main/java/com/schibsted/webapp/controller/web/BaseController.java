@@ -1,17 +1,17 @@
-package com.schibsted.webapp.controller;
+package com.schibsted.webapp.controller.web;
 
 import org.apache.http.HttpStatus;
 
 import com.schibsted.webapp.server.IController;
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.contextHandler.WebContextHandler;
+import com.schibsted.webapp.server.contextHandler.WebHandler;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Parameters;
 import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.ViewModel;
 
-@ContextHandler(value = "/", contextHandler = WebContextHandler.class)
+@ContextHandler(value = "/", contextHandler = WebHandler.class)
 public abstract class BaseController implements IController, IMVCController {
 
 	private static final String ERROR_MSG = "errorMsg";

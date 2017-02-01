@@ -1,14 +1,14 @@
 package com.schibsted.webapp.server;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.message.BasicNameValuePair;
-import org.junit.Assert;
 import org.junit.Test;
 
-import com.schibsted.webapp.controller.LoginController;
+import com.schibsted.webapp.controller.web.LoginController;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
+import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.model.Parameter;
 
 public class AppTest extends ServerHttpExchangeBaseTest {
@@ -61,7 +61,7 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	}
 
 	private String doLogin(String user, String pwd, String redirect) {
-		String postParams=HttpServerHelper.setUriParameters("/uri", new Parameter("user.name",user),new Parameter("user.password",pwd),new Parameter("redirect",redirect));
+		String postParams=ParameterHelper.setUriParameters("/uri", new Parameter("user.name",user),new Parameter("user.password",pwd),new Parameter("redirect",redirect));
 		postParams=postParams.replaceAll("/uri\\?", "");
 		try {
 			boolean followRedirects=true;

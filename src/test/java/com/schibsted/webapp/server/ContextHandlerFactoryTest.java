@@ -4,19 +4,19 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
-import com.schibsted.webapp.server.contextHandler.WebContextHandler;
+import com.schibsted.webapp.server.contextHandler.HandlerFactory;
+import com.schibsted.webapp.server.contextHandler.WebHandler;
 
 public class ContextHandlerFactoryTest {
 
 	@Test
 	public void getByEnumType() {
-		assertTrue(ContextHandlerFactory.get(ContextHandlerFactory.CONTEXT_HANDLER.WEB_CONTEXT_HANDLER) instanceof WebContextHandler);
+		assertTrue(HandlerFactory.get(HandlerFactory.CONTEXT_HANDLER.WEB_HANDLER) instanceof WebHandler);
 	}
 
 	@Test
 	public void getByString() {
-		assertTrue(ContextHandlerFactory.get(WebContextHandler.class.getSimpleName()) instanceof WebContextHandler);
+		assertTrue(HandlerFactory.get(WebHandler.class.getSimpleName()) instanceof WebHandler);
 	}
 
 }

@@ -8,11 +8,11 @@ import com.sun.net.httpserver.HttpHandler;
  * @author slks
  */
 @SuppressWarnings("restriction")
-public class ContextHandlerFactory {
+public class HandlerFactory {
 
 	public enum CONTEXT_HANDLER {
-		WEB_CONTEXT_HANDLER, //
-		REST_CONTEXT_HANDLER
+		WEB_HANDLER, //
+		REST_HANDLER
 	}
 
 	
@@ -29,11 +29,11 @@ public class ContextHandlerFactory {
 	// }
 	public static HttpHandler get(CONTEXT_HANDLER handler) {
 		switch (handler) {
-		case REST_CONTEXT_HANDLER:
-			return new RestContextHandler();
-		case WEB_CONTEXT_HANDLER:
+		case REST_HANDLER:
+			return new RestHandler();
+		case WEB_HANDLER:
 		default:
-			return new WebContextHandler();
+			return new WebHandler();
 		}
 	}
 

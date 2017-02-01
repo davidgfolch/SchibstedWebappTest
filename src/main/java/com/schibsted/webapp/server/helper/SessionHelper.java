@@ -10,16 +10,14 @@ import org.apache.logging.log4j.Logger;
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.model.Session;
-import com.sun.net.httpserver.HttpExchange;
 
-@SuppressWarnings("restriction")
 public class SessionHelper {
 
 	public static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
 	private static final String SESSION_COOKIE_NAME = "session.cookieName";
 	
 	private static final Config config = Server.getConfig();
-	private static final long TIMEOUT_MS = config.getInt(SESSION_TIMEOUT_MS);
+	static final long TIMEOUT_MS = config.getInt(SESSION_TIMEOUT_MS);
 	public static final String SCHIBSTED_SESSION = config.get(SESSION_COOKIE_NAME);
 
 	private static final Logger LOG = LogManager.getLogger(SessionHelper.class);
@@ -29,8 +27,7 @@ public class SessionHelper {
 	private SessionHelper() {
 	}
 
-	public static synchronized Session getSession(HttpExchange ex) {
-		String sessionUUID = CookieHelper.getCookie(ex, SCHIBSTED_SESSION);
+	public static synchronized Session getSession(String sessionUUID) {
 		Session session = sessions.get(sessionUUID);
 		if (session == null)
 			session = newSession();
@@ -38,8 +35,6 @@ public class SessionHelper {
 			sessions.remove(sessionUUID);
 			session = newSession();
 		}
-		long expires = System.currentTimeMillis() + TIMEOUT_MS;
-		CookieHelper.setCookie(ex, SCHIBSTED_SESSION, session.getUuid(), true, expires);
 		return session;
 	}
 
@@ -62,11 +57,6 @@ public class SessionHelper {
 	
 	public static void invalidateSession(Session session) {
 		sessions.remove(session.getUuid());
-	}
-
-	public static boolean isAuthenticated(HttpExchange ex) { 
-		// todo: move somewhere else
-		return getSession(ex).getLoggedUser() != null;
 	}
 
 }

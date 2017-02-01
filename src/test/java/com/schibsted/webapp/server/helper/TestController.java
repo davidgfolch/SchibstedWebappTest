@@ -3,7 +3,7 @@ package com.schibsted.webapp.server.helper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.schibsted.webapp.controller.BaseController;
+import com.schibsted.webapp.controller.web.BaseController;
 import com.schibsted.webapp.server.annotation.ContextPath;
 
 @ContextPath("/test")

@@ -1,4 +1,4 @@
-package com.schibsted.webapp.controller;
+package com.schibsted.webapp.controller.web;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public class LoginController extends BaseController {
 	@Override
 	public void doLogic() {
 		LOG.debug("Login controller method {}, params {}", getHttpMethod(), getParameters().size());
-		//todo: Model in BaseController saves state between http calls
+		//Model in BaseController saves state between http calls
 		setMessage(null);
 		getLoggedUser();
 		if (isGet())

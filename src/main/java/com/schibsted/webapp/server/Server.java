@@ -11,9 +11,9 @@ import org.reflections.Reflections;
 
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
+import com.schibsted.webapp.server.contextHandler.HandlerFactory;
 import com.schibsted.webapp.server.contextHandler.MVCHandler;
-import com.schibsted.webapp.server.contextHandler.WebContextHandler;
+import com.schibsted.webapp.server.contextHandler.WebHandler;
 import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.filter.AuthFilter;
 import com.schibsted.webapp.server.filter.ParamsFilter;
@@ -99,8 +99,8 @@ public class Server {
 	
 	private void setWebHandlers(IController ctrl) {
 		String contextPath= ReflectionHelper.getContextPath(ctrl.getClass());
-		String handler = config.get("contextHandler." + contextPath,WebContextHandler.class.getSimpleName());
-		HttpContext ctx = registerHandler(contextPath,ContextHandlerFactory.get(handler));
+		String handler = config.get("contextHandler." + contextPath,WebHandler.class.getSimpleName());
+		HttpContext ctx = registerHandler(contextPath,HandlerFactory.get(handler));
 		setHandlerController(ctx,ctrl);
 	}
 	

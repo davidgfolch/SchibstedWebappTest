@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 //@Authenticated(role="ADMIN")
 @SuppressWarnings("restriction")
-public class WebContextHandlerTestHook extends WebContextHandler {
+public class WebContextHandlerTestHook extends WebHandler {
 	
 	private HttpHandlerTestCallbak listener=null;
 	

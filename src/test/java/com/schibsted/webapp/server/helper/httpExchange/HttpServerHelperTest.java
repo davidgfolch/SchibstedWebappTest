@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
+import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.model.Parameter;
 
 public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
@@ -30,7 +31,7 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void encode() {
-		assertFalse(PARAM_TO_ENCODE.equals(HttpServerHelper.encode(PARAM_TO_ENCODE)));
+		assertFalse(PARAM_TO_ENCODE.equals(ParameterHelper.encode(PARAM_TO_ENCODE)));
 	}
 
 	@Test
@@ -66,22 +67,22 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void setParameter() {
-		assertTrue(HttpServerHelper.setUriParameter("/prueba", param).contains(param.toString()));
-		assertTrue(HttpServerHelper.setUriParameter("/prueba", param).contains(param.toString()));
-		assertTrue(HttpServerHelper.setUriParameter("/prueba?" + param, paramNewVal).contains(paramNewVal.toString()));
-		assertTrue(HttpServerHelper.setUriParameter("/prueba?" + param1, paramNewVal).contains(paramNewVal.toString()));
+		assertTrue(ParameterHelper.setUriParameter("/prueba", param).contains(param.toString()));
+		assertTrue(ParameterHelper.setUriParameter("/prueba", param).contains(param.toString()));
+		assertTrue(ParameterHelper.setUriParameter("/prueba?" + param, paramNewVal).contains(paramNewVal.toString()));
+		assertTrue(ParameterHelper.setUriParameter("/prueba?" + param1, paramNewVal).contains(paramNewVal.toString()));
 
 		assertTrue(ServerTestHelper.contains(
-				HttpServerHelper.setUriParameter("/prueba?" + param1 + "&" + param, paramNewVal),
+				ParameterHelper.setUriParameter("/prueba?" + param1 + "&" + param, paramNewVal),
 				paramNewVal.toString(), param1.toString()));
 
 		assertEquals("/prueba?"+param1+"&"+paramNewVal+"&"+param2, 
-				HttpServerHelper.setUriParameter("/prueba?"+param1+"&"+param+"&"+param2, paramNewVal));
+				ParameterHelper.setUriParameter("/prueba?"+param1+"&"+param+"&"+param2, paramNewVal));
 	}
 
 	@Test
 	public void setParameters() {
-		assertEquals("/prueba?"+param.toString()+"&"+param1.toString(),HttpServerHelper.setUriParameters("/prueba", param, param1));
+		assertEquals("/prueba?"+param.toString()+"&"+param1.toString(),ParameterHelper.setUriParameters("/prueba", param, param1));
 	}
 
 }
