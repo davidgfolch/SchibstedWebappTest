@@ -27,9 +27,6 @@ public class CookieHelper {
 
 	private static final Logger LOG = LogManager.getLogger(CookieHelper.class);
 
-	private CookieHelper() {
-	}
-
 	/**
 	 * Get cookie from request or response headers
 	 * 

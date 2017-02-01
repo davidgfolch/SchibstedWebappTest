@@ -9,17 +9,17 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.exception.ConfigurationException;
+
 public class Config {
 
 	public static final String CONTROLLER = "controller";
-
 	private static final String PROPERTIES_EXT = ".properties";
-
 	private static final Logger LOG = LogManager.getLogger(Config.class);
-
+	
 	private Properties props = new Properties();
 
-	public Config(Class<?> claz) throws IOException {
+	public Config(Class<?> claz) throws ConfigurationException {
 		super();
 		load(claz);
 	}
@@ -30,7 +30,7 @@ public class Config {
 	 * @param claz
 	 * @throws IOException
 	 */
-	private void load(Class<?> claz) throws IOException {
+	private void load(Class<?> claz) throws ConfigurationException {
 		InputStream in;
 		String file = claz.getSimpleName().toLowerCase() + PROPERTIES_EXT;
 		LOG.info("Loading config {}", file);
@@ -40,7 +40,7 @@ public class Config {
 			in.close();
 		} catch (IOException e) {
 			String errMsg = "Cant load properties from " + file;
-			throw new IOException(errMsg, e);
+			throw new ConfigurationException(errMsg, e);
 		}
 	}
 
@@ -49,8 +49,8 @@ public class Config {
 	}
 
 	public String get(String key, String defaultValue) {
-		String res=props.getProperty(key);
-		return res == null?defaultValue:res;
+		String res = props.getProperty(key);
+		return res == null ? defaultValue : res;
 	}
 
 	public String get(String key) {

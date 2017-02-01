@@ -19,10 +19,14 @@ That is the same as:<br/>
 
 ## Technical description
 
-Server configuration via server.properties (using generic Config object for Server)<br/>
+Server configuration via annotations & (overrided by) server.properties (using generic Config object for Server)<br/>
 Using filters (com.sun.net.httpserver.Filter): see [AuthFilter](./src/main/java/com/schibsted/webapp/server/filter/AuthFilter.java) & [ParamsFilter](./src/main/java/com/schibsted/webapp/server/filter/ParamsFilter.java) implementations.<br/>
+MVCHandler implementation<br/>
 Using Apache org.apache.httpcomponents.httpclient to parse params and response status constants.<br/>
 Using Apache log4j2 as default logger.<br/>
 Using Apache log4j2 JUL bridge to log httpserver logs.<br/>
 Using jtwig for templates.<br/>
 
+## Sonar build via Travis
+
+I've set a sonar build via Travis, you can see the [dashboard here](https://sonarqube.com/dashboard/index?id=com.schibsted%3Awebapp)

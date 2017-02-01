@@ -14,6 +14,7 @@ import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.contextHandler.ContextHandlerFactory;
 import com.schibsted.webapp.server.contextHandler.MVCHandler;
 import com.schibsted.webapp.server.contextHandler.WebContextHandler;
+import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.filter.AuthFilter;
 import com.schibsted.webapp.server.filter.ParamsFilter;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
@@ -34,7 +35,7 @@ public class Server {
 	static {
 		try {
 			config = new Config(Server.class);
-		} catch (IOException e) {
+		} catch (ConfigurationException e) {
 			LOG.error("Configuration error, cannot start server...", e);
 		}
 	}
