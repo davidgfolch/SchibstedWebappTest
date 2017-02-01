@@ -55,21 +55,11 @@ public class Server {
 			return false;
 		}
 
-		/**
-		 * Authenticator.setDefault(new BasicAuthenticator(""));
-		 * server.setExecutor(executor);
-		 */
 		authFilter = new AuthFilter(config.get(LOGIN_PATH));
 		// see https://code.google.com/archive/p/reflections/
 		Reflections reflections = new Reflections("com.schibsted.webapp.controller");
-		/**
-		 * Set<Class<?>> authenticatedServices =
-		 * reflections.getTypesAnnotatedWith(Authenticated.class);
-		 */
 		Set<Class<?>> webControllersClaz = reflections.getTypesAnnotatedWith(ContextHandler.class);
-
 		webControllersClaz.forEach(this::addWebController);
-
 		serverInstance.start();
 		return true;
 	}

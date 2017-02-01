@@ -19,7 +19,7 @@ That is the same as:<br/>
 
 ## Technical description
 
-Server configuration via annotations & (overrided by) server.properties (using generic Config object for Server)<br/>
+Server configuration via annotations, handlers can be overrided in server.properties<br/>
 Using filters (com.sun.net.httpserver.Filter): see [AuthFilter](./src/main/java/com/schibsted/webapp/server/filter/AuthFilter.java) & [ParamsFilter](./src/main/java/com/schibsted/webapp/server/filter/ParamsFilter.java) implementations.<br/>
 MVCHandler implementation<br/>
 Using Apache org.apache.httpcomponents.httpclient to parse params and response status constants.<br/>
