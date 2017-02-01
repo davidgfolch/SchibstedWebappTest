@@ -2,8 +2,6 @@ package com.schibsted.webapp.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -57,11 +55,11 @@ public class Config {
 		return props.getProperty(key);
 	}
 
-	public List<String> getList(String key) {
-		String item = props.getProperty(key);
-		if (item == null)
-			throw new RuntimeException("Config key doesn't exist: {" + key + "}");
-		return Arrays.asList(item.split(","));
-	}
+//	public List<String> getList(String key) throws ConfigurationException {
+//		String item = props.getProperty(key);
+//		if (item == null)
+//			throw new ConfigurationException("Config key doesn't exist: {" + key + "}");
+//		return Arrays.asList(item.split(","));
+//	}
 
 }

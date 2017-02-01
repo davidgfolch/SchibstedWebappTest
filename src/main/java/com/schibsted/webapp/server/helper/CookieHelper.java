@@ -20,10 +20,6 @@ public class CookieHelper {
 	private static final String RES_HEADER_COOKIE = "Set-Cookie";
 
 	private static final String COOKIE_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
-	private static final SimpleDateFormat SDF_EXPIRES = new SimpleDateFormat(COOKIE_DATE_FORMAT, Locale.US);
-	static {
-		SDF_EXPIRES.setTimeZone(TimeZone.getTimeZone("GMT"));
-	}
 
 	private static final Logger LOG = LogManager.getLogger(CookieHelper.class);
 
@@ -95,13 +91,20 @@ public class CookieHelper {
 		setCookie(ex, cookie, value, null, null);
 	}
 
-	public static void setCookie(HttpExchange ex, String cookie, String value, Boolean httpOnly, Long expires) {
+	public static synchronized void setCookie(HttpExchange ex, String cookie, String value, Boolean httpOnly, Long expires) {
 		String cookieValue = cookie + "=" + value + COOKIE_SEPARATOR + " version=1";
 		if (httpOnly != null)
 			cookieValue += COOKIE_SEPARATOR + " HttpOnly";
-		if (expires != null)
-			cookieValue += COOKIE_SEPARATOR + " expires=" + SDF_EXPIRES.format(new Date(expires));
+		if (expires != null) {
+			cookieValue += COOKIE_SEPARATOR + " expires=" + formatExpiresDate(expires);
+		}
 		ex.getResponseHeaders().add(RES_HEADER_COOKIE, cookieValue);
+	}
+	
+	public static synchronized String formatExpiresDate(Long expires) {
+		SimpleDateFormat sdfExpires = new SimpleDateFormat(COOKIE_DATE_FORMAT, Locale.US);
+		sdfExpires.setTimeZone(TimeZone.getTimeZone("GMT"));
+		return sdfExpires.format(new Date(expires));
 	}
 
 }
