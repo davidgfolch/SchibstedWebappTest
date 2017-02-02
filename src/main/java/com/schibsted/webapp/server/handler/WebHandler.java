@@ -16,9 +16,7 @@ public class WebHandler extends MVCHandler {
 
 	@Override
 	public void doHandle(HttpExchange ex) throws IOException {
-
 		LOG.debug(ex.getRequestMethod() + " " + ex.getProtocol() + " " + ex.getLocalAddress() + ex.getRequestURI());
-
 		ViewModel model = execute(ex);
 		setRedirect(HttpServerHelper.isRedirect(ex));
 		if (!isRedirect()) {
