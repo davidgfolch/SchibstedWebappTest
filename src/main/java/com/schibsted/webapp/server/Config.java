@@ -17,9 +17,13 @@ public class Config {
 	
 	private Properties props = new Properties();
 
-	public Config(Class<?> claz) throws ConfigurationException {
+	private Config(Class<?> claz) throws ConfigurationException {
 		super();
 		load(claz);
+	}
+
+	public static Config getConfig(Class<?> claz) throws ConfigurationException {
+		return new Config(claz);
 	}
 
 	/**

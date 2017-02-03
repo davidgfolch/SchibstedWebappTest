@@ -1,4 +1,4 @@
-package com.schibsted.webapp.server.helper;
+package com.schibsted.webapp.server.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -14,21 +14,19 @@ import com.schibsted.webapp.server.model.Parameter;
 
 public class AppTest extends ServerHttpExchangeBaseTest {
 	
-	private static String LOGIN_PATH=Server.getConfig().get("login.path");
-	
 	@Test
 	public void _302() throws IOException  {
-	    assertTrue(HttpStatus.SC_MOVED_TEMPORARILY==ServerTestHelper.getResponseCode("/page1"));
+	    assertTrue(HttpStatus.SC_MOVED_TEMPORARILY==serverTestHelper.getResponseCode("/page1"));
 	}
 	
 	@Test
 	public void _404() throws IOException  {
-	    assertTrue(HttpStatus.SC_NOT_FOUND==ServerTestHelper.getResponseCode("/page4"));
+	    assertTrue(HttpStatus.SC_NOT_FOUND==serverTestHelper.getResponseCode("/page4"));
 	}
 
 	@Test
 	public void _200() throws IOException  {
-	    assertTrue(HttpStatus.SC_OK==ServerTestHelper.getResponseCode(LOGIN_PATH));
+	    assertTrue(HttpStatus.SC_OK==serverTestHelper.getResponseCode(config.get("login.path")));
 	}
 
 	@Test
@@ -50,13 +48,13 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	@Test()
 	public void permissionDenied() throws IOException {
 		System.out.println("################################################################");
-		String urlRedirection=ServerTestHelper.SERVER_URL+"/page2";
+		String urlRedirection=serverTestHelper.getServerURL()+"/page2";
 		try {
 			doLogin("user1","user1","/page2",false);
 		} catch (IOException e) {
 			assertTrue(e.getMessage().equals("Server returned HTTP response code: 403 for URL: "+urlRedirection));
 		}
-		//int code=ServerTestHelper.getResponseCode("/page2");
+		//int code=serverTestHelper.getResponseCode("/page2");
 		//System.out.println("################"+code+"##################");
 		//assertTrue(code==HttpStatus.SC_FORBIDDEN);
 //		System.out.println("################################################################");
@@ -74,7 +72,7 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	}
 
 	private boolean doLogout() throws IOException {
-		return ServerTestHelper.getResponseCode("/logout")==HttpStatus.SC_MOVED_TEMPORARILY;
+		return serverTestHelper.getResponseCode("/logout")==HttpStatus.SC_MOVED_TEMPORARILY;
 	}
 
 	private String doLogin(String user, String pwd, String redirect) throws IOException {
@@ -83,7 +81,7 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	private String doLogin(String user, String pwd, String redirect, boolean autoFollowRedirects) throws IOException {
 		String postParams=loginParams(user,pwd);
 		String url="/login?redirect="+redirect;
-		return ServerTestHelper.getResponseBody(url,postParams,autoFollowRedirects);
+		return serverTestHelper.getResponseBody(url,postParams,autoFollowRedirects);
 	}
 	
 	private String loginParams(String user, String pwd) {

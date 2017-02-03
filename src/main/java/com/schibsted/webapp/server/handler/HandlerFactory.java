@@ -1,5 +1,7 @@
 package com.schibsted.webapp.server.handler;
 
+import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.sun.net.httpserver.HttpHandler;
 
 /**
@@ -8,23 +10,31 @@ import com.sun.net.httpserver.HttpHandler;
  */
 @SuppressWarnings("restriction")
 public class HandlerFactory {
+	
+	private Config config;
+	private HttpExchangeHelper exchangeHelper;
+	
+	public HandlerFactory(Config config, HttpExchangeHelper exchangeHelper) {
+		this.config=config;
+		this.exchangeHelper=exchangeHelper;
+	}
 
 	public enum CONTEXT_HANDLER {
 		WEB_HANDLER, //
 		REST_HANDLER
 	}
 
-	public static HttpHandler get(CONTEXT_HANDLER handler) {
+	public HttpHandler get(CONTEXT_HANDLER handler) {
 		switch (handler) {
 		case REST_HANDLER:
 			return new RestHandler();
 		case WEB_HANDLER:
 		default:
-			return new WebHandler();
+			return new WebHandler(config, exchangeHelper);
 		}
 	}
 
-	public static HttpHandler get(String handler) {
+	public HttpHandler get(String handler) {
 		String handlerEnum = handler.replaceAll("([a-z])([A-Z]+)", "$1_$2").toUpperCase();
 		try {
 			CONTEXT_HANDLER ctxHdl = CONTEXT_HANDLER.valueOf(handlerEnum);

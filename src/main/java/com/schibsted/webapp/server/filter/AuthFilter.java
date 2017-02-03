@@ -22,11 +22,14 @@ public class AuthFilter extends Filter {
 	// todo: use sun.net.httpserver.AuthFilter??
 
 	private static final Logger LOG = LogManager.getLogger(AuthFilter.class);
+	
+	HttpExchangeHelper httpExchangeHelper;
 
 	private String loginPath = "/login";
 
-	public AuthFilter(String loginPath) {
+	public AuthFilter(HttpExchangeHelper httpExchangeHelper, String loginPath) {
 		this.loginPath = loginPath;
+		this.httpExchangeHelper=httpExchangeHelper;
 	}
 
 	@Override
@@ -39,7 +42,7 @@ public class AuthFilter extends Filter {
 		}
 		boolean permissionDenied=permissionDenied(ex);
 		if (permissionDenied) {
-			Session s=HttpExchangeHelper.getSession(ex);
+			Session s=httpExchangeHelper.getSession(ex);
 			LOG.debug("Permission denied for user {} in path {}", s.getLoggedUser().getName(),ex.getHttpContext().getPath());
 			s.put("permDenied", permissionDenied);
 			HttpServerHelper.permissionDenied(ex);
@@ -55,12 +58,12 @@ public class AuthFilter extends Filter {
 
 	private boolean mustDoLogin(HttpExchange ex) {
 		boolean isLoginPage = ex.getRequestURI() != null && ex.getRequestURI().toString().startsWith(loginPath);
-		return !HttpExchangeHelper.isAuthenticated(ex) && !isLoginPage;
+		return !httpExchangeHelper.isAuthenticated(ex) && !isLoginPage;
 	}
 
 	private boolean permissionDenied(HttpExchange ex) {
 		String roleRequiredInController = ReflectionHelper.getAuthenticationRoles(ex);
-		User user = HttpExchangeHelper.getSession(ex).getLoggedUser();
+		User user = httpExchangeHelper.getSession(ex).getLoggedUser();
 		return !UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
 	}
 

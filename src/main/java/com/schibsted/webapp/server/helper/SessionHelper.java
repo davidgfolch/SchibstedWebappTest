@@ -8,27 +8,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.schibsted.webapp.server.Config;
-import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.model.Session;
 
-//todo: find & remove timedout sessions in an scheduled thread 
+//todo: find & remove timedout sessions in an scheduled thread
+//todo: concurrent hashmap
 public class SessionHelper {
+
+	private static final Logger LOG = LogManager.getLogger(SessionHelper.class);
 
 	public static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
 	private static final String SESSION_COOKIE_NAME = "session.cookieName";
 	
-	private static final Config config = Server.getConfig();
-	static final long TIMEOUT_MS = config.getInt(SESSION_TIMEOUT_MS);
-	public static final String SCHIBSTED_SESSION = config.get(SESSION_COOKIE_NAME);
-
-	private static final Logger LOG = LogManager.getLogger(SessionHelper.class);
+	private long timeoutMs;
+	private String cookieName;
 
 	private static Map<String, Session> sessions = new HashMap<>();
 
-	private SessionHelper() {
+	public SessionHelper(Config config) {
+		timeoutMs = config.getInt(SESSION_TIMEOUT_MS);
+		cookieName = config.get(SESSION_COOKIE_NAME);
 	}
 
-	public static synchronized Session getSession(String sessionUUID) {
+	public synchronized Session getSession(String sessionUUID) {
 		Session session = sessions.get(sessionUUID);
 		if (session == null)
 			session = newSession();
@@ -39,7 +40,7 @@ public class SessionHelper {
 		return session;
 	}
 
-	private static Session newSession() {
+	private Session newSession() {
 		String uuid = UUID.randomUUID().toString();
 		LOG.debug("Creating new session: {}", uuid);
 		Session session = new Session(uuid, System.currentTimeMillis());
@@ -47,8 +48,8 @@ public class SessionHelper {
 		return session;
 	}
 
-	public static boolean isSessionTimedOut(Session session) {
-		boolean timedOut = session.getLastUsed() + TIMEOUT_MS < System.currentTimeMillis();
+	public boolean isSessionTimedOut(Session session) {
+		boolean timedOut = session.getLastUsed() + timeoutMs < System.currentTimeMillis();
 		if (timedOut) {
 			LOG.debug("Session timeout, removing: {}", session.getUuid());
 			sessions.remove(session.getUuid());
@@ -56,8 +57,16 @@ public class SessionHelper {
 		return timedOut;
 	}
 	
-	public static void invalidateSession(Session session) {
+	public synchronized void invalidateSession(Session session) {
 		sessions.remove(session.getUuid());
+	}
+
+	public String getCookieName() {
+		return cookieName;
+	}
+
+	public long getTimeoutMs() {
+		return timeoutMs;
 	}
 
 }

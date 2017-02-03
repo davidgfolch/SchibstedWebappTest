@@ -1,30 +1,30 @@
 package com.schibsted.webapp.server.helper.httpExchange;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotEquals;
+
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
-import com.schibsted.webapp.server.ServerTestHelper;
-import com.schibsted.webapp.server.Server;
-import com.schibsted.webapp.server.helper.HttpExchangeHelper;
-import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Session;
 
-
 public class SessionHelperTest extends ServerHttpExchangeBaseTest {
+	
+	public SessionHelperTest() throws IOException {
+		super();
+	}
 
-	private Long timeout=Long.valueOf(Server.getConfig().getInt(SessionHelper.SESSION_TIMEOUT_MS));
 
 	@Before
 	public void before() {
 		hook.setListener(this);
 		try {
-			ServerTestHelper.getResponseCode("/test");
+			serverTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -33,28 +33,28 @@ public class SessionHelperTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void invalidateSession() {
-		Session session=HttpExchangeHelper.getSession(httpExchange);
+		Session session=httpExchangeHelper.getSession(httpExchange);
 		assertNotNull(session);
-		SessionHelper.invalidateSession(session);
-		assertFalse(session.equals(HttpExchangeHelper.getSession(httpExchange)));
-		assertFalse(HttpExchangeHelper.isAuthenticated(httpExchange));
-		assertFalse(SessionHelper.isSessionTimedOut(session));
+		sessionHelper.invalidateSession(session);
+		assertFalse(session.equals(httpExchangeHelper.getSession(httpExchange)));
+		assertFalse(httpExchangeHelper.isAuthenticated(httpExchange));
+		assertFalse(sessionHelper.isSessionTimedOut(session));
 	}
 	
 	@Test
 	public void timeout() {
-		Session session=HttpExchangeHelper.getSession(httpExchange);
+		Session session=httpExchangeHelper.getSession(httpExchange);
 		assertNotNull(session);
-		session.setLastUsed(System.currentTimeMillis()-timeout*2);
-		assertNotEquals(session.getUuid(),SessionHelper.getSession(session.getUuid()).getUuid());
-		session.setLastUsed(System.currentTimeMillis()-timeout*2);
-		assertTrue(SessionHelper.isSessionTimedOut(session));
+		session.setLastUsed(System.currentTimeMillis()-sessionHelper.getTimeoutMs()*2);
+		assertNotEquals(session.getUuid(),sessionHelper.getSession(session.getUuid()).getUuid());
+		session.setLastUsed(System.currentTimeMillis()-sessionHelper.getTimeoutMs()*2);
+		assertTrue(sessionHelper.isSessionTimedOut(session));
 	}
 
 	@Test
 	public void equals() {
-		Session session=HttpExchangeHelper.getSession(httpExchange);
-		Session session2=HttpExchangeHelper.getSession(httpExchange);
+		Session session=httpExchangeHelper.getSession(httpExchange);
+		Session session2=httpExchangeHelper.getSession(httpExchange);
 		assertTrue(session.equals(session2));
 	}
 

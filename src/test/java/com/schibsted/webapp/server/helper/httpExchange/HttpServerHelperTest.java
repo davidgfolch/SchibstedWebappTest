@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
-import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.model.Parameter;
@@ -18,12 +17,12 @@ import com.schibsted.webapp.server.model.Parameter;
 public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 
 	private static final String PARAM_TO_ENCODE = "&enc";
-
+	
 	@Before
 	public void before() {
 		hook.setListener(this);
 		try {
-			ServerTestHelper.getResponseCode("/test");
+			serverTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,7 +71,7 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 		assertTrue(ParameterHelper.setUriParameter("/prueba?" + param, paramNewVal).contains(paramNewVal.toString()));
 		assertTrue(ParameterHelper.setUriParameter("/prueba?" + param1, paramNewVal).contains(paramNewVal.toString()));
 
-		assertTrue(ServerTestHelper.contains(
+		assertTrue(serverTestHelper.contains(
 				ParameterHelper.setUriParameter("/prueba?" + param1 + "&" + param, paramNewVal),
 				paramNewVal.toString(), param1.toString()));
 

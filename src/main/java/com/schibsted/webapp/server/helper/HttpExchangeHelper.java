@@ -6,17 +6,21 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction")
 public class HttpExchangeHelper {
 	
-	private HttpExchangeHelper() {}
+	SessionHelper sessionHelper;
 	
-	public static Session getSession(HttpExchange ex) {
-		String uuid=CookieHelper.getCookie(ex, SessionHelper.SCHIBSTED_SESSION);
-		Session session=SessionHelper.getSession(uuid);
-		long expires = System.currentTimeMillis() + SessionHelper.TIMEOUT_MS;
-		CookieHelper.setCookie(ex, SessionHelper.SCHIBSTED_SESSION, session.getUuid(), true, expires);
+	public HttpExchangeHelper(SessionHelper sessionHelper) {
+		this.sessionHelper=sessionHelper;
+	}
+	
+	public Session getSession(HttpExchange ex) {
+		String uuid=CookieHelper.getCookie(ex, sessionHelper.getCookieName());
+		Session session=sessionHelper.getSession(uuid);
+		long expires = System.currentTimeMillis() + sessionHelper.getTimeoutMs();
+		CookieHelper.setCookie(ex, sessionHelper.getCookieName(), session.getUuid(), true, expires);
 		return session;
 	}
 
-	public static boolean isAuthenticated(HttpExchange ex) { 
+	public boolean isAuthenticated(HttpExchange ex) { 
 		return getSession(ex).getLoggedUser() != null;
 	}
 

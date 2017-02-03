@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.model.ViewModel;
 import com.sun.net.httpserver.HttpExchange;
@@ -13,6 +15,10 @@ import com.sun.net.httpserver.HttpExchange;
 public class WebHandler extends MVCHandler {
 
 	private static final Logger LOG = LogManager.getLogger(WebHandler.class);
+
+	public WebHandler(Config config, HttpExchangeHelper exchangeHelper) {
+		super(config, exchangeHelper);
+	}
 
 	@Override
 	public void doHandle(HttpExchange ex) throws IOException {

@@ -10,12 +10,12 @@ import com.schibsted.webapp.server.annotation.ContextPath;
 public class LogoutController extends BaseController {
 
 	private static final Logger LOG = LogManager.getLogger(LogoutController.class);
-
+	
 	@Override
 	public void doLogic() {
 		LOG.debug("Logout controller method {}, params {}", getHttpMethod(), getParameters().size());
 		invalidateSession();
-		sendRedirect(Server.getConfig().get(Server.LOGIN_PATH));		
+		sendRedirect(config.get(Server.LOGIN_PATH));
 	}
 
 }

@@ -6,17 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
-import com.schibsted.webapp.server.ServerTestHelper;
+import com.schibsted.webapp.server.controller.TestController;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
-import com.schibsted.webapp.server.helper.TestController;
 
 public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
-	
+
 	@Before
 	public void before() {
 		hook.setListener(this);
 		try {
-			ServerTestHelper.getResponseCode("/test");
+			serverTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,8 @@
 package com.schibsted.webapp.server.helper.httpExchange;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,19 +11,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
-import com.schibsted.webapp.server.ServerTestHelper;
 import com.schibsted.webapp.server.helper.CookieHelper;
-import com.schibsted.webapp.server.helper.SessionHelper;
 
 
 public class CookieHelperTest extends ServerHttpExchangeBaseTest {
 	
 	private static final String NON_EXISTENT_COOKIE = "nonExistentCookieXXJDJFASDFKLAKJD";
+	
 	@Before
 	public void before() {
 		hook.setListener(this);
 		try {
-			ServerTestHelper.getResponseCode("/test");
+			serverTestHelper.getResponseCode("/test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,7 +31,7 @@ public class CookieHelperTest extends ServerHttpExchangeBaseTest {
 	@Test
 	public void getCookie() {
 		//From HttpExchange
-		assertNotNull(CookieHelper.getCookie(httpExchange, SessionHelper.SCHIBSTED_SESSION));
+		assertNotNull(CookieHelper.getCookie(httpExchange, sessionHelper.getCookieName()));
 		//From List
 		//assertNotNull(CookieHelper.getCookie(cookieHeaders, cookieName)
 		assertNull(CookieHelper.getCookie(new ArrayList<String>(), NON_EXISTENT_COOKIE));

@@ -12,17 +12,19 @@ import java.util.stream.Collectors;
 
 public class ServerTestHelper {
 
-	// todo: save cookies between redirects
+	private String serverUrl;
 
-	public static final String SERVER_URL = "http://localhost:" + Server.getConfig().get("port");
+	public ServerTestHelper(Config config) {
+		serverUrl="http://localhost:" + config.get("port");
+	}
 
-	public static URLConnection connect(String url) throws IOException {
+	public URLConnection connect(String url) throws IOException {
 		boolean followRedirects = false;
 		return connect(url, null, followRedirects);
 	}
 
-	public static URLConnection connect(String url, String data, boolean followRedirects) throws IOException {
-		URL u = new URL(SERVER_URL + url);
+	public URLConnection connect(String url, String data, boolean followRedirects) throws IOException {
+		URL u = new URL(serverUrl + url);
 		URLConnection con = u.openConnection();
 		post(con, data);
 		HttpURLConnection httpCon = (HttpURLConnection) con;
@@ -32,7 +34,7 @@ public class ServerTestHelper {
 		return httpCon;
 	}
 
-	private static boolean isRedirect(HttpURLConnection con) throws IOException {
+	private boolean isRedirect(HttpURLConnection con) throws IOException {
 		int status = con.getResponseCode();
 		if (status != HttpURLConnection.HTTP_OK) {
 			if (status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM
@@ -42,7 +44,7 @@ public class ServerTestHelper {
 		return false;
 	}
 
-	private static void post(URLConnection con, String data) throws IOException {
+	private void post(URLConnection con, String data) throws IOException {
 		if (data == null)
 			return;
 		con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
@@ -61,28 +63,28 @@ public class ServerTestHelper {
 
 	}
 
-	public static int getResponseCode(String url) throws IOException {
+	public int getResponseCode(String url) throws IOException {
 		return ((HttpURLConnection) connect(url)).getResponseCode();
 		// BufferedReader in = new BufferedReader(new
 		// InputStreamReader(con.getInputStream()));
 	}
 
-	public static String getResponseBody(String url) throws Exception {
+	public String getResponseBody(String url) throws Exception {
 		boolean followRedirects = true;
 		return getResponseBody(url, null, followRedirects);
 	}
 
-	public static String getResponseBody(String url, String data, boolean followRedirects) throws IOException {
+	public String getResponseBody(String url, String data, boolean followRedirects) throws IOException {
 		URLConnection con = connect(url, data, followRedirects);
 		con=redirect(con);
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		return in.lines().collect(Collectors.joining("\n"));
 	}
 
-	private static URLConnection redirect(URLConnection con) throws MalformedURLException, IOException {
+	private URLConnection redirect(URLConnection con) throws MalformedURLException, IOException {
 		URLConnection conRedirect=con; 
 		if (isRedirect((HttpURLConnection) con)) {
-			String newUrl = SERVER_URL+con.getHeaderField("Location");
+			String newUrl = serverUrl+con.getHeaderField("Location");
 			conRedirect = (HttpURLConnection) new URL(newUrl).openConnection();
 			conRedirect.setRequestProperty("Cookie", con.getHeaderField("Set-Cookie"));
 			conRedirect=redirect(conRedirect);
@@ -90,12 +92,16 @@ public class ServerTestHelper {
 		return conRedirect;
 	}
 
-	public static boolean contains(String container, String... content) {
+	public boolean contains(String container, String... content) {
 		for (String str : content) {
 			if (!container.contains(str))
 				return false;
 		}
 		return true;
+	}
+
+	public String getServerURL() {
+		return serverUrl;
 	}
 
 }
