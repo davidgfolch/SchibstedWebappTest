@@ -1,35 +1,28 @@
 package com.schibsted.webapp.server.helper;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.model.Parameter;
 
-public class ParameterHelper {
+public class ParameterHelper implements ILogger {
 	
-	private static final Logger LOG = LogManager.getLogger(ParameterHelper.class);
-
-	private ParameterHelper() {}
-
-	public static String setUriParameter(String uriPath, Parameter param) {
+	public String setUriParameter(String uriPath, Parameter param) {
 		return setUriParameter(uriPath, param.getName(), param.getValue());
 	}
 	
-	public static String encode(String paramValue) {
+	public String encode(String paramValue) {
 		try {
 			return URLEncoder.encode(paramValue,"UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			LOG.error("",e);
+			logger().error("",e);
 			return paramValue;
 		}
 	}
 
-	public static String setUriParameters(String uri, Parameter... parameters) {
+	public String setUriParameters(String uri, Parameter... parameters) {
 		String res=uri;
 		for (Parameter param: parameters) {
 			res=setUriParameter(res,param);
@@ -37,7 +30,7 @@ public class ParameterHelper {
 		return res;
 	}
 
-	public static String setUriParameter(String uriPath, String paramName, String paramValue) {
+	public String setUriParameter(String uriPath, String paramName, String paramValue) {
 		String parameterEq=paramName+"=";
 		String encodedValue=encode(paramValue);
 		String uriNoParams=uriPath.replaceAll("\\?.*", "");
@@ -50,7 +43,7 @@ public class ParameterHelper {
 			}
 			return uriNoParams+"?"+q+"&"+parameterEq+encodedValue;
 		} catch (URISyntaxException e) {
-			LOG.error("",e);
+			logger().error("",e);
 		}
 		return null;
 	}

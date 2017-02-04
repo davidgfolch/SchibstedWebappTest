@@ -1,21 +1,15 @@
 package com.schibsted.webapp.server.helper.httpExchange;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 import com.schibsted.webapp.server.model.Session;
 
 public class SessionHelperTest extends ServerHttpExchangeBaseTest {
 	
-	public SessionHelperTest() throws IOException {
+	public SessionHelperTest() {
 		super();
 	}
 

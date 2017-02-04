@@ -1,10 +1,8 @@
 package com.schibsted.webapp.server.helper;
-
+import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
-
-import org.junit.Test;
 
 import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.helper.UserHelper;

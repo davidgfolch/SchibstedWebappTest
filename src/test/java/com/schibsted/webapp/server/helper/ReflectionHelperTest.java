@@ -1,10 +1,7 @@
 package com.schibsted.webapp.server.helper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import org.junit.*;
+import static org.junit.Assert.*;
 
 import com.schibsted.webapp.controller.web.LoginController;
 import com.schibsted.webapp.server.Server;

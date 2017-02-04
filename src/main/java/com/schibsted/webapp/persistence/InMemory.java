@@ -10,7 +10,7 @@ public class InMemory {
 	
 	public static final String ROLE_ADMIN = "ADMIN";
 
-	private static List<User> users = Arrays.asList(new User[] {
+	private static final List<User> users = Arrays.asList(new User[] {
 			new User("admin", EncryptHelper.encript("admin"), ROLE_ADMIN),
 			new User("user1", EncryptHelper.encript("user1"), "PAGE_1"),
 			new User("user2", EncryptHelper.encript("user2"), "PAGE_3"),

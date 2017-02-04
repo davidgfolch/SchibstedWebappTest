@@ -23,7 +23,7 @@ public abstract class BaseController implements IController, IMVCController, ISe
 
 	protected Config config;
 	private SessionHelper sessionHelper;
-	private ViewModel model = new ViewModel();
+	private final ViewModel model = new ViewModel();
 	private String httpMethod;
 	private Parameters parameters;
 	private Session session;

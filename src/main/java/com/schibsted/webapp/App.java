@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.exception.ConfigurationException;
 
-public class App {
+class App {
 
 	private static final Logger LOG = LogManager.getLogger(App.class);
 

@@ -5,8 +5,6 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 
 import com.schibsted.webapp.server.annotation.Authenticated;
@@ -17,7 +15,9 @@ import com.schibsted.webapp.server.filter.ParamsFilter;
 import com.schibsted.webapp.server.handler.HandlerFactory;
 import com.schibsted.webapp.server.handler.MVCHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
+import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.injector.IConfigInjector;
@@ -28,57 +28,56 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 @SuppressWarnings("restriction")
-public class Server {
-
-	private static final Logger LOG = LogManager.getLogger(Server.class);
+public class Server implements ILogger {
 
 	public static final String LOGIN_PATH = "login.path";
 	private static final String PORT = "port";
 
-	private HandlerFactory handlerFactory;
-	private Config config;
-	private SessionHelper sessionHelper;
+	private final HandlerFactory handlerFactory;
+	private final Config config;
+	private final SessionHelper sessionHelper;
+	private final ParameterHelper parameterHelper=new ParameterHelper();
+	private final CookieHelper cookieHelper = new CookieHelper();	
 
 	private HttpServer serverInstance;
 
-	private ParamsFilter paramsFilter = new ParamsFilter();
+	private final ParamsFilter paramsFilter = new ParamsFilter();
 	private AuthFilter authFilter;
 
 	public Server() throws ConfigurationException {
 		config = Config.getConfig(Server.class);
 		sessionHelper = new SessionHelper(config);
-		HttpExchangeHelper exchangeHelper = new HttpExchangeHelper(sessionHelper);
+		HttpExchangeHelper exchangeHelper = new HttpExchangeHelper(sessionHelper, cookieHelper);
 		this.handlerFactory=new HandlerFactory(config, exchangeHelper);
 	}
 
-	public boolean startServer() throws IOException {
+	public void startServer() throws IOException {
 		try {
-			LOG.info("Starting server on port " + config.get(PORT));
+			logger().info("Starting server on port " + config.get(PORT));
 			serverInstance = HttpServer.create(new InetSocketAddress(config.getInt(PORT)), 0);
 		} catch (IOException e) {
-			LOG.error("Cannot start server...", e);
+			logger().error("Cannot start server...", e);
 			throw e;
 		}
-		HttpExchangeHelper httpExchangeHelper=new HttpExchangeHelper(sessionHelper);
-		authFilter = new AuthFilter(httpExchangeHelper,config.get(LOGIN_PATH));
+		HttpExchangeHelper httpExchangeHelper=new HttpExchangeHelper(sessionHelper, cookieHelper);
+		authFilter = new AuthFilter(httpExchangeHelper,parameterHelper, config.get(LOGIN_PATH));
 		// see https://code.google.com/archive/p/reflections/
 		Reflections reflections = new Reflections("com.schibsted.webapp.controller");
 		Set<Class<?>> webControllersClaz = reflections.getTypesAnnotatedWith(ContextHandler.class);
 		webControllersClaz.forEach(this::addWebController);
 		serverInstance.start();
-		return true;
 	}
 
 	private void addWebController(Class<?> claz) {
 		try {
 			if (!ReflectionHelper.isControllerCandidate(claz))
 				return;
-			LOG.debug("Adding controller: {}", claz.getName());
+			logger().debug("Adding controller: {}", claz.getName());
 			IController obj = (IController) claz.newInstance();
 			setWebHandlers(obj);
 			MVCHandler.getWebControllers().add(obj);
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.error("", e);
+			logger().error("", e);
 		}
 	}
 

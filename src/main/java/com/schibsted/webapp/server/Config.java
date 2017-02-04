@@ -4,18 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.schibsted.webapp.server.exception.ConfigurationException;
 
-public class Config {
+public class Config implements ILogger {
 
 	public static final String CONTROLLER = "controller";
 	private static final String PROPERTIES_EXT = ".properties";
-	private static final Logger LOG = LogManager.getLogger(Config.class);
 	
-	private Properties props = new Properties();
+	private final Properties props = new Properties();
 
 	private Config(Class<?> claz) throws ConfigurationException {
 		super();
@@ -35,7 +31,7 @@ public class Config {
 	private void load(Class<?> claz) throws ConfigurationException {
 		InputStream in;
 		String file = claz.getSimpleName().toLowerCase() + PROPERTIES_EXT;
-		LOG.info("Loading config {}", file);
+		logger().info("Loading config {}", file);
 		try {
 			in = getClass().getClassLoader().getResourceAsStream(file);
 			if (in==null)

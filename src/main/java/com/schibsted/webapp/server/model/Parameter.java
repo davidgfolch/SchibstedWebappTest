@@ -2,8 +2,8 @@ package com.schibsted.webapp.server.model;
 
 public class Parameter {
 
-	String name;
-	String value;
+	private final String name;
+	private final String value;
 
 	public Parameter(String name, String value) {
 		super();

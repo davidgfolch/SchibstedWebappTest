@@ -2,19 +2,19 @@ package com.schibsted.webapp.server.handler;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
+
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class RestHandler extends BaseHandler {
+public class RestHandler extends BaseHandler implements ILogger{
 
-	private static final Logger LOG = LogManager.getLogger(RestHandler.class);
 
 	@Override
 	public void doHandle(HttpExchange ex) throws IOException {
-		LOG.debug("NOT IMPLEMENTED!!!!!!!!!!!!!!!!!");
+		logger().debug("NOT IMPLEMENTED!!!!!!!!!!!!!!!!!");
 		writeResponseBody("NOT IMPLEMENTED!!!!!!!!!!!!!!!!!".getBytes());
 	}
 

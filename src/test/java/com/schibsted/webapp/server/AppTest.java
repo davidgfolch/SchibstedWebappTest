@@ -1,12 +1,10 @@
 package com.schibsted.webapp.server;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 
 import org.apache.http.HttpStatus;
-import org.junit.Test;
+import org.junit.*;
+import static org.junit.Assert.*;
 
 import com.schibsted.webapp.controller.web.LoginController;
 import com.schibsted.webapp.server.helper.ParameterHelper;
@@ -68,7 +66,7 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	 */
 	@Test
 	public void loginRedirect() throws IOException {
-		assertFalse(doLogin("user1","user1","page1").contains("<h1>Page1</h1>")); 
+		assertFalse(doLogin("user1","user1","page1").contains("<h1>Page1</h1>"));
 	}
 
 	private boolean doLogout() throws IOException {
@@ -85,7 +83,7 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	}
 	
 	private String loginParams(String user, String pwd) {
-		String postParams=ParameterHelper.setUriParameters("/uri", new Parameter("user.name",user),new Parameter("user.password",pwd));
+		String postParams=parameterHelper.setUriParameters("/uri", new Parameter("user.name",user),new Parameter("user.password",pwd));
 		return postParams.replaceAll("/uri\\?", "");
 	}
 

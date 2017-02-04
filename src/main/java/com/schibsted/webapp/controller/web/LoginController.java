@@ -1,23 +1,23 @@
 package com.schibsted.webapp.controller.web;
 
-import org.apache.logging.log4j.LogManager;
+
 import org.apache.logging.log4j.Logger;
 
 import com.schibsted.webapp.persistence.InMemory;
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.annotation.ContextPath;
 import com.schibsted.webapp.server.helper.StringHelper;
 import com.schibsted.webapp.server.helper.UserHelper;
 import com.schibsted.webapp.server.model.User;
 
 @ContextPath("/login")
-public class LoginController extends BaseController {
+public class LoginController extends BaseController implements ILogger {
 
 	public static final String MSG_LOGGED_IN_SUCCESSFULY = "Logged in successfuly";
-	private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
 	@Override
 	public void doLogic() {
-		LOG.debug("Login controller method {}, params {}", getHttpMethod(), getParameters().size());
+		logger().debug("Login controller method {}, params {}", getHttpMethod(), getParameters().size());
 		//Model in BaseController saves state between http calls
 		setMessage(null);
 		getLoggedUser();

@@ -3,7 +3,6 @@ package com.schibsted.webapp.server.filter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class ParamsFilter extends Filter {
 		chain.doFilter(ex);
 	}
 
-	private void parseGetParams(HttpExchange ex) throws UnsupportedEncodingException {
+	private void parseGetParams(HttpExchange ex) {
 		String query = ex.getRequestURI().getRawQuery();
 		if (query == null)
 			return;

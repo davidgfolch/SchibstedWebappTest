@@ -11,8 +11,8 @@ import com.sun.net.httpserver.HttpHandler;
 @SuppressWarnings("restriction")
 public class HandlerFactory {
 	
-	private Config config;
-	private HttpExchangeHelper exchangeHelper;
+	private final Config config;
+	private final HttpExchangeHelper exchangeHelper;
 	
 	public HandlerFactory(Config config, HttpExchangeHelper exchangeHelper) {
 		this.config=config;

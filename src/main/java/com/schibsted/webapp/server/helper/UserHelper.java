@@ -38,7 +38,7 @@ public class UserHelper {
 	}
 
 	public static List<Role> createRoles(String[] roles) {
-		return Arrays.asList(roles).stream() //
+		return Arrays.stream(roles) //
 				.map(Role::new) //
 				.collect(Collectors.toList());
 	}

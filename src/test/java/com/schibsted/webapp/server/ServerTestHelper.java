@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class ServerTestHelper {
 
-	private String serverUrl;
+	private final String serverUrl;
 
 	public ServerTestHelper(Config config) {
 		serverUrl="http://localhost:" + config.get("port");
@@ -81,7 +81,7 @@ public class ServerTestHelper {
 		return in.lines().collect(Collectors.joining("\n"));
 	}
 
-	private URLConnection redirect(URLConnection con) throws MalformedURLException, IOException {
+	private URLConnection redirect(URLConnection con) throws IOException {
 		URLConnection conRedirect=con; 
 		if (isRedirect((HttpURLConnection) con)) {
 			String newUrl = serverUrl+con.getHeaderField("Location");

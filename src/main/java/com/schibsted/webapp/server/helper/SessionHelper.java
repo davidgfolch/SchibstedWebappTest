@@ -1,28 +1,26 @@
 package com.schibsted.webapp.server.helper;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
+
 import org.apache.logging.log4j.Logger;
 
 import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.model.Session;
 
 //todo: find & remove timedout sessions in an scheduled thread
 //todo: concurrent hashmap
-public class SessionHelper {
-
-	private static final Logger LOG = LogManager.getLogger(SessionHelper.class);
+public class SessionHelper implements ILogger {
 
 	public static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
 	private static final String SESSION_COOKIE_NAME = "session.cookieName";
 	
-	private long timeoutMs;
-	private String cookieName;
+	private final long timeoutMs;
+	private final String cookieName;
 
-	private static Map<String, Session> sessions = new HashMap<>();
+	private static final Map<String, Session> sessions = new HashMap<>();
 
 	public SessionHelper(Config config) {
 		timeoutMs = config.getInt(SESSION_TIMEOUT_MS);
@@ -42,7 +40,7 @@ public class SessionHelper {
 
 	private Session newSession() {
 		String uuid = UUID.randomUUID().toString();
-		LOG.debug("Creating new session: {}", uuid);
+		logger().debug("Creating new session: {}", uuid);
 		Session session = new Session(uuid, System.currentTimeMillis());
 		sessions.put(uuid, session);
 		return session;
@@ -51,7 +49,7 @@ public class SessionHelper {
 	public boolean isSessionTimedOut(Session session) {
 		boolean timedOut = session.getLastUsed() + timeoutMs < System.currentTimeMillis();
 		if (timedOut) {
-			LOG.debug("Session timeout, removing: {}", session.getUuid());
+			logger().debug("Session timeout, removing: {}", session.getUuid());
 			sessions.remove(session.getUuid());
 		}
 		return timedOut;

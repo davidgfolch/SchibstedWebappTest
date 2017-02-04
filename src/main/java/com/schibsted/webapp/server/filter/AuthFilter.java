@@ -1,11 +1,8 @@
 package com.schibsted.webapp.server.filter;
-
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.schibsted.webapp.persistence.InMemory;
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
@@ -17,33 +14,30 @@ import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class AuthFilter extends Filter {
+public class AuthFilter extends Filter implements ILogger {
 	
-	// todo: use sun.net.httpserver.AuthFilter??
+	private final ParameterHelper parameterHelper;
+	private final HttpExchangeHelper httpExchangeHelper;
+	private final String loginPath;
 
-	private static final Logger LOG = LogManager.getLogger(AuthFilter.class);
-	
-	HttpExchangeHelper httpExchangeHelper;
-
-	private String loginPath = "/login";
-
-	public AuthFilter(HttpExchangeHelper httpExchangeHelper, String loginPath) {
+	public AuthFilter(HttpExchangeHelper httpExchangeHelper, ParameterHelper parameterHelper, String loginPath) {
 		this.loginPath = loginPath;
 		this.httpExchangeHelper=httpExchangeHelper;
+		this.parameterHelper=parameterHelper;
 	}
 
 	@Override
 	public void doFilter(HttpExchange ex, Chain chain) throws IOException {
 		if (mustDoLogin(ex)) {
-			String finalPath = ParameterHelper.setUriParameter(loginPath, "redirect", ex.getHttpContext().getPath());
-			LOG.debug("Redirecting to login: {}", finalPath);
+			String finalPath = parameterHelper.setUriParameter(loginPath, "redirect", ex.getHttpContext().getPath());
+			logger().debug("Redirecting to login: {}", finalPath);
 			HttpServerHelper.redirect(ex, finalPath);
 			return;
 		}
 		boolean permissionDenied=permissionDenied(ex);
 		if (permissionDenied) {
 			Session s=httpExchangeHelper.getSession(ex);
-			LOG.debug("Permission denied for user {} in path {}", s.getLoggedUser().getName(),ex.getHttpContext().getPath());
+			logger().debug("Permission denied for user {} in path {}", s.getLoggedUser().getName(),ex.getHttpContext().getPath());
 			s.put("permDenied", permissionDenied);
 			HttpServerHelper.permissionDenied(ex);
 			return;

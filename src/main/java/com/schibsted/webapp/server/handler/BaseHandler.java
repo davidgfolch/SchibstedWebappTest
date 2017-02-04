@@ -1,21 +1,19 @@
 package com.schibsted.webapp.server.handler;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
 import org.apache.http.HttpStatus;
-import org.apache.logging.log4j.LogManager;
+
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 @SuppressWarnings("restriction")
-public abstract class BaseHandler implements HttpHandler {
-
-	private static final Logger LOG = LogManager.getLogger(BaseHandler.class);
+public abstract class BaseHandler implements HttpHandler, ILogger {
 
 	private boolean redirect = false;
 	private OutputStream os = null;
@@ -26,7 +24,7 @@ public abstract class BaseHandler implements HttpHandler {
 		try {
 			doHandle(ex);
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger().error("", e);
 			handleException(ex, e, os);
 			throw e;
 		} finally {
@@ -48,7 +46,7 @@ public abstract class BaseHandler implements HttpHandler {
 			os.write(bos.toByteArray());
 		} catch (IOException e) {
 			e.initCause(t);
-			LOG.error("", e);
+			logger().error("", e);
 		}
 	}
 

@@ -5,11 +5,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
+
 import org.apache.logging.log4j.Logger;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.IController;
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.filter.ParamsFilter;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
@@ -23,11 +24,9 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public abstract class MVCHandler extends BaseHandler {
+public abstract class MVCHandler extends BaseHandler implements ILogger {
 
-	private static final Logger LOG = LogManager.getLogger(MVCHandler.class);
-
-	private HttpExchangeHelper exchangeHelper;
+	private final HttpExchangeHelper exchangeHelper;
 	private final ITemplateRenderer templateRenderer;
 	private static List<Object> webControllers = new ArrayList<>();
 
@@ -84,7 +83,7 @@ public abstract class MVCHandler extends BaseHandler {
 			HttpServerHelper.redirect(ex, mvcCtrl.getRedirect());
 			mvcCtrl.sendRedirect(null);
 		} catch (IOException e) {
-			LOG.error("Cannot redirect", e);
+			logger().error("Cannot redirect", e);
 		}
 	}
 

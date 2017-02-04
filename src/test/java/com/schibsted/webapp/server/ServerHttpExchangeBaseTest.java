@@ -3,7 +3,6 @@ package com.schibsted.webapp.server;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,15 +10,15 @@ import com.schibsted.webapp.server.controller.TestController;
 import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.handler.HttpHandlerTestCallbak;
 import com.schibsted.webapp.server.handler.WebContextHandlerTestHook;
+import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak {
-
-	private static final Logger LOG = LogManager.getLogger(ServerHttpExchangeBaseTest.class);
+public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogger {
 
 	private static boolean serverStarted=false;
 	private static Server server;
@@ -32,12 +31,14 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak {
 	protected static ServerTestHelper serverTestHelper;
 	
 	protected HttpExchange httpExchange = null;
+	protected CookieHelper cookieHelper=new CookieHelper();
+	protected ParameterHelper parameterHelper=new ParameterHelper();
 	
 	static {
 		try {
 			server=new Server();
 		} catch (ConfigurationException e) {
-			LOG.error("",e);
+			LogManager.getLogger(ServerHttpExchangeBaseTest.class).error("",e);
 			Assert.fail(e.getMessage());
 		}
 	}
@@ -47,12 +48,13 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak {
 			config=server.getConfig();
 			sessionHelper=new SessionHelper(config);
 			serverTestHelper=new ServerTestHelper(config);
-			httpExchangeHelper=new HttpExchangeHelper(new SessionHelper(config));
+			httpExchangeHelper=new HttpExchangeHelper(new SessionHelper(config), cookieHelper);
 			hook=new WebContextHandlerTestHook(config,httpExchangeHelper);
 			try {
-				serverStarted=server.startServer();
+				server.startServer();
+				serverStarted=true;
 			} catch (IOException e) {
-				LOG.error("",e);
+				logger().error("",e);
 				Assert.fail(e.getMessage());
 			}		
 			HttpContext ctx = server.registerHandler("/test", hook);

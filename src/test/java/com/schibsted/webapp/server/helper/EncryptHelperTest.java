@@ -1,10 +1,9 @@
 package com.schibsted.webapp.server.helper;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import com.schibsted.webapp.server.helper.EncryptHelper;
+
+import org.junit.*;
+import static org.junit.Assert.*;
 
 
 public class EncryptHelperTest {
