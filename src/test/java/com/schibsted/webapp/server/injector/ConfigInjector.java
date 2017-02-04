@@ -1,6 +1,5 @@
 package com.schibsted.webapp.server.injector;
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.Server;

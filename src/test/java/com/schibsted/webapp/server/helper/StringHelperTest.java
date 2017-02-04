@@ -1,7 +1,7 @@
 package com.schibsted.webapp.server.helper;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class StringHelperTest {
 

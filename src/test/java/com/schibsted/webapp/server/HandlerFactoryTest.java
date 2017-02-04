@@ -1,5 +1,7 @@
 package com.schibsted.webapp.server;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import com.schibsted.webapp.server.handler.HandlerFactory;
@@ -10,8 +12,6 @@ import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.injector.ConfigInjector;
-import org.junit.*;
-import static org.junit.Assert.*;
 
 public class HandlerFactoryTest extends ConfigInjector {
 	

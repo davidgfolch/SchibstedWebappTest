@@ -1,9 +1,12 @@
 package com.schibsted.webapp.server;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.injector.ConfigInjector;
-import org.junit.*;
-import static org.junit.Assert.*;
 
 public class ConfigTest extends ConfigInjector {
 	

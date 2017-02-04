@@ -1,13 +1,14 @@
 package com.schibsted.webapp.server;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import org.apache.http.HttpStatus;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 import com.schibsted.webapp.controller.web.LoginController;
-import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.model.Parameter;
 
 public class AppTest extends ServerHttpExchangeBaseTest {

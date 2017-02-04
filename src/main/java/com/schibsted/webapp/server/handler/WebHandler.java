@@ -2,9 +2,6 @@ package com.schibsted.webapp.server.handler;
 
 import java.io.IOException;
 
-
-import org.apache.logging.log4j.Logger;
-
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;

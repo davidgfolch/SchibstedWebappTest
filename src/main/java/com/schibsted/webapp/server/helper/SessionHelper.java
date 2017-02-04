@@ -3,9 +3,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-
-import org.apache.logging.log4j.Logger;
-
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.model.Session;

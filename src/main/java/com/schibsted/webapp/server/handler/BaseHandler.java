@@ -6,8 +6,6 @@ import java.io.PrintStream;
 
 import org.apache.http.HttpStatus;
 
-import org.apache.logging.log4j.Logger;
-
 import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

@@ -1,11 +1,15 @@
 package com.schibsted.webapp.server.helper.httpExchange;
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
-import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.model.Parameter;
 
 public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {

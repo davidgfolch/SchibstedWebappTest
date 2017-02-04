@@ -1,8 +1,6 @@
 package com.schibsted.webapp.controller.web;
 
 
-import org.apache.logging.log4j.Logger;
-
 import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextPath;

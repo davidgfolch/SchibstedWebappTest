@@ -1,11 +1,14 @@
 package com.schibsted.webapp.server.helper;
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import com.schibsted.webapp.persistence.InMemory;
-import com.schibsted.webapp.server.helper.UserHelper;
 import com.schibsted.webapp.server.model.Role;
 import com.schibsted.webapp.server.model.User;
 

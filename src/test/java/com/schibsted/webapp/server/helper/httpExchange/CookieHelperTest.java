@@ -1,7 +1,8 @@
 package com.schibsted.webapp.server.helper.httpExchange;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
-import com.schibsted.webapp.server.helper.CookieHelper;
 
 
 public class CookieHelperTest extends ServerHttpExchangeBaseTest {
