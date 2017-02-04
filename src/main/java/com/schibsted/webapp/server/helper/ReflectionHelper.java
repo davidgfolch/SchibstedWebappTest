@@ -11,9 +11,7 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction") 
 public class ReflectionHelper {
 
-	private ReflectionHelper(){}
-
-	public static boolean hasDefaultConstructor(Class<?> claz) {
+	public boolean hasDefaultConstructor(Class<?> claz) {
 		try {
 			return claz.getConstructor() != null;
 		} catch (NoSuchMethodException | SecurityException e) {
@@ -21,19 +19,19 @@ public class ReflectionHelper {
 		}
 	}
 
-	public static boolean isControllerCandidate(Class<?> claz) {
+	public boolean isControllerCandidate(Class<?> claz) {
 		return !claz.isInterface() && //
 				hasDefaultConstructor(claz) && //
 				!Modifier.isAbstract(claz.getModifiers());
 	}
 
-	public static String getAuthenticationRoles(HttpExchange ex) {
+	public String getAuthenticationRoles(HttpExchange ex) {
 		IMVCController ctrl=(IMVCController) ex.getAttribute(Config.CONTROLLER);
 		Authenticated authAnnon=ctrl.getClass().getAnnotation(Authenticated.class);
 		return authAnnon==null?null:authAnnon.role();
 	}
 
-	public static String getContextPath(Class<?> claz) {
+	public String getContextPath(Class<?> claz) {
 		ContextPath path = claz.getAnnotation(ContextPath.class);
 		if (path == null)
 			path = claz.getAnnotatedSuperclass().getAnnotation(ContextPath.class);

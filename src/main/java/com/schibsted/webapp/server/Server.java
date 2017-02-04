@@ -41,13 +41,19 @@ public class Server implements ILogger {
 
 	private HttpServer serverInstance;
 
+	private final ReflectionHelper reflectionHelper= new ReflectionHelper();
 	private final ParamsFilter paramsFilter = new ParamsFilter();
-	private AuthFilter authFilter;
+	private final AuthFilter authFilter;
+	private final HttpExchangeHelper exchangeHelper;
+	private final HttpExchangeHelper httpExchangeHelper;
+	
 
 	public Server() throws ConfigurationException {
 		config = Config.getConfig(Server.class);
 		sessionHelper = new SessionHelper(config);
-		HttpExchangeHelper exchangeHelper = new HttpExchangeHelper(sessionHelper, cookieHelper);
+		exchangeHelper = new HttpExchangeHelper(sessionHelper, cookieHelper);
+		httpExchangeHelper=new HttpExchangeHelper(sessionHelper, cookieHelper);
+		authFilter = new AuthFilter(httpExchangeHelper,reflectionHelper,parameterHelper,config.get(LOGIN_PATH));
 		this.handlerFactory=new HandlerFactory(config, exchangeHelper);
 	}
 
@@ -59,8 +65,6 @@ public class Server implements ILogger {
 			logger().error("Cannot start server...", e);
 			throw e;
 		}
-		HttpExchangeHelper httpExchangeHelper=new HttpExchangeHelper(sessionHelper, cookieHelper);
-		authFilter = new AuthFilter(httpExchangeHelper,parameterHelper, config.get(LOGIN_PATH));
 		// see https://code.google.com/archive/p/reflections/
 		Reflections reflections = new Reflections("com.schibsted.webapp.controller");
 		Set<Class<?>> webControllersClaz = reflections.getTypesAnnotatedWith(ContextHandler.class);
@@ -70,7 +74,7 @@ public class Server implements ILogger {
 
 	private void addWebController(Class<?> claz) {
 		try {
-			if (!ReflectionHelper.isControllerCandidate(claz))
+			if (!reflectionHelper.isControllerCandidate(claz))
 				return;
 			logger().debug("Adding controller: {}", claz.getName());
 			IController obj = (IController) claz.newInstance();
@@ -82,7 +86,7 @@ public class Server implements ILogger {
 	}
 
 	private void setWebHandlers(IController ctrl) {
-		String contextPath = ReflectionHelper.getContextPath(ctrl.getClass());
+		String contextPath = reflectionHelper.getContextPath(ctrl.getClass());
 		String handler = config.get("contextHandler." + contextPath, WebHandler.class.getSimpleName());
 		HttpContext ctx = registerHandler(contextPath, handlerFactory.get(handler));
 		setHandlerController(ctx, ctrl);

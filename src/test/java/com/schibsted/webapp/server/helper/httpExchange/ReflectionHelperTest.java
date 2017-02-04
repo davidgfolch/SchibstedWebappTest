@@ -10,6 +10,8 @@ import com.schibsted.webapp.server.helper.ReflectionHelper;
 
 public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 
+	private ReflectionHelper reflectionHelper=new ReflectionHelper();
+
 	@Before
 	public void before() {
 		hook.setListener(this);
@@ -22,23 +24,23 @@ public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 	
 	@Test
 	public void getAuthenticationRoles() {
-		String res=ReflectionHelper.getAuthenticationRoles(httpExchange);
+		String res=reflectionHelper.getAuthenticationRoles(httpExchange);
 		assertTrue(res==null);
 	}
 
 	@Test
 	public void getContextPath() {
-		assertTrue("/test".equals(ReflectionHelper.getContextPath(TestController.class)));
+		assertTrue("/test".equals(reflectionHelper.getContextPath(TestController.class)));
 	}
 
 	@Test
 	public void hasDefaultConstructor() {
-		assertTrue(ReflectionHelper.hasDefaultConstructor(TestController.class));
+		assertTrue(reflectionHelper.hasDefaultConstructor(TestController.class));
 	}
 
 	@Test
 	public void isControllerCandidate() {
-		assertTrue(ReflectionHelper.isControllerCandidate(TestController.class));
+		assertTrue(reflectionHelper.isControllerCandidate(TestController.class));
 	}
 
 }

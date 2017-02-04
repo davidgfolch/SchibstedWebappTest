@@ -19,10 +19,12 @@ public class AuthFilter extends Filter implements ILogger {
 	private final ParameterHelper parameterHelper;
 	private final HttpExchangeHelper httpExchangeHelper;
 	private final String loginPath;
+	private final ReflectionHelper reflectionHelper;
 
-	public AuthFilter(HttpExchangeHelper httpExchangeHelper, ParameterHelper parameterHelper, String loginPath) {
+	public AuthFilter(HttpExchangeHelper httpExchangeHelper, ReflectionHelper reflectionHelper, ParameterHelper parameterHelper, String loginPath) {
 		this.loginPath = loginPath;
 		this.httpExchangeHelper=httpExchangeHelper;
+		this.reflectionHelper=reflectionHelper;
 		this.parameterHelper=parameterHelper;
 	}
 
@@ -56,7 +58,7 @@ public class AuthFilter extends Filter implements ILogger {
 	}
 
 	private boolean permissionDenied(HttpExchange ex) {
-		String roleRequiredInController = ReflectionHelper.getAuthenticationRoles(ex);
+		String roleRequiredInController = reflectionHelper.getAuthenticationRoles(ex);
 		User user = httpExchangeHelper.getSession(ex).getLoggedUser();
 		return !UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
 	}
