@@ -25,7 +25,7 @@ public class CookieHelper implements ILogger {
 	 * @param cookieName
 	 * @return
 	 */
-	public String getCookie(HttpExchange ex, String cookieName) {
+	public synchronized String getCookie(HttpExchange ex, String cookieName) {
 		List<String> cookieHeaders = ex.getResponseHeaders().get(RES_HEADER_COOKIE);
 		String res = getCookie(cookieHeaders, cookieName);
 		if (res != null)
@@ -41,7 +41,7 @@ public class CookieHelper implements ILogger {
 	 * @param cookieName
 	 * @return
 	 */
-	public String getCookie(List<String> cookieHeaders, String cookieName) {
+	public synchronized String getCookie(List<String> cookieHeaders, String cookieName) {
 		if (cookieHeaders == null)
 			return null;
 		for (String c : cookieHeaders) {
