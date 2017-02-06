@@ -28,7 +28,7 @@ public class CookieHelper implements ILogger {
 	 * @param cookieName
 	 * @return
 	 */
-	public synchronized String getCookie(HttpExchange ex, String cookieName) {
+	public String getCookie(HttpExchange ex, String cookieName) {
 		List<String> cookieHeaders = ex.getResponseHeaders().get(RES_HEADER_COOKIE);
 			Optional<String> res = getCookie(cookieHeaders, cookieName);
 			if (res.isPresent())
@@ -44,7 +44,7 @@ public class CookieHelper implements ILogger {
 	 * @param cookieName
 	 * @return
 	 */
-	public synchronized Optional<String> getCookie(List<String> cookieHeaders, final String cookieName) {
+	public Optional<String> getCookie(List<String> cookieHeaders, final String cookieName) {
 		if (cookieHeaders != null) {
 			return cookieHeaders.stream(). //
 					map(c -> parse(c, cookieName)). //
@@ -93,7 +93,7 @@ public class CookieHelper implements ILogger {
 		setCookie(ex, cookie, value, true, null);
 	}
 
-	public synchronized void setCookie(HttpExchange ex, String cookie, String value, Boolean httpOnly, Long expires) {
+	public void setCookie(HttpExchange ex, String cookie, String value, Boolean httpOnly, Long expires) {
 		String cookieValue = cookie + "=" + value + COOKIE_SEPARATOR + " version=1";
 		if (expires != null) {
 			cookieValue += COOKIE_SEPARATOR + " expires=" + formatExpiresDate(expires);

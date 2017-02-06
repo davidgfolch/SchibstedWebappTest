@@ -19,7 +19,7 @@ public class InMemory {
 
 	private InMemory() {}
 	
-	public static synchronized List<User> getUsers() {
+	public static List<User> getUsers() {
 		return users;
 	}
 

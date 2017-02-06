@@ -32,11 +32,11 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 		templateRenderer = new JTwigTemplateRenderer(config);
 	}
 
-	public synchronized String getView(URI uri, ViewModel model) {
+	public String getView(URI uri, ViewModel model) {
 		return templateRenderer.render(uri, model);
 	}
 
-	public synchronized ViewModel execute(HttpExchange ex) {
+	public ViewModel execute(HttpExchange ex) {
 		IController ctrl = getController(ex);
 		IMVCController mvcCtrl = getMVCController(ex);
 		ctrl.doLogic();
