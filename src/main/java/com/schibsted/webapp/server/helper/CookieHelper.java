@@ -1,9 +1,12 @@
 package com.schibsted.webapp.server.helper;
+
 import java.net.HttpCookie;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.TimeZone;
 
 import com.schibsted.webapp.server.ILogger;
@@ -27,11 +30,11 @@ public class CookieHelper implements ILogger {
 	 */
 	public synchronized String getCookie(HttpExchange ex, String cookieName) {
 		List<String> cookieHeaders = ex.getResponseHeaders().get(RES_HEADER_COOKIE);
-		String res = getCookie(cookieHeaders, cookieName);
-		if (res != null)
-			return res;
-		cookieHeaders = ex.getRequestHeaders().get(REQ_HEADER_COOKIE);
-		return getCookie(cookieHeaders, cookieName);
+			Optional<String> res = getCookie(cookieHeaders, cookieName);
+			if (res.isPresent())
+				return res.get();
+			cookieHeaders = ex.getRequestHeaders().get(REQ_HEADER_COOKIE);
+			return getCookie(cookieHeaders, cookieName).orElse(null);
 	}
 
 	/**
@@ -41,15 +44,18 @@ public class CookieHelper implements ILogger {
 	 * @param cookieName
 	 * @return
 	 */
-	public synchronized String getCookie(List<String> cookieHeaders, String cookieName) {
-		if (cookieHeaders == null)
-			return null;
-		for (String c : cookieHeaders) {
-			String res = parse(c, cookieName);
-			if (res != null)
-				return res;
+	public synchronized Optional<String> getCookie(List<String> cookieHeaders, final String cookieName) {
+		if (cookieHeaders != null) {
+			return cookieHeaders.stream(). //
+					map(c -> parse(c, cookieName)). //
+					filter(Objects::nonNull).findFirst();
+			// for (String c : cookieHeaders) {
+			// final String res = parse(c, cookieName);
+			// if (res != null)
+			// return res;
+			// }
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	/**
@@ -64,8 +70,8 @@ public class CookieHelper implements ILogger {
 			return null;
 		for (String c2 : c.split(COOKIE_SEPARATOR)) {
 			String cs = c2.trim();
-			logger().debug("Parsing cookie: {}",cs);
-			List<HttpCookie> lstHttpCookie = HttpCookie.parse(cs);
+			logger().debug("Parsing cookie: {}", cs);
+			final List<HttpCookie> lstHttpCookie = HttpCookie.parse(cs);
 			for (HttpCookie cookie : lstHttpCookie) {
 				logger().trace(cookie);
 				if (cookieName.equalsIgnoreCase(cookie.getName()))
@@ -96,8 +102,8 @@ public class CookieHelper implements ILogger {
 			cookieValue += COOKIE_SEPARATOR + " HttpOnly=1";
 		ex.getResponseHeaders().add(RES_HEADER_COOKIE, cookieValue);
 	}
-	
-	public synchronized String formatExpiresDate(Long expires) {
+
+	public String formatExpiresDate(Long expires) {
 		SimpleDateFormat sdfExpires = new SimpleDateFormat(COOKIE_DATE_FORMAT, Locale.US);
 		sdfExpires.setTimeZone(TimeZone.getTimeZone("GMT"));
 		return sdfExpires.format(new Date(expires));

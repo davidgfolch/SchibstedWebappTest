@@ -1,8 +1,6 @@
 package com.schibsted.webapp.server.helper.httpExchange;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +31,10 @@ public class CookieHelperTest extends ServerHttpExchangeBaseTest {
 		assertNotNull(cookieHelper.getCookie(httpExchange, sessionHelper.getCookieName()));
 		//From List
 		//assertNotNull(cookieHelper.getCookie(cookieHeaders, cookieName)
-		assertNull(cookieHelper.getCookie(new ArrayList<String>(), NON_EXISTENT_COOKIE));
-		assertNull(cookieHelper.getCookie((List<String>)null, NON_EXISTENT_COOKIE));
+		assertFalse(cookieHelper.getCookie(new ArrayList<String>(), NON_EXISTENT_COOKIE).isPresent());
+		assertFalse(cookieHelper.getCookie((List<String>)null, NON_EXISTENT_COOKIE).isPresent());
 	}
+	
 	@Test
 	public void setCookie() {
 		String CV = "valueTest";
