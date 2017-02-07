@@ -30,7 +30,7 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogg
 	protected static HttpExchangeHelper httpExchangeHelper;
 	protected static SessionHelper sessionHelper;
 	protected static ServerTestHelper serverTestHelper;
-	protected HttpServerHelper httpServerHelper;
+	protected static HttpServerHelper httpServerHelper;
 	
 	
 	protected HttpExchange httpExchange = null;

@@ -30,11 +30,11 @@ public class CookieHelper implements ILogger {
 	 */
 	public String getCookie(HttpExchange ex, String cookieName) {
 		List<String> cookieHeaders = ex.getResponseHeaders().get(RES_HEADER_COOKIE);
-			Optional<String> res = getCookie(cookieHeaders, cookieName);
-			if (res.isPresent())
-				return res.get();
-			cookieHeaders = ex.getRequestHeaders().get(REQ_HEADER_COOKIE);
-			return getCookie(cookieHeaders, cookieName).orElse(null);
+		Optional<String> res = getCookie(cookieHeaders, cookieName);
+		if (res.isPresent())
+			return res.get();
+		cookieHeaders = ex.getRequestHeaders().get(REQ_HEADER_COOKIE);
+		return getCookie(cookieHeaders, cookieName).orElse(null);
 	}
 
 	/**

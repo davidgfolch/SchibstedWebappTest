@@ -30,7 +30,7 @@ public class ParamsFilter extends Filter {
 	}
 
 	private void parseGetParams(HttpExchange ex) {
-		Optional.of(ex.getRequestURI().getRawQuery()) //
+		Optional.ofNullable(ex.getRequestURI().getRawQuery()) //
 			.ifPresent(queryStr->
 				URLEncodedUtils.parse(queryStr, Charset.defaultCharset())
 				.forEach(x -> getParams(ex).put(x.getName(), x.getValue()))
