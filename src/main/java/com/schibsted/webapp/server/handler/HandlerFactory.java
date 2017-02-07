@@ -2,6 +2,7 @@ package com.schibsted.webapp.server.handler;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.sun.net.httpserver.HttpHandler;
 
 /**
@@ -13,10 +14,12 @@ public class HandlerFactory {
 	
 	private final Config config;
 	private final HttpExchangeHelper exchangeHelper;
+	private final HttpServerHelper httpServerHelper;
 	
-	public HandlerFactory(Config config, HttpExchangeHelper exchangeHelper) {
+	public HandlerFactory(Config config, HttpExchangeHelper exchangeHelper, HttpServerHelper httpServerHelper) {
 		this.config=config;
 		this.exchangeHelper=exchangeHelper;
+		this.httpServerHelper=httpServerHelper;
 	}
 
 	public enum CONTEXT_HANDLER {
@@ -30,7 +33,7 @@ public class HandlerFactory {
 			return new RestHandler();
 		case WEB_HANDLER:
 		default:
-			return new WebHandler(config, exchangeHelper);
+			return new WebHandler(config, exchangeHelper, httpServerHelper);
 		}
 	}
 

@@ -12,6 +12,7 @@ import com.schibsted.webapp.server.handler.HttpHandlerTestCallbak;
 import com.schibsted.webapp.server.handler.WebContextHandlerTestHook;
 import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.sun.net.httpserver.HttpContext;
@@ -29,6 +30,8 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogg
 	protected static HttpExchangeHelper httpExchangeHelper;
 	protected static SessionHelper sessionHelper;
 	protected static ServerTestHelper serverTestHelper;
+	protected HttpServerHelper httpServerHelper;
+	
 	
 	protected HttpExchange httpExchange = null;
 	protected CookieHelper cookieHelper=new CookieHelper();
@@ -46,9 +49,10 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogg
 	public ServerHttpExchangeBaseTest() {
 		if (!serverStarted) {
 			config=server.getConfig();
-			sessionHelper=new SessionHelper(config);
+			sessionHelper=new SessionHelper(config); //TODO: GET FROM server OBJECT
 			serverTestHelper=new ServerTestHelper(config);
 			httpExchangeHelper=new HttpExchangeHelper(new SessionHelper(config), cookieHelper);
+			httpServerHelper=new HttpServerHelper();
 			hook=new WebContextHandlerTestHook(config,httpExchangeHelper);
 			try {
 				server.startServer();

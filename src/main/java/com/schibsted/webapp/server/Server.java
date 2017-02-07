@@ -17,6 +17,7 @@ import com.schibsted.webapp.server.handler.MVCHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
@@ -37,7 +38,8 @@ public class Server implements ILogger {
 	private final Config config;
 	private final SessionHelper sessionHelper;
 	private final ParameterHelper parameterHelper=new ParameterHelper();
-	private final CookieHelper cookieHelper = new CookieHelper();	
+	private final CookieHelper cookieHelper = new CookieHelper();
+	private final HttpServerHelper httpServerHelper=new HttpServerHelper();
 
 	private HttpServer serverInstance;
 
@@ -53,8 +55,8 @@ public class Server implements ILogger {
 		sessionHelper = new SessionHelper(config);
 		exchangeHelper = new HttpExchangeHelper(sessionHelper, cookieHelper);
 		httpExchangeHelper=new HttpExchangeHelper(sessionHelper, cookieHelper);
-		authFilter = new AuthFilter(httpExchangeHelper,reflectionHelper,parameterHelper,config.get(LOGIN_PATH));
-		this.handlerFactory=new HandlerFactory(config, exchangeHelper);
+		authFilter = new AuthFilter(httpExchangeHelper,reflectionHelper,parameterHelper,httpServerHelper,config.get(LOGIN_PATH));
+		this.handlerFactory=new HandlerFactory(config, exchangeHelper, httpServerHelper);
 	}
 
 	public void startServer() throws IOException {

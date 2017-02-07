@@ -24,7 +24,7 @@ public class SessionHelper implements ILogger {
 		cookieName = config.get(SESSION_COOKIE_NAME);
 	}
 
-	public Session getSession(String sessionUUID) {
+	public synchronized Session getSession(String sessionUUID) {
 		Session session = sessions.get(sessionUUID);
 		if (session == null)
 			session = newSession();
@@ -52,7 +52,7 @@ public class SessionHelper implements ILogger {
 		return timedOut;
 	}
 	
-	public void invalidateSession(Session session) {
+	public synchronized void invalidateSession(Session session) {
 		sessions.remove(session.getUuid());
 	}
 

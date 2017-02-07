@@ -10,6 +10,7 @@ import com.schibsted.webapp.server.handler.RestHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.injector.ConfigInjector;
 
@@ -20,7 +21,7 @@ public class HandlerFactoryTest extends ConfigInjector {
 	
 	public HandlerFactoryTest() {
 		httpExchangeHelper=new HttpExchangeHelper(new SessionHelper(config), new CookieHelper());
-		this.handlerFactory=new HandlerFactory(config, httpExchangeHelper);
+		this.handlerFactory=new HandlerFactory(config, httpExchangeHelper, new HttpServerHelper());
 	}
 
 	@Test

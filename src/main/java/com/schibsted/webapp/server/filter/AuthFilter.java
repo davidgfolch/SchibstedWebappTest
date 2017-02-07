@@ -20,12 +20,14 @@ public class AuthFilter extends Filter implements ILogger {
 	private final HttpExchangeHelper httpExchangeHelper;
 	private final String loginPath;
 	private final ReflectionHelper reflectionHelper;
+	private final HttpServerHelper httpServerHelper;
 
-	public AuthFilter(HttpExchangeHelper httpExchangeHelper, ReflectionHelper reflectionHelper, ParameterHelper parameterHelper, String loginPath) {
+	public AuthFilter(HttpExchangeHelper httpExchangeHelper, ReflectionHelper reflectionHelper, ParameterHelper parameterHelper, HttpServerHelper httpServerHelper, String loginPath) {
 		this.loginPath = loginPath;
 		this.httpExchangeHelper=httpExchangeHelper;
 		this.reflectionHelper=reflectionHelper;
 		this.parameterHelper=parameterHelper;
+		this.httpServerHelper=httpServerHelper;
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class AuthFilter extends Filter implements ILogger {
 		if (mustDoLogin(ex)) {
 			String finalPath = parameterHelper.setUriParameter(loginPath, "redirect", ex.getHttpContext().getPath());
 			logger().debug("Redirecting to login: {}", finalPath);
-			HttpServerHelper.redirect(ex, finalPath);
+			httpServerHelper.redirect(ex, finalPath);
 			return;
 		}
 		boolean permissionDenied=permissionDenied(ex);
@@ -41,7 +43,7 @@ public class AuthFilter extends Filter implements ILogger {
 			Session s=httpExchangeHelper.getSession(ex);
 			logger().debug("Permission denied for user {} in path {}", s.getLoggedUser().getName(),ex.getHttpContext().getPath());
 			s.put("permDenied", permissionDenied);
-			HttpServerHelper.permissionDenied(ex);
+			httpServerHelper.permissionDenied(ex);
 			return;
 		}
 		chain.doFilter(ex);

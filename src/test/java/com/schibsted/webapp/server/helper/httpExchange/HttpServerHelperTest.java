@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
-import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.model.Parameter;
 
 public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
@@ -34,7 +33,7 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 	@Test
 	public void permissionDenied() {
 		try {
-			HttpServerHelper.permissionDenied(httpExchange);
+			httpServerHelper.permissionDenied(httpExchange);
 		} catch (IOException e) {
 			assertTrue(e.getMessage().equals("headers already sent"));
 		}
@@ -43,17 +42,17 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void notRedirect() {
-		assertFalse(HttpServerHelper.isRedirect(httpExchange));
+		assertFalse(httpServerHelper.isRedirect(httpExchange));
 	}
 
 	@Test
 	public void redirect() {
 		try {
-			HttpServerHelper.redirect(httpExchange, "/page1");
+			httpServerHelper.redirect(httpExchange, "/page1");
 		} catch (IOException e) {
 			assertTrue(e.getMessage().equals("headers already sent"));
 		}
-		// assertTrue(HttpServerHelper.isRedirect(httpExchange)); for page1 not
+		// assertTrue(httpServerHelper.isRedirect(httpExchange)); for page1 not
 		// running testController hook don't work
 	}
 

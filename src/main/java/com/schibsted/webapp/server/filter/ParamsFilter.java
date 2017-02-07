@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -29,11 +30,11 @@ public class ParamsFilter extends Filter {
 	}
 
 	private void parseGetParams(HttpExchange ex) {
-		String query = ex.getRequestURI().getRawQuery();
-		if (query == null)
-			return;
-		URLEncodedUtils.parse(query, Charset.defaultCharset())
-				.forEach(x -> getParams(ex).put(x.getName(), x.getValue()));
+		Optional.of(ex.getRequestURI().getRawQuery()) //
+			.ifPresent(queryStr->
+				URLEncodedUtils.parse(queryStr, Charset.defaultCharset())
+				.forEach(x -> getParams(ex).put(x.getName(), x.getValue()))
+			);
 	}
 
 	private void parsePostParams(HttpExchange ex) throws IOException {

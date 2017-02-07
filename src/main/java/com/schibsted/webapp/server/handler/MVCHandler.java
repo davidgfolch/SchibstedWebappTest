@@ -24,11 +24,13 @@ import com.sun.net.httpserver.HttpExchange;
 public abstract class MVCHandler extends BaseHandler implements ILogger {
 
 	private final HttpExchangeHelper exchangeHelper;
+	private final HttpServerHelper httpServerHelper;
 	private final ITemplateRenderer templateRenderer;
 	private static List<Object> webControllers = new ArrayList<>();
 
-	public MVCHandler(Config config, HttpExchangeHelper exchangeHelper) {
+	public MVCHandler(Config config, HttpExchangeHelper exchangeHelper, HttpServerHelper httpServerHelper) {
 		this.exchangeHelper = exchangeHelper;
+		this.httpServerHelper = httpServerHelper;
 		templateRenderer = new JTwigTemplateRenderer(config);
 	}
 
@@ -77,7 +79,7 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 		if (mvcCtrl.getRedirect() == null)
 			return;
 		try {
-			HttpServerHelper.redirect(ex, mvcCtrl.getRedirect());
+			httpServerHelper.redirect(ex, mvcCtrl.getRedirect());
 			mvcCtrl.sendRedirect(null);
 		} catch (IOException e) {
 			logger().error("Cannot redirect", e);

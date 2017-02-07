@@ -6,11 +6,11 @@ import java.util.List;
 import com.schibsted.webapp.server.helper.EncryptHelper;
 import com.schibsted.webapp.server.model.User;
 
-public class InMemory {
+public final class InMemory {
 	
 	public static final String ROLE_ADMIN = "ADMIN";
 
-	private static final List<User> users = Arrays.asList(new User[] {
+	private static final List<User> USERS = Arrays.asList(new User[] {
 			new User("admin", EncryptHelper.encript("admin"), ROLE_ADMIN),
 			new User("user1", EncryptHelper.encript("user1"), "PAGE_1"),
 			new User("user2", EncryptHelper.encript("user2"), "PAGE_3"),
@@ -20,7 +20,7 @@ public class InMemory {
 	private InMemory() {}
 	
 	public static List<User> getUsers() {
-		return users;
+		return USERS;
 	}
 
 }

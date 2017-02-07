@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
+import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.sun.net.httpserver.HttpExchange;
 
 //@Authenticated(role="ADMIN")
@@ -13,7 +14,7 @@ public class WebContextHandlerTestHook extends WebHandler {
 	private HttpHandlerTestCallbak listener=null;
 
 	public WebContextHandlerTestHook(Config config, HttpExchangeHelper httpExchangeHelper) {
-		super(config,httpExchangeHelper);
+		super(config,httpExchangeHelper,new HttpServerHelper());
 	}
 
 	public void setListener(HttpHandlerTestCallbak listener) {
