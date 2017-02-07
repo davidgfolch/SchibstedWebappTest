@@ -13,7 +13,7 @@ public class MyBasicAuthenticator extends BasicAuthenticator {
 
 	@Override
 	public boolean checkCredentials(String username, String password) {
-		return UserHelper.checkCreadentials(InMemory.getUsers(),username,password)!=null;
+		return UserHelper.checkCreadentials(InMemory.getUsers(), username, password) != null;
 	}
 
 }

@@ -4,14 +4,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import com.schibsted.webapp.server.exception.ConfigurationException;
 
+@Named
+@Singleton
 public class Config implements ILogger {
 
 	public static final String CONTROLLER = "controller";
 	private static final String PROPERTIES_EXT = ".properties";
-	
+
 	private final Properties props = new Properties();
+
+	public Config() throws ConfigurationException {
+		super();
+		load(Server.class);
+	}
 
 	private Config(Class<?> claz) throws ConfigurationException {
 		super();
@@ -34,8 +44,8 @@ public class Config implements ILogger {
 		logger().info("Loading config {}", file);
 		try {
 			in = getClass().getClassLoader().getResourceAsStream(file);
-			if (in==null)
-				throw new ConfigurationException("Resource not found in class loader: "+file);
+			if (in == null)
+				throw new ConfigurationException("Resource not found in class loader: " + file);
 			props.load(in);
 			in.close();
 		} catch (IOException e) {

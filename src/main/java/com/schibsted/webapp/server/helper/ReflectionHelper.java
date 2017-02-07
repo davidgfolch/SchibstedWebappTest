@@ -2,13 +2,18 @@ package com.schibsted.webapp.server.helper;
 
 import java.lang.reflect.Modifier;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextPath;
 import com.sun.net.httpserver.HttpExchange;
 
-@SuppressWarnings("restriction") 
+@Named
+@Singleton
+@SuppressWarnings("restriction")
 public class ReflectionHelper {
 
 	public boolean hasDefaultConstructor(Class<?> claz) {
@@ -26,9 +31,9 @@ public class ReflectionHelper {
 	}
 
 	public String getAuthenticationRoles(HttpExchange ex) {
-		IMVCController ctrl=(IMVCController) ex.getAttribute(Config.CONTROLLER);
-		Authenticated authAnnon=ctrl.getClass().getAnnotation(Authenticated.class);
-		return authAnnon==null?null:authAnnon.role();
+		IMVCController ctrl = (IMVCController) ex.getAttribute(Config.CONTROLLER);
+		Authenticated authAnnon = ctrl.getClass().getAnnotation(Authenticated.class);
+		return authAnnon == null ? null : authAnnon.role();
 	}
 
 	public String getContextPath(Class<?> claz) {

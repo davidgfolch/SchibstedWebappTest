@@ -10,18 +10,19 @@ import com.schibsted.webapp.server.model.ViewModel;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class WebHandler extends MVCHandler implements ILogger{
+public class WebHandler extends MVCHandler implements ILogger {
 
 	private final HttpServerHelper httpServerHelper;
 
 	public WebHandler(Config config, HttpExchangeHelper exchangeHelper, HttpServerHelper httpServerHelper) {
 		super(config, exchangeHelper, httpServerHelper);
-		this.httpServerHelper=httpServerHelper;
+		this.httpServerHelper = httpServerHelper;
 	}
 
 	@Override
 	public void doHandle(HttpExchange ex) throws IOException {
-		logger().debug(ex.getRequestMethod() + " " + ex.getProtocol() + " " + ex.getLocalAddress() + ex.getRequestURI());
+		logger().debug(
+				ex.getRequestMethod() + " " + ex.getProtocol() + " " + ex.getLocalAddress() + ex.getRequestURI());
 		ViewModel model = execute(ex);
 		setRedirect(httpServerHelper.isRedirect(ex));
 		if (!isRedirect()) {

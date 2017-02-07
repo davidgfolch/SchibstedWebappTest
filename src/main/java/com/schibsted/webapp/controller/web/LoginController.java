@@ -1,6 +1,5 @@
 package com.schibsted.webapp.controller.web;
 
-
 import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.annotation.ContextPath;
@@ -16,7 +15,7 @@ public class LoginController extends BaseController implements ILogger {
 	@Override
 	public void doLogic() {
 		logger().debug("Login controller method {}, params {}", getHttpMethod(), getParameters().size());
-		//Model in BaseController saves state between http calls
+		// Model in BaseController saves state between http calls
 		setMessage(null);
 		getLoggedUser();
 		if (isGet())
@@ -25,11 +24,11 @@ public class LoginController extends BaseController implements ILogger {
 	}
 
 	private void doPost() {
-		String userName=(String)getParameter("user.name");
-		String pass=(String)getParameter("user.password");
-		String redirect=(String)getParameter("redirect");
-		User user=UserHelper.checkCreadentials(InMemory.getUsers(),userName,pass);
-		if (user!=null) {
+		String userName = (String) getParameter("user.name");
+		String pass = (String) getParameter("user.password");
+		String redirect = (String) getParameter("redirect");
+		User user = UserHelper.checkCreadentials(InMemory.getUsers(), userName, pass);
+		if (user != null) {
 			getSession().setLoggedUser(user);
 			setMessage(MSG_LOGGED_IN_SUCCESSFULY);
 			if (StringHelper.isNotEmpty(redirect))
@@ -41,10 +40,10 @@ public class LoginController extends BaseController implements ILogger {
 	}
 
 	private void getLoggedUser() {
-		User loggedUser=getSession().getLoggedUser();
+		User loggedUser = getSession().getLoggedUser();
 		putInModel("user", loggedUser);
-		if (loggedUser!=null)
-			setMessage("You are logged as "+loggedUser.getName());
+		if (loggedUser != null)
+			setMessage("You are logged as " + loggedUser.getName());
 	}
-	
+
 }

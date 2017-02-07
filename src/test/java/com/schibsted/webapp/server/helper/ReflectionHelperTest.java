@@ -12,12 +12,12 @@ import com.schibsted.webapp.server.injector.ConfigInjector;
 
 public class ReflectionHelperTest extends ConfigInjector {
 
-	private ReflectionHelper reflectionHelper=new ReflectionHelper();
+	private ReflectionHelper reflectionHelper = new ReflectionHelper();
 
 	@Test
 	public void hasDefaultConstructor() {
 		assertTrue(reflectionHelper.hasDefaultConstructor(ReflectionHelperTest.class));
-		//assertFalse(reflectionHelper.hasDefaultConstructor(ReflectionHelper.class));
+		// assertFalse(reflectionHelper.hasDefaultConstructor(ReflectionHelper.class));
 	}
 
 	@Test

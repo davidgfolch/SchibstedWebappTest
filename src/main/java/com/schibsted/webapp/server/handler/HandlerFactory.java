@@ -1,5 +1,10 @@
 package com.schibsted.webapp.server.handler;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
@@ -7,20 +12,17 @@ import com.sun.net.httpserver.HttpHandler;
 
 /**
  * Context handler factory<br/>
+ * 
  * @author slks
  */
+@Named
+@Singleton
 @SuppressWarnings("restriction")
 public class HandlerFactory {
-	
-	private final Config config;
-	private final HttpExchangeHelper exchangeHelper;
-	private final HttpServerHelper httpServerHelper;
-	
-	public HandlerFactory(Config config, HttpExchangeHelper exchangeHelper, HttpServerHelper httpServerHelper) {
-		this.config=config;
-		this.exchangeHelper=exchangeHelper;
-		this.httpServerHelper=httpServerHelper;
-	}
+
+	private final Config config = inject(Config.class);
+	private final HttpExchangeHelper exchangeHelper = inject(HttpExchangeHelper.class);
+	private final HttpServerHelper httpServerHelper = inject(HttpServerHelper.class);
 
 	public enum CONTEXT_HANDLER {
 		WEB_HANDLER, //

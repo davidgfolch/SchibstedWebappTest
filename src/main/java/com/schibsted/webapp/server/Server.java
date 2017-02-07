@@ -1,5 +1,7 @@
 package com.schibsted.webapp.server;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -9,16 +11,11 @@ import org.reflections.Reflections;
 
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.filter.AuthFilter;
 import com.schibsted.webapp.server.filter.ParamsFilter;
 import com.schibsted.webapp.server.handler.HandlerFactory;
 import com.schibsted.webapp.server.handler.MVCHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
-import com.schibsted.webapp.server.helper.CookieHelper;
-import com.schibsted.webapp.server.helper.HttpExchangeHelper;
-import com.schibsted.webapp.server.helper.HttpServerHelper;
-import com.schibsted.webapp.server.helper.ParameterHelper;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.injector.IConfigInjector;
@@ -34,30 +31,15 @@ public class Server implements ILogger {
 	public static final String LOGIN_PATH = "login.path";
 	private static final String PORT = "port";
 
-	private final HandlerFactory handlerFactory;
-	private final Config config;
-	private final SessionHelper sessionHelper;
-	private final ParameterHelper parameterHelper=new ParameterHelper();
-	private final CookieHelper cookieHelper = new CookieHelper();
-	private final HttpServerHelper httpServerHelper=new HttpServerHelper();
+	private final Config config = inject(Config.class);
+	private final HandlerFactory handlerFactory = inject(HandlerFactory.class);
+	private final SessionHelper sessionHelper = inject(SessionHelper.class);
+	private final ReflectionHelper reflectionHelper = inject(ReflectionHelper.class);
+
+	private final ParamsFilter paramsFilter = inject(ParamsFilter.class);
+	private final AuthFilter authFilter = inject(AuthFilter.class);
 
 	private HttpServer serverInstance;
-
-	private final ReflectionHelper reflectionHelper= new ReflectionHelper();
-	private final ParamsFilter paramsFilter = new ParamsFilter();
-	private final AuthFilter authFilter;
-	private final HttpExchangeHelper exchangeHelper;
-	private final HttpExchangeHelper httpExchangeHelper;
-	
-
-	public Server() throws ConfigurationException {
-		config = Config.getConfig(Server.class);
-		sessionHelper = new SessionHelper(config);
-		exchangeHelper = new HttpExchangeHelper(sessionHelper, cookieHelper);
-		httpExchangeHelper=new HttpExchangeHelper(sessionHelper, cookieHelper);
-		authFilter = new AuthFilter(httpExchangeHelper,reflectionHelper,parameterHelper,httpServerHelper,config.get(LOGIN_PATH));
-		this.handlerFactory=new HandlerFactory(config, exchangeHelper, httpServerHelper);
-	}
 
 	public void startServer() throws IOException {
 		try {
@@ -104,9 +86,9 @@ public class Server implements ILogger {
 	public void setHandlerController(HttpContext ctx, IController ctrl) {
 		ctx.getAttributes().put(Config.CONTROLLER, ctrl);
 		if (ctrl instanceof ISessionHelperInjector)
-			((ISessionHelperInjector)ctrl).injectSessionHelper(sessionHelper);
+			((ISessionHelperInjector) ctrl).injectSessionHelper(sessionHelper);
 		if (ctrl instanceof IConfigInjector)
-			((IConfigInjector)ctrl).injectConfig(config);
+			((IConfigInjector) ctrl).injectConfig(config);
 		setHandlerFilters(ctx, ctrl);
 	}
 
@@ -116,8 +98,8 @@ public class Server implements ILogger {
 		return ctx;
 	}
 
-	 public Config getConfig() {
-		 return config;
-	 }
+	public final Config getConfig() {
+		return config;
+	}
 
 }

@@ -6,8 +6,7 @@ import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class RestHandler extends BaseHandler implements ILogger{
-
+public class RestHandler extends BaseHandler implements ILogger {
 
 	@Override
 	public void doHandle(HttpExchange ex) throws IOException {

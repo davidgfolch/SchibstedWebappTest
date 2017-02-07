@@ -1,4 +1,5 @@
 package com.schibsted.webapp.server.handler;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

@@ -9,9 +9,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 
+@Named
+@Singleton
 @SuppressWarnings("restriction")
 public class CookieHelper implements ILogger {
 

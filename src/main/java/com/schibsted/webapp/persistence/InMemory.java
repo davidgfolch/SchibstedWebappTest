@@ -7,18 +7,18 @@ import com.schibsted.webapp.server.helper.EncryptHelper;
 import com.schibsted.webapp.server.model.User;
 
 public final class InMemory {
-	
+
 	public static final String ROLE_ADMIN = "ADMIN";
 
-	private static final List<User> USERS = Arrays.asList(new User[] {
-			new User("admin", EncryptHelper.encript("admin"), ROLE_ADMIN),
-			new User("user1", EncryptHelper.encript("user1"), "PAGE_1"),
-			new User("user2", EncryptHelper.encript("user2"), "PAGE_3"),
-			new User("user3", EncryptHelper.encript("user3"), "PAGE_4")
-	});
+	private static final List<User> USERS = Arrays
+			.asList(new User[] { new User("admin", EncryptHelper.encript("admin"), ROLE_ADMIN),
+					new User("user1", EncryptHelper.encript("user1"), "PAGE_1"),
+					new User("user2", EncryptHelper.encript("user2"), "PAGE_3"),
+					new User("user3", EncryptHelper.encript("user3"), "PAGE_4") });
 
-	private InMemory() {}
-	
+	private InMemory() {
+	}
+
 	public static List<User> getUsers() {
 		return USERS;
 	}

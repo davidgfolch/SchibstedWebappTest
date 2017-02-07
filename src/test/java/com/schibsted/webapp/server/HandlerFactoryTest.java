@@ -1,5 +1,6 @@
 package com.schibsted.webapp.server;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -8,21 +9,11 @@ import com.schibsted.webapp.server.handler.HandlerFactory;
 import com.schibsted.webapp.server.handler.HandlerFactory.CONTEXT_HANDLER;
 import com.schibsted.webapp.server.handler.RestHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
-import com.schibsted.webapp.server.helper.CookieHelper;
-import com.schibsted.webapp.server.helper.HttpExchangeHelper;
-import com.schibsted.webapp.server.helper.HttpServerHelper;
-import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.injector.ConfigInjector;
 
 public class HandlerFactoryTest extends ConfigInjector {
-	
-	private final HandlerFactory handlerFactory;
-	private final HttpExchangeHelper httpExchangeHelper;
-	
-	public HandlerFactoryTest() {
-		httpExchangeHelper=new HttpExchangeHelper(new SessionHelper(config), new CookieHelper());
-		this.handlerFactory=new HandlerFactory(config, httpExchangeHelper, new HttpServerHelper());
-	}
+
+	private final HandlerFactory handlerFactory = inject(HandlerFactory.class);
 
 	@Test
 	public void getByEnumType() {
@@ -35,8 +26,8 @@ public class HandlerFactoryTest extends ConfigInjector {
 		assertTrue(handlerFactory.get(WebHandler.class.getSimpleName()) instanceof WebHandler);
 		assertTrue(handlerFactory.get(RestHandler.class.getSimpleName()) instanceof RestHandler);
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void getByStringException() {
 		handlerFactory.get("InexistentHandler");
 	}

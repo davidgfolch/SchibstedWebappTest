@@ -1,8 +1,16 @@
 package com.schibsted.webapp.server.filter;
+
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.io.IOException;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import com.schibsted.webapp.persistence.InMemory;
+import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.ILogger;
+import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
@@ -13,22 +21,17 @@ import com.schibsted.webapp.server.model.User;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 
+@Named
+@Singleton
 @SuppressWarnings("restriction")
 public class AuthFilter extends Filter implements ILogger {
-	
-	private final ParameterHelper parameterHelper;
-	private final HttpExchangeHelper httpExchangeHelper;
-	private final String loginPath;
-	private final ReflectionHelper reflectionHelper;
-	private final HttpServerHelper httpServerHelper;
 
-	public AuthFilter(HttpExchangeHelper httpExchangeHelper, ReflectionHelper reflectionHelper, ParameterHelper parameterHelper, HttpServerHelper httpServerHelper, String loginPath) {
-		this.loginPath = loginPath;
-		this.httpExchangeHelper=httpExchangeHelper;
-		this.reflectionHelper=reflectionHelper;
-		this.parameterHelper=parameterHelper;
-		this.httpServerHelper=httpServerHelper;
-	}
+	private final Config config = inject(Config.class);
+	private final String loginPath = config.get(Server.LOGIN_PATH);
+	private final ParameterHelper parameterHelper = inject(ParameterHelper.class);
+	private final HttpExchangeHelper httpExchangeHelper = inject(HttpExchangeHelper.class);
+	private final ReflectionHelper reflectionHelper = inject(ReflectionHelper.class);
+	private final HttpServerHelper httpServerHelper = inject(HttpServerHelper.class);
 
 	@Override
 	public void doFilter(HttpExchange ex, Chain chain) throws IOException {
@@ -38,10 +41,11 @@ public class AuthFilter extends Filter implements ILogger {
 			httpServerHelper.redirect(ex, finalPath);
 			return;
 		}
-		boolean permissionDenied=permissionDenied(ex);
+		boolean permissionDenied = permissionDenied(ex);
 		if (permissionDenied) {
-			Session s=httpExchangeHelper.getSession(ex);
-			logger().debug("Permission denied for user {} in path {}", s.getLoggedUser().getName(),ex.getHttpContext().getPath());
+			Session s = httpExchangeHelper.getSession(ex);
+			logger().debug("Permission denied for user {} in path {}", s.getLoggedUser().getName(),
+					ex.getHttpContext().getPath());
 			s.put("permDenied", permissionDenied);
 			httpServerHelper.permissionDenied(ex);
 			return;

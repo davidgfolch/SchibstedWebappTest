@@ -5,10 +5,10 @@ import com.schibsted.webapp.server.ILogger;
 
 public class TestController2 extends BaseController implements ILogger {
 
-		@Override
-		public void doLogic() {
-			logger().debug("TestController2 method {}, params {}", getHttpMethod(), getParameters().size());
-			putInModel("user", getSession().getLoggedUser());
-		}
-
+	@Override
+	public void doLogic() {
+		logger().debug("TestController2 method {}, params {}", getHttpMethod(), getParameters().size());
+		putInModel("user", getSession().getLoggedUser());
 	}
+
+}

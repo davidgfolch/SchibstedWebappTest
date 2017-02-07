@@ -1,5 +1,7 @@
 package com.schibsted.webapp.server;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,12 +11,18 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.stream.Collectors;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+@Named
+@Singleton
 public class ServerTestHelper {
 
+	private final Config config = inject(Config.class);
 	private final String serverUrl;
 
-	public ServerTestHelper(Config config) {
-		serverUrl="http://localhost:" + config.get("port");
+	public ServerTestHelper() {
+		serverUrl = "http://localhost:" + config.get("port");
 	}
 
 	public URLConnection connect(String url) throws IOException {
@@ -75,18 +83,18 @@ public class ServerTestHelper {
 
 	public String getResponseBody(String url, String data, boolean followRedirects) throws IOException {
 		URLConnection con = connect(url, data, followRedirects);
-		con=redirect(con);
+		con = redirect(con);
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		return in.lines().collect(Collectors.joining("\n"));
 	}
 
 	private URLConnection redirect(URLConnection con) throws IOException {
-		URLConnection conRedirect=con; 
+		URLConnection conRedirect = con;
 		if (isRedirect((HttpURLConnection) con)) {
-			String newUrl = serverUrl+con.getHeaderField("Location");
+			String newUrl = serverUrl + con.getHeaderField("Location");
 			conRedirect = (HttpURLConnection) new URL(newUrl).openConnection();
 			conRedirect.setRequestProperty("Cookie", con.getHeaderField("Set-Cookie"));
-			conRedirect=redirect(conRedirect);
+			conRedirect = redirect(conRedirect);
 		}
 		return conRedirect;
 	}

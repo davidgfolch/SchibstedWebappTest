@@ -1,4 +1,5 @@
 package com.schibsted.webapp.server.helper;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -14,11 +15,11 @@ import com.schibsted.webapp.server.model.User;
 
 public class UserHelperTest {
 
-	private final List<User> users=InMemory.getUsers();
-	private final String testUserName="user1";
-	private final String testUserPwd="user1";
-	
-	private final String[] roles= new String[]{InMemory.ROLE_ADMIN,"PAGE_1"};
+	private final List<User> users = InMemory.getUsers();
+	private final String testUserName = "user1";
+	private final String testUserPwd = "user1";
+
+	private final String[] roles = new String[] { InMemory.ROLE_ADMIN, "PAGE_1" };
 
 	@Test
 	public void checkCreadentials() {
@@ -28,15 +29,12 @@ public class UserHelperTest {
 
 	@Test
 	public void createRoles() {
-		assertTrue(
-				UserHelper.createRoles(roles) //
+		assertTrue(UserHelper.createRoles(roles) //
 				.stream() //
-				.map(Role::getName)
-				.filter(a->roles[0].equals(a) || roles[1].equals(a))
-				.toArray()
-				.length==roles.length);
+				.map(Role::getName).filter(a -> roles[0].equals(a) || roles[1].equals(a))
+				.toArray().length == roles.length);
 	}
-	
+
 	@Test
 	public void hasUserRole() {
 		assertFalse(UserHelper.hasUserRole(null, "PAGE_1", InMemory.ROLE_ADMIN));

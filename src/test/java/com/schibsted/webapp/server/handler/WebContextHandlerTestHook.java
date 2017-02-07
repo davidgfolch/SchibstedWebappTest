@@ -10,15 +10,15 @@ import com.sun.net.httpserver.HttpExchange;
 //@Authenticated(role="ADMIN")
 @SuppressWarnings("restriction")
 public class WebContextHandlerTestHook extends WebHandler {
-	
-	private HttpHandlerTestCallbak listener=null;
+
+	private HttpHandlerTestCallbak listener = null;
 
 	public WebContextHandlerTestHook(Config config, HttpExchangeHelper httpExchangeHelper) {
-		super(config,httpExchangeHelper,new HttpServerHelper());
+		super(config, httpExchangeHelper, new HttpServerHelper());
 	}
 
 	public void setListener(HttpHandlerTestCallbak listener) {
-		this.listener=listener;
+		this.listener = listener;
 	}
 
 	@Override

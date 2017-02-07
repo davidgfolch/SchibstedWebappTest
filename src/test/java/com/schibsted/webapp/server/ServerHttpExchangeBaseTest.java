@@ -1,5 +1,7 @@
 package com.schibsted.webapp.server;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
@@ -7,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.controller.TestController;
-import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.handler.HttpHandlerTestCallbak;
 import com.schibsted.webapp.server.handler.WebContextHandlerTestHook;
 import com.schibsted.webapp.server.helper.CookieHelper;
@@ -21,46 +22,40 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction")
 public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogger {
 
-	private static boolean serverStarted=false;
+	private static boolean serverStarted = false;
 	private static Server server;
 
 	protected static WebContextHandlerTestHook hook;
 
-	protected static Config config;
-	protected static HttpExchangeHelper httpExchangeHelper;
-	protected static SessionHelper sessionHelper;
-	protected static ServerTestHelper serverTestHelper;
-	protected static HttpServerHelper httpServerHelper;
-	
-	
+	protected static Config config = inject(Config.class);
+	protected static HttpExchangeHelper httpExchangeHelper = inject(HttpExchangeHelper.class);
+	protected static SessionHelper sessionHelper = inject(SessionHelper.class);
+	protected static ServerTestHelper serverTestHelper = inject(ServerTestHelper.class);
+	protected static HttpServerHelper httpServerHelper = inject(HttpServerHelper.class);
+
 	protected HttpExchange httpExchange = null;
-	protected CookieHelper cookieHelper=new CookieHelper();
-	protected ParameterHelper parameterHelper=new ParameterHelper();
-	
+	protected CookieHelper cookieHelper = new CookieHelper();
+	protected ParameterHelper parameterHelper = new ParameterHelper();
+
 	static {
 		try {
-			server=new Server();
-		} catch (ConfigurationException e) {
-			LogManager.getLogger(ServerHttpExchangeBaseTest.class).error("",e);
+			server = new Server();
+		} catch (Exception e) {
+			LogManager.getLogger(ServerHttpExchangeBaseTest.class).error("", e);
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	public ServerHttpExchangeBaseTest() {
 		if (!serverStarted) {
-			config=server.getConfig();
-			sessionHelper=new SessionHelper(config); //TODO: GET FROM server OBJECT
-			serverTestHelper=new ServerTestHelper(config);
-			httpExchangeHelper=new HttpExchangeHelper(new SessionHelper(config), cookieHelper);
-			httpServerHelper=new HttpServerHelper();
-			hook=new WebContextHandlerTestHook(config,httpExchangeHelper);
+			hook = new WebContextHandlerTestHook(config, httpExchangeHelper);
 			try {
 				server.startServer();
-				serverStarted=true;
+				serverStarted = true;
 			} catch (IOException e) {
-				logger().error("",e);
+				logger().error("", e);
 				Assert.fail(e.getMessage());
-			}		
+			}
 			HttpContext ctx = server.registerHandler("/test", hook);
 			server.setHandlerController(ctx, new TestController());
 		}
@@ -74,7 +69,7 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogg
 	@Override
 	public void afterHandle(HttpExchange ex) {
 	}
-	
+
 	@Test
 	public void startServer() {
 		Assert.assertTrue(serverStarted);

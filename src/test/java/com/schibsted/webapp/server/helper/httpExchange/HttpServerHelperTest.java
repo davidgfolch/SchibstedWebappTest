@@ -1,4 +1,5 @@
 package com.schibsted.webapp.server.helper.httpExchange;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +15,7 @@ import com.schibsted.webapp.server.model.Parameter;
 public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 
 	private static final String PARAM_TO_ENCODE = "&enc";
-	
+
 	@Before
 	public void before() {
 		hook.setListener(this);
@@ -69,16 +70,17 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 		assertTrue(parameterHelper.setUriParameter("/prueba?" + param1, paramNewVal).contains(paramNewVal.toString()));
 
 		assertTrue(serverTestHelper.contains(
-				parameterHelper.setUriParameter("/prueba?" + param1 + "&" + param, paramNewVal),
-				paramNewVal.toString(), param1.toString()));
+				parameterHelper.setUriParameter("/prueba?" + param1 + "&" + param, paramNewVal), paramNewVal.toString(),
+				param1.toString()));
 
-		assertEquals("/prueba?"+param1+"&"+paramNewVal+"&"+param2, 
-				parameterHelper.setUriParameter("/prueba?"+param1+"&"+param+"&"+param2, paramNewVal));
+		assertEquals("/prueba?" + param1 + "&" + paramNewVal + "&" + param2,
+				parameterHelper.setUriParameter("/prueba?" + param1 + "&" + param + "&" + param2, paramNewVal));
 	}
 
 	@Test
 	public void setParameters() {
-		assertEquals("/prueba?"+param.toString()+"&"+param1.toString(),parameterHelper.setUriParameters("/prueba", param, param1));
+		assertEquals("/prueba?" + param.toString() + "&" + param1.toString(),
+				parameterHelper.setUriParameters("/prueba", param, param1));
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.schibsted.webapp.controller.web;
 
-
 import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.annotation.ContextPath;

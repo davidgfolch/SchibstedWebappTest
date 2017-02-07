@@ -1,4 +1,5 @@
 package com.schibsted.webapp.server.helper.httpExchange;
+
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -10,7 +11,7 @@ import com.schibsted.webapp.server.helper.ReflectionHelper;
 
 public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 
-	private ReflectionHelper reflectionHelper=new ReflectionHelper();
+	private ReflectionHelper reflectionHelper = new ReflectionHelper();
 
 	@Before
 	public void before() {
@@ -21,11 +22,11 @@ public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void getAuthenticationRoles() {
-		String res=reflectionHelper.getAuthenticationRoles(httpExchange);
-		assertTrue(res==null);
+		String res = reflectionHelper.getAuthenticationRoles(httpExchange);
+		assertTrue(res == null);
 	}
 
 	@Test

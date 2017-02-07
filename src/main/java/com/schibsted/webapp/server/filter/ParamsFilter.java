@@ -7,12 +7,17 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.http.client.utils.URLEncodedUtils;
 
 import com.schibsted.webapp.server.model.Parameters;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 
+@Named
+@Singleton
 @SuppressWarnings("restriction")
 public class ParamsFilter extends Filter {
 
@@ -31,10 +36,8 @@ public class ParamsFilter extends Filter {
 
 	private void parseGetParams(HttpExchange ex) {
 		Optional.ofNullable(ex.getRequestURI().getRawQuery()) //
-			.ifPresent(queryStr->
-				URLEncodedUtils.parse(queryStr, Charset.defaultCharset())
-				.forEach(x -> getParams(ex).put(x.getName(), x.getValue()))
-			);
+				.ifPresent(queryStr -> URLEncodedUtils.parse(queryStr, Charset.defaultCharset())
+						.forEach(x -> getParams(ex).put(x.getName(), x.getValue())));
 	}
 
 	private void parsePostParams(HttpExchange ex) throws IOException {
