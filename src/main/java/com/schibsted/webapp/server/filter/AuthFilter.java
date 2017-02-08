@@ -5,7 +5,6 @@ import static com.schibsted.webapp.di.DIFactory.inject;
 import java.io.IOException;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.Config;
@@ -23,7 +22,7 @@ import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 
 @Named
-@Singleton
+//@Singleton
 @SuppressWarnings("restriction")
 public class AuthFilter extends Filter implements ILogger {
 

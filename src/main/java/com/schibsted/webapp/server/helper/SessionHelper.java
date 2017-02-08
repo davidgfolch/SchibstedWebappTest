@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.schibsted.webapp.server.Config;
@@ -15,8 +14,6 @@ import com.schibsted.webapp.server.exception.ConfigurationException;
 import com.schibsted.webapp.server.model.Session;
 
 //todo: find & remove timedout sessions in an scheduled thread
-//todo: concurrent hashmap
-@Named
 @Singleton
 public class SessionHelper implements ILogger {
 

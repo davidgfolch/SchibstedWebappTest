@@ -7,7 +7,6 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -16,7 +15,6 @@ import com.schibsted.webapp.server.model.Parameters;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 
-@Named
 @Singleton
 @SuppressWarnings("restriction")
 public class ParamsFilter extends Filter {

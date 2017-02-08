@@ -1,7 +1,11 @@
 package com.schibsted.webapp.server.template;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.net.URI;
 import java.util.Map.Entry;
+
+import javax.inject.Named;
 
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -9,20 +13,12 @@ import org.jtwig.JtwigTemplate;
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.model.ViewModel;
 
+@Named
 public class JTwigTemplateRenderer implements ITemplateRenderer {
-
-	private String templateBasePath = "templates";
-	private String templateExtension = "html";
-
-	public JTwigTemplateRenderer(String basePath, String ext) {
-		this.templateBasePath = basePath;
-		this.templateExtension = ext;
-	}
-
-	public JTwigTemplateRenderer(Config config) {
-		this.templateBasePath = config.get("templates.folder");
-		this.templateExtension = config.get("templates.extension");
-	}
+	
+	private final Config config=inject(Config.class);
+	private final String templateBasePath = config.get("templates.folder");
+	private final String templateExtension = config.get("templates.extension");
 
 	@Override
 	public String render(URI uri, ViewModel model) {

@@ -4,7 +4,6 @@ import static com.schibsted.webapp.di.DIFactory.inject;
 
 import java.util.List;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.schibsted.webapp.server.Config;
@@ -20,7 +19,6 @@ import com.schibsted.webapp.server.handler.WebHandler;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpContext;
 
-@Named
 @Singleton
 @SuppressWarnings("restriction")
 public class ServerConfigHelper implements ILogger {

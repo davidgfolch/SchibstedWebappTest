@@ -2,7 +2,6 @@ package com.schibsted.webapp.server.helper;
 
 import static com.schibsted.webapp.di.DIFactory.inject;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.schibsted.webapp.server.Config;
@@ -10,7 +9,6 @@ import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.model.Session;
 import com.sun.net.httpserver.HttpExchange;
 
-@Named
 @Singleton
 @SuppressWarnings("restriction")
 public class HttpExchangeHelper {

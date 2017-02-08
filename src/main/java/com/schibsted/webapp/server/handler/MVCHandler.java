@@ -1,5 +1,7 @@
 package com.schibsted.webapp.server.handler;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -23,16 +25,10 @@ import com.sun.net.httpserver.HttpExchange;
 @SuppressWarnings("restriction")
 public abstract class MVCHandler extends BaseHandler implements ILogger {
 
-	private final HttpExchangeHelper exchangeHelper;
-	private final HttpServerHelper httpServerHelper;
-	private final ITemplateRenderer templateRenderer;
+	private final HttpExchangeHelper exchangeHelper=inject(HttpExchangeHelper.class);
+	private final HttpServerHelper httpServerHelper=inject(HttpServerHelper.class);
+	private final ITemplateRenderer templateRenderer=inject(JTwigTemplateRenderer.class);
 	private static List<Object> webControllers = new ArrayList<>();
-
-	public MVCHandler(Config config, HttpExchangeHelper exchangeHelper, HttpServerHelper httpServerHelper) {
-		this.exchangeHelper = exchangeHelper;
-		this.httpServerHelper = httpServerHelper;
-		templateRenderer = new JTwigTemplateRenderer(config);
-	}
 
 	public String getView(URI uri, ViewModel model) {
 		return templateRenderer.render(uri, model);

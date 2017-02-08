@@ -5,13 +5,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.model.Parameter;
 
-@Named
 @Singleton
 public class ParameterHelper implements ILogger {
 

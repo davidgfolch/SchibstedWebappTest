@@ -11,10 +11,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.stream.Collectors;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
-@Named
 @Singleton
 public class ServerTestHelper {
 

@@ -9,13 +9,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 
-@Named
 @Singleton
 @SuppressWarnings("restriction")
 public class CookieHelper implements ILogger {
@@ -54,11 +52,6 @@ public class CookieHelper implements ILogger {
 			return cookieHeaders.stream(). //
 					map(c -> parse(c, cookieName)). //
 					filter(Objects::nonNull).findFirst();
-			// for (String c : cookieHeaders) {
-			// final String res = parse(c, cookieName);
-			// if (res != null)
-			// return res;
-			// }
 		}
 		return Optional.empty();
 	}

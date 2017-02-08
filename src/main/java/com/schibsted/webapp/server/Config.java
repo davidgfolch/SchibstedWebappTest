@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.schibsted.webapp.server.exception.ConfigurationException;
 
-@Named
 @Singleton
 public class Config implements ILogger {
 

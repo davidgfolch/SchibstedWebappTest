@@ -2,9 +2,12 @@ package com.schibsted.webapp.server.handler;
 
 import java.io.IOException;
 
+import javax.inject.Named;
+
 import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
 
+@Named
 @SuppressWarnings("restriction")
 public class RestHandler extends BaseHandler implements ILogger {
 

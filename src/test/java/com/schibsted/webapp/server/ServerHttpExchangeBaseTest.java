@@ -48,7 +48,7 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogg
 
 	public ServerHttpExchangeBaseTest() {
 		if (!serverStarted) {
-			hook = new WebContextHandlerTestHook(config, httpExchangeHelper);
+			hook = new WebContextHandlerTestHook();
 			try {
 				server.startServer();
 				serverStarted = true;

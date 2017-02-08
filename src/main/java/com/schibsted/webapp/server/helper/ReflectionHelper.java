@@ -3,7 +3,6 @@ package com.schibsted.webapp.server.helper;
 import java.lang.reflect.Modifier;
 import java.util.Set;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.reflections.Reflections;
@@ -13,7 +12,6 @@ import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.annotation.ContextPath;
 
-@Named
 @Singleton
 public class ReflectionHelper {
 	

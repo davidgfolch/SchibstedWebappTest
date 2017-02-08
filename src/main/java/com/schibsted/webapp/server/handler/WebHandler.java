@@ -1,23 +1,21 @@
 package com.schibsted.webapp.server.handler;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import java.io.IOException;
 
-import com.schibsted.webapp.server.Config;
+import javax.inject.Named;
+
 import com.schibsted.webapp.server.ILogger;
-import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.model.ViewModel;
 import com.sun.net.httpserver.HttpExchange;
 
+@Named
 @SuppressWarnings("restriction")
 public class WebHandler extends MVCHandler implements ILogger {
 
-	private final HttpServerHelper httpServerHelper;
-
-	public WebHandler(Config config, HttpExchangeHelper exchangeHelper, HttpServerHelper httpServerHelper) {
-		super(config, exchangeHelper, httpServerHelper);
-		this.httpServerHelper = httpServerHelper;
-	}
+	private final HttpServerHelper httpServerHelper=inject(HttpServerHelper.class);
 
 	@Override
 	public void doHandle(HttpExchange ex) throws IOException {
