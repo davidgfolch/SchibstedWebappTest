@@ -1,17 +1,19 @@
 package com.schibsted.webapp.server.helper.httpExchange;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 import com.schibsted.webapp.server.controller.TestController;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 
 public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 
-	private ReflectionHelper reflectionHelper = new ReflectionHelper();
+	private ReflectionHelper reflectionHelper = inject(ReflectionHelper.class);
 
 	@Before
 	public void before() {
@@ -25,7 +27,8 @@ public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
 
 	@Test
 	public void getAuthenticationRoles() {
-		String res = reflectionHelper.getAuthenticationRoles(httpExchange);
+		IMVCController ctrl=httpExchangeHelper.getController(httpExchange);
+		String res = reflectionHelper.getAuthenticationRoles(ctrl);
 		assertTrue(res == null);
 	}
 

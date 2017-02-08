@@ -5,16 +5,28 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.Server;
 
+/**
+ * Entry point to execute server
+ * @author slks
+ */
 final class App {
 
+	/** 
+	 * Logger
+	 */
 	private static final Logger LOG = LogManager.getLogger(App.class);
 
 	private App() {
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * Entry execution point
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		// Tell java logger to use log4j logger
 		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
 		try {

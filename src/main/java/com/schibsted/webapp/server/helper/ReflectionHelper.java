@@ -1,20 +1,27 @@
 package com.schibsted.webapp.server.helper;
 
 import java.lang.reflect.Modifier;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import com.schibsted.webapp.server.Config;
+import org.reflections.Reflections;
+
 import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.annotation.Authenticated;
+import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.annotation.ContextPath;
-import com.sun.net.httpserver.HttpExchange;
 
 @Named
 @Singleton
-@SuppressWarnings("restriction")
 public class ReflectionHelper {
+	
+	public Set<Class<?>> getContextHandlers() {
+		// see https://code.google.com/archive/p/reflections/
+		Reflections reflections = new Reflections("com.schibsted.webapp.controller");
+		return reflections.getTypesAnnotatedWith(ContextHandler.class);
+	}
 
 	public boolean hasDefaultConstructor(Class<?> claz) {
 		try {
@@ -30,8 +37,7 @@ public class ReflectionHelper {
 				!Modifier.isAbstract(claz.getModifiers());
 	}
 
-	public String getAuthenticationRoles(HttpExchange ex) {
-		IMVCController ctrl = (IMVCController) ex.getAttribute(Config.CONTROLLER);
+	public String getAuthenticationRoles(IMVCController ctrl) {
 		Authenticated authAnnon = ctrl.getClass().getAnnotation(Authenticated.class);
 		return authAnnon == null ? null : authAnnon.role();
 	}

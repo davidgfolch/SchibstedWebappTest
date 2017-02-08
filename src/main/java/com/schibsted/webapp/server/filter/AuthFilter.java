@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import com.schibsted.webapp.persistence.InMemory;
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.ILogger;
+import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
@@ -64,7 +65,8 @@ public class AuthFilter extends Filter implements ILogger {
 	}
 
 	private boolean permissionDenied(HttpExchange ex) {
-		String roleRequiredInController = reflectionHelper.getAuthenticationRoles(ex);
+		IMVCController ctrl=httpExchangeHelper.getController(ex);
+		String roleRequiredInController = reflectionHelper.getAuthenticationRoles(ctrl);
 		User user = httpExchangeHelper.getSession(ex).getLoggedUser();
 		return !UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
 	}

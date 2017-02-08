@@ -1,5 +1,7 @@
 package com.schibsted.webapp.controller.web;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import org.apache.http.HttpStatus;
 
 import com.schibsted.webapp.server.Config;
@@ -8,37 +10,25 @@ import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.SessionHelper;
-import com.schibsted.webapp.server.injector.IConfigInjector;
-import com.schibsted.webapp.server.injector.ISessionHelperInjector;
 import com.schibsted.webapp.server.model.Parameters;
 import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.ViewModel;
 
 @ContextHandler(value = "/", contextHandler = WebHandler.class)
-public abstract class BaseController implements IController, IMVCController, ISessionHelperInjector, IConfigInjector {
+public abstract class BaseController implements IController, IMVCController {
 
 	private static final String ERROR_MSG = "errorMsg";
 	private static final String MESSAGE_MSG = "messageMsg";
 	private static final String GET = "GET";
 
-	protected Config config;
-	private SessionHelper sessionHelper;
+	protected Config config=inject(Config.class);
+	private SessionHelper sessionHelper=inject(SessionHelper.class);
 	private final ViewModel model = new ViewModel();
 	private String httpMethod;
 	private Parameters parameters;
 	private Session session;
 	private String redirect;
 	private int statusCode = HttpStatus.SC_OK;
-
-	@Override
-	public void injectSessionHelper(SessionHelper sessionHelper) {
-		this.sessionHelper = sessionHelper;
-	}
-
-	@Override
-	public void injectConfig(Config config) {
-		this.config = config;
-	}
 
 	@Override
 	public String getHttpMethod() {

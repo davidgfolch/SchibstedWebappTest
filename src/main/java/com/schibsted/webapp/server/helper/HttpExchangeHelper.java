@@ -5,6 +5,8 @@ import static com.schibsted.webapp.di.DIFactory.inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.IMVCController;
 import com.schibsted.webapp.server.model.Session;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -26,6 +28,10 @@ public class HttpExchangeHelper {
 
 	public boolean isAuthenticated(HttpExchange ex) {
 		return getSession(ex).getLoggedUser() != null;
+	}
+
+	public IMVCController getController(HttpExchange ex) {
+		return (IMVCController) ex.getAttribute(Config.CONTROLLER);
 	}
 
 }
