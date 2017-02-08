@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.schibsted.webapp.server.model.Role;
 import com.schibsted.webapp.server.model.User;
 
-public class UserHelper {
+public final class UserHelper {
 
 	private UserHelper() {
 	}

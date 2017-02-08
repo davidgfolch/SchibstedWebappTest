@@ -20,26 +20,26 @@ import com.schibsted.webapp.server.model.Session;
 @Singleton
 public class SessionHelper implements ILogger {
 
-	public static final String SESSION_TIMEOUT_MS = "session.timeoutMs";
-	private static final String SESSION_COOKIE_NAME = "session.cookieName";
+	public static final String TIMEOUT_MS = "session.timeoutMs";
+	private static final String COOKIE_NAME = "session.cookieName";
 
 	private Config config = inject(Config.class);
 	private final long timeoutMs;
 	private final String cookieName;
 
-	private static final Map<String, Session> sessions = new HashMap<>();
+	private static final Map<String, Session> SESSIONS = new HashMap<>();
 
 	public SessionHelper() throws ConfigurationException {
-		timeoutMs = config.getInt(SESSION_TIMEOUT_MS);
-		cookieName = config.get(SESSION_COOKIE_NAME);
+		timeoutMs = config.getInt(TIMEOUT_MS);
+		cookieName = config.get(COOKIE_NAME);
 	}
 
 	public synchronized Session getSession(String sessionUUID) {
-		Session session = sessions.get(sessionUUID);
+		Session session = SESSIONS.get(sessionUUID);
 		if (session == null)
 			session = newSession();
 		else if (isSessionTimedOut(session)) {
-			sessions.remove(sessionUUID);
+			SESSIONS.remove(sessionUUID);
 			session = newSession();
 		}
 		return session;
@@ -49,7 +49,7 @@ public class SessionHelper implements ILogger {
 		String uuid = UUID.randomUUID().toString();
 		logger().debug("Creating new session: {}", uuid);
 		Session session = new Session(uuid, System.currentTimeMillis());
-		sessions.put(uuid, session);
+		SESSIONS.put(uuid, session);
 		return session;
 	}
 
@@ -57,13 +57,13 @@ public class SessionHelper implements ILogger {
 		boolean timedOut = session.getLastUsed() + timeoutMs < System.currentTimeMillis();
 		if (timedOut) {
 			logger().debug("Session timeout, removing: {}", session.getUuid());
-			sessions.remove(session.getUuid());
+			SESSIONS.remove(session.getUuid());
 		}
 		return timedOut;
 	}
 
 	public synchronized void invalidateSession(Session session) {
-		sessions.remove(session.getUuid());
+		SESSIONS.remove(session.getUuid());
 	}
 
 	public String getCookieName() {

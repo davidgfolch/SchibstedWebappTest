@@ -1,6 +1,6 @@
 package com.schibsted.webapp.server.helper;
 
-public class StringHelper {
+public final class StringHelper {
 
 	private StringHelper() {
 	}

@@ -7,19 +7,19 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
  * 
  * @author slks
  */
-public class EncryptHelper {
+public final class EncryptHelper {
 
-	private static final StrongPasswordEncryptor pwdEncryptor = new StrongPasswordEncryptor();
+	private static final StrongPasswordEncryptor PWD_ENCRIPTOR = new StrongPasswordEncryptor();
 
 	private EncryptHelper() {
 	}
 
 	public static boolean checkPassword(String inputPassword, String encryptedPassword) {
-		return pwdEncryptor.checkPassword(inputPassword, encryptedPassword);
+		return PWD_ENCRIPTOR.checkPassword(inputPassword, encryptedPassword);
 	}
 
 	public static String encript(String pwd) {
-		return pwdEncryptor.encryptPassword(pwd);
+		return PWD_ENCRIPTOR.encryptPassword(pwd);
 	}
 
 }

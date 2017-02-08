@@ -17,7 +17,7 @@ import org.reflections.Reflections;
  * 
  * @author slks
  */
-public class DIFactory {
+public final class DIFactory {
 
 	private static final Logger LOG = LogManager.getLogger(DIFactory.class);
 

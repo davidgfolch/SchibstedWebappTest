@@ -3,7 +3,9 @@ package com.schibsted.webapp.server.helper.httpExchange;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +16,17 @@ import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
 
 public class CookieHelperTest extends ServerHttpExchangeBaseTest {
 
-	private static final String NON_EXISTENT_COOKIE = "nonExistentCookieXXJDJFASDFKLAKJD";
+	private static final String INEXISTENT_COOKIE = "nonExistentCookieXXJDJFASDFKLAKJD";
 
 	@Before
 	public void before() {
 		hook.setListener(this);
-		try {
-			serverTestHelper.getResponseCode("/test");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			try {
+				serverTestHelper.getResponseCode("/test");
+			} catch (IOException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			}
 	}
 
 	@Test
@@ -32,24 +35,24 @@ public class CookieHelperTest extends ServerHttpExchangeBaseTest {
 		assertNotNull(cookieHelper.getCookie(httpExchange, sessionHelper.getCookieName()));
 		// From List
 		// assertNotNull(cookieHelper.getCookie(cookieHeaders, cookieName)
-		assertFalse(cookieHelper.getCookie(new ArrayList<String>(), NON_EXISTENT_COOKIE).isPresent());
-		assertFalse(cookieHelper.getCookie((List<String>) null, NON_EXISTENT_COOKIE).isPresent());
+		assertFalse(cookieHelper.getCookie(new ArrayList<String>(), INEXISTENT_COOKIE).isPresent());
+		assertFalse(cookieHelper.getCookie((List<String>) null, INEXISTENT_COOKIE).isPresent());
 	}
 
 	@Test
 	public void setCookie() {
-		String CV = "valueTest";
-		String C = "cookieTest";
-		cookieHelper.setCookie(httpExchange, C, CV);
-		assertEquals(CV, cookieHelper.getCookie(httpExchange, C));
-		cookieHelper.setCookie(httpExchange, C, CV, true, null);
-		assertEquals(CV, cookieHelper.getCookie(httpExchange, C));
-		cookieHelper.setCookie(httpExchange, C, CV, true, 1000l);
-		assertEquals(CV, cookieHelper.getCookie(httpExchange, C));
-		cookieHelper.setCookie(httpExchange, C, CV, false, null);
-		assertEquals(CV, cookieHelper.getCookie(httpExchange, C));
-		cookieHelper.setCookie(httpExchange, C, CV, false, 1000l);
-		assertEquals(CV, cookieHelper.getCookie(httpExchange, C));
+		String cVal = "valueTest";
+		String cName = "cookieTest";
+		cookieHelper.setCookie(httpExchange, cName, cVal);
+		assertEquals(cVal, cookieHelper.getCookie(httpExchange, cName));
+		cookieHelper.setCookie(httpExchange, cName, cVal, true, null);
+		assertEquals(cVal, cookieHelper.getCookie(httpExchange, cName));
+		cookieHelper.setCookie(httpExchange, cName, cVal, true, 1000l);
+		assertEquals(cVal, cookieHelper.getCookie(httpExchange, cName));
+		cookieHelper.setCookie(httpExchange, cName, cVal, false, null);
+		assertEquals(cVal, cookieHelper.getCookie(httpExchange, cName));
+		cookieHelper.setCookie(httpExchange, cName, cVal, false, 1000l);
+		assertEquals(cVal, cookieHelper.getCookie(httpExchange, cName));
 	}
 
 }
