@@ -72,7 +72,7 @@ public final class DIFactory {
 			}
 			return service;
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.error("Could not get candidate for " + implClass.getName(), e);
+			LOG.fatal("Could not get candidate for " + implClass.getName(), e);
 		}
 		return null;
 	}
