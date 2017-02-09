@@ -1,14 +1,17 @@
 package com.schibsted.webapp.server;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.schibsted.webapp.server.base.BaseTest;
 import com.schibsted.webapp.server.exception.ConfigurationException;
-import com.schibsted.webapp.server.injector.ConfigInjector;
 
-public class ConfigTest extends ConfigInjector {
+public class ConfigTest extends BaseTest {
+	
+	private final Config config=inject(Config.class);
 
 	@Test
 	public void configDefaultVal() {
@@ -18,8 +21,8 @@ public class ConfigTest extends ConfigInjector {
 	@Test
 	public void configError() {
 		try {
-			Config.getConfig(ConfigTest.class); // non existent
-												// configTest.properites
+			//non existent configTest.properites
+			Config.getConfig(ConfigTest.class);
 			fail();
 		} catch (ConfigurationException e) {
 			assertTrue(true);

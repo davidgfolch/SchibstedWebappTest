@@ -5,7 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class EncryptHelperTest {
+import com.schibsted.webapp.server.base.BaseTest;
+
+public class EncryptHelperTest extends BaseTest {
 
 	@Test
 	public void test() {

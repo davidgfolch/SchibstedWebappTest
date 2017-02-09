@@ -7,11 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.IMVCController;
-import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.base.ServerBaseTest;
 import com.schibsted.webapp.server.controller.TestController;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 
-public class ReflectionHelperTest extends ServerHttpExchangeBaseTest {
+public class ReflectionHelperTest extends ServerBaseTest {
 
 	private ReflectionHelper reflectionHelper = inject(ReflectionHelper.class);
 

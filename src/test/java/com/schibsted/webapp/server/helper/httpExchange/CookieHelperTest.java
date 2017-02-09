@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.base.ServerBaseTest;
 
-public class CookieHelperTest extends ServerHttpExchangeBaseTest {
+public class CookieHelperTest extends ServerBaseTest {
 
 	private static final String INEXISTENT_COOKIE = "nonExistentCookieXXJDJFASDFKLAKJD";
 

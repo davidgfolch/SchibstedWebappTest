@@ -9,10 +9,10 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.base.ServerBaseTest;
 import com.schibsted.webapp.server.model.Parameter;
 
-public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
+public class HttpServerHelperTest extends ServerBaseTest {
 
 	private static final String PARAM_TO_ENCODE = "&enc";
 
@@ -38,7 +38,7 @@ public class HttpServerHelperTest extends ServerHttpExchangeBaseTest {
 		} catch (IOException e) {
 			assertTrue(e.getMessage().equals("headers already sent"));
 		}
-		// assertFalse(httpExchange.getResponseCode()==HttpStatus.SC_FORBIDDEN);
+		// assertFalse(httpExchange.getResponseCode()==HttpUrlConnection.XX_FORBIDDEN);
 	}
 
 	@Test

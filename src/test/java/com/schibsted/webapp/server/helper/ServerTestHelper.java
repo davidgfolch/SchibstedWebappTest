@@ -1,4 +1,4 @@
-package com.schibsted.webapp.server;
+package com.schibsted.webapp.server.helper;
 
 import static com.schibsted.webapp.di.DIFactory.inject;
 
@@ -13,8 +13,11 @@ import java.util.stream.Collectors;
 
 import javax.inject.Singleton;
 
+import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.base.BaseTest;
+
 @Singleton
-public class ServerTestHelper {
+public class ServerTestHelper extends BaseTest {
 
 	private final Config config = inject(Config.class);
 	private final String serverUrl;

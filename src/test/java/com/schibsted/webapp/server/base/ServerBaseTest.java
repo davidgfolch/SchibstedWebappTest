@@ -1,4 +1,4 @@
-package com.schibsted.webapp.server;
+package com.schibsted.webapp.server.base;
 
 import static com.schibsted.webapp.di.DIFactory.inject;
 
@@ -8,6 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.schibsted.webapp.server.Config;
+import com.schibsted.webapp.server.ILogger;
+import com.schibsted.webapp.server.Server;
 import com.schibsted.webapp.server.controller.TestController;
 import com.schibsted.webapp.server.handler.HttpHandlerTestCallbak;
 import com.schibsted.webapp.server.handler.WebContextHandlerTestHook;
@@ -15,12 +18,13 @@ import com.schibsted.webapp.server.helper.CookieHelper;
 import com.schibsted.webapp.server.helper.HttpExchangeHelper;
 import com.schibsted.webapp.server.helper.HttpServerHelper;
 import com.schibsted.webapp.server.helper.ParameterHelper;
+import com.schibsted.webapp.server.helper.ServerTestHelper;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
-public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogger {
+public class ServerBaseTest extends BaseTest implements HttpHandlerTestCallbak, ILogger {
 
 	private static boolean serverStarted = false;
 	private static Server server;
@@ -41,12 +45,12 @@ public class ServerHttpExchangeBaseTest implements HttpHandlerTestCallbak, ILogg
 		try {
 			server = new Server();
 		} catch (Exception e) {
-			LogManager.getLogger(ServerHttpExchangeBaseTest.class).error("", e);
+			LogManager.getLogger(ServerBaseTest.class).error("", e);
 			Assert.fail(e.getMessage());
 		}
 	}
 
-	public ServerHttpExchangeBaseTest() {
+	public ServerBaseTest() {
 		if (!serverStarted) {
 			hook = new WebContextHandlerTestHook();
 			try {

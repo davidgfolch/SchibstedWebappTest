@@ -4,8 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-
-import org.apache.http.HttpStatus;
+import java.net.HttpURLConnection;
 
 import com.schibsted.webapp.server.ILogger;
 import com.sun.net.httpserver.HttpExchange;
@@ -41,7 +40,7 @@ public abstract class BaseHandler implements HttpHandler, ILogger {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		t.printStackTrace(new PrintStream(bos));
 		try {
-			ex.sendResponseHeaders(HttpStatus.SC_INTERNAL_SERVER_ERROR, bos.size());
+			ex.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, bos.size());
 			os.write(bos.toByteArray());
 		} catch (IOException e) {
 			e.initCause(t);

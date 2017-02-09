@@ -16,7 +16,12 @@ final class App {
 	/** 
 	 * Logger
 	 */
-	private static final Logger LOG = LogManager.getLogger(App.class);
+	private static final Logger LOG;
+	static {
+		System.setProperty("java.util.logging.manager","org.apache.logging.log4j.jul.LogManager");
+		//LoggingConfiguration.inicialize();
+		LOG = LogManager.getLogger(App.class);
+	}
 
 	private App() {
 	}
@@ -27,7 +32,7 @@ final class App {
 	 */
 	public static void main(final String[] args) {
 		// Tell java logger to use log4j logger
-		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
+//		System.setProperty("java.util.logging.manager","org.apache.logging.log4j.jul.LogManager");
 		try {
 			new Server().startServer();
 		} catch (IOException e) {

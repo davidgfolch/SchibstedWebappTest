@@ -3,7 +3,9 @@ package com.schibsted.webapp.server.helper;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class StringHelperTest {
+import com.schibsted.webapp.server.base.BaseTest;
+
+public class StringHelperTest extends BaseTest {
 
 	@Test
 	public void isNotEmpty() {

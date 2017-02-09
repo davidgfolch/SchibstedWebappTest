@@ -2,7 +2,7 @@ package com.schibsted.webapp.controller.web;
 
 import static com.schibsted.webapp.di.DIFactory.inject;
 
-import org.apache.http.HttpStatus;
+import java.net.HttpURLConnection;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.IController;
@@ -28,7 +28,7 @@ public abstract class BaseController implements IController, IMVCController {
 	private Parameters parameters;
 	private Session session;
 	private String redirect;
-	private int statusCode = HttpStatus.SC_OK;
+	private int statusCode = HttpURLConnection.HTTP_OK;
 
 	@Override
 	public String getHttpMethod() {
@@ -73,7 +73,7 @@ public abstract class BaseController implements IController, IMVCController {
 	@Override
 	public void checkPermisionDenied() {
 		if ((Boolean) getSession().get("permDenied"))
-			setStatusCode(HttpStatus.SC_UNAUTHORIZED);
+			setStatusCode(HttpURLConnection.HTTP_UNAUTHORIZED);
 	}
 
 	@Override

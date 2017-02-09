@@ -5,13 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.schibsted.webapp.server.base.BaseTest;
 import com.schibsted.webapp.server.handler.HandlerFactory;
 import com.schibsted.webapp.server.handler.HandlerFactory.CONTEXT_HANDLER;
 import com.schibsted.webapp.server.handler.RestHandler;
 import com.schibsted.webapp.server.handler.WebHandler;
-import com.schibsted.webapp.server.injector.ConfigInjector;
 
-public class HandlerFactoryTest extends ConfigInjector {
+public class HandlerFactoryTest extends BaseTest {
 
 	private final HandlerFactory handlerFactory = inject(HandlerFactory.class);
 

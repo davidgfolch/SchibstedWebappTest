@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+	<!-- https://logging.apache.org/log4j/2.x/manual/layouts.html -->
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="#### %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+			<!-- <PatternLayout pattern="%highlight{%d{UNIX} %-5p [%c:%L] %m%n}{FATAL=white, ERROR=red, WARN=yellow, INFO=black, DEBUG=green, TRACE=blue}" /> -->
+			<PatternLayout pattern="%d{UNIX} %-5p [%c:%L] %m%n" />
 		</Console>
 	</Appenders>
 	<Loggers>
@@ -12,7 +14,7 @@
 		<Logger name="com.schibsted" level="TRACE" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
-		<Logger name="com.sun.net.httpserver" level="TRACE" additivity="false">
+		<Logger name="com.sun.net.httpserver" level="ALL" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
 	</Loggers>

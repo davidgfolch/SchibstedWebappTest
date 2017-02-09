@@ -1,12 +1,11 @@
 package com.schibsted.webapp.server.helper;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 import javax.inject.Singleton;
 
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpStatus;
-
+import com.google.common.net.HttpHeaders;
 import com.sun.net.httpserver.HttpExchange;
 
 @Singleton
@@ -15,17 +14,17 @@ public class HttpServerHelper {
 
 	public void redirect(HttpExchange ex, String path) throws IOException {
 		ex.getResponseHeaders().add(HttpHeaders.LOCATION, path);
-		ex.sendResponseHeaders(HttpStatus.SC_MOVED_TEMPORARILY, 0);
+		ex.sendResponseHeaders(HttpURLConnection.HTTP_MOVED_TEMP, 0);
 		ex.close();
 	}
 
 	public void permissionDenied(HttpExchange ex) throws IOException {
-		ex.sendResponseHeaders(HttpStatus.SC_FORBIDDEN, 0);
+		ex.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0);
 		ex.close();
 	}
 
 	public boolean isRedirect(HttpExchange ex) {
-		return ex.getResponseCode() == HttpStatus.SC_MOVED_TEMPORARILY;
+		return ex.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP;
 	}
 
 }

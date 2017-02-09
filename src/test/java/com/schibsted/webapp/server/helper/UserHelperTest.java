@@ -10,10 +10,11 @@ import java.util.List;
 import org.junit.Test;
 
 import com.schibsted.webapp.persistence.InMemory;
+import com.schibsted.webapp.server.base.BaseTest;
 import com.schibsted.webapp.server.model.Role;
 import com.schibsted.webapp.server.model.User;
 
-public class UserHelperTest {
+public class UserHelperTest extends BaseTest {
 
 	private final List<User> users = InMemory.getUsers();
 	private final String testUserName = "user1";

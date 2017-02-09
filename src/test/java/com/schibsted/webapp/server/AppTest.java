@@ -4,28 +4,29 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import com.schibsted.webapp.controller.web.LoginController;
+import com.schibsted.webapp.server.base.ServerBaseTest;
 import com.schibsted.webapp.server.model.Parameter;
 
-public class AppTest extends ServerHttpExchangeBaseTest {
+public class AppTest extends ServerBaseTest {
 
 	@Test
 	public void statusCode302() throws IOException {
-		assertTrue(HttpStatus.SC_MOVED_TEMPORARILY == serverTestHelper.getResponseCode("/page1"));
+		assertTrue(HttpURLConnection.HTTP_MOVED_TEMP == serverTestHelper.getResponseCode("/page1"));
 	}
 
 	@Test
 	public void statusCode404() throws IOException {
-		assertTrue(HttpStatus.SC_NOT_FOUND == serverTestHelper.getResponseCode("/page4"));
+		assertTrue(HttpURLConnection.HTTP_NOT_FOUND == serverTestHelper.getResponseCode("/page4"));
 	}
 
 	@Test
 	public void statusCode200() throws IOException {
-		assertTrue(HttpStatus.SC_OK == serverTestHelper.getResponseCode(config.get("login.path")));
+		assertTrue(HttpURLConnection.HTTP_OK == serverTestHelper.getResponseCode(config.get("login.path")));
 	}
 
 	@Test
@@ -66,7 +67,7 @@ public class AppTest extends ServerHttpExchangeBaseTest {
 	}
 
 	private boolean doLogout() throws IOException {
-		return serverTestHelper.getResponseCode("/logout") == HttpStatus.SC_MOVED_TEMPORARILY;
+		return serverTestHelper.getResponseCode("/logout") == HttpURLConnection.HTTP_MOVED_TEMP;
 	}
 
 	private String doLogin(String user, String pwd, String redirect) throws IOException {

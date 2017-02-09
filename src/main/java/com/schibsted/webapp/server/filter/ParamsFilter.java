@@ -3,21 +3,25 @@ package com.schibsted.webapp.server.filter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Singleton;
 
-import org.apache.http.client.utils.URLEncodedUtils;
-
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.model.Parameters;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 
 @Singleton
 @SuppressWarnings("restriction")
-public class ParamsFilter extends Filter {
+public class ParamsFilter extends Filter implements ILogger {
 
 	public static final String PARAMETERS = "parameters";
 	private static final String UTF_8 = "utf-8";
@@ -34,8 +38,7 @@ public class ParamsFilter extends Filter {
 
 	private void parseGetParams(HttpExchange ex) {
 		Optional.ofNullable(ex.getRequestURI().getRawQuery()) //
-				.ifPresent(queryStr -> URLEncodedUtils.parse(queryStr, Charset.defaultCharset())
-						.forEach(x -> getParams(ex).put(x.getName(), x.getValue())));
+				.ifPresent(queryStr -> parse(queryStr).forEach(x -> getParams(ex).put(x.getKey(), x.getValue())));
 	}
 
 	private void parsePostParams(HttpExchange ex) throws IOException {
@@ -43,9 +46,24 @@ public class ParamsFilter extends Filter {
 			InputStreamReader isr = new InputStreamReader(ex.getRequestBody(), UTF_8);
 			BufferedReader br = new BufferedReader(isr);
 			String query = br.lines().collect(Collectors.joining("\n"));
-			URLEncodedUtils.parse(query, Charset.defaultCharset())
-					.forEach(x -> getParams(ex).put(x.getName(), x.getValue()));
+			parse(query).forEach(x -> getParams(ex).put(x.getKey(), x.getValue()));
 		}
+	}
+
+	private List<SimpleEntry<String, String>> parse(String queryString) {
+		return Arrays.asList(queryString.split("&")).stream().map(s -> Arrays.copyOf(s.split("="), 2))
+				.map(o -> new SimpleEntry<String, String>(o[0], decode(o[1]))).collect(Collectors.toList());
+	}
+
+	private String decode(String string) {
+		if (string == null)
+			return "";
+		try {
+			return URLDecoder.decode(string, StandardCharsets.UTF_8.name());
+		} catch (UnsupportedEncodingException e) {
+			logger().fatal(e);
+		}
+		return null;
 	}
 
 	private Parameters getParams(HttpExchange ex) {

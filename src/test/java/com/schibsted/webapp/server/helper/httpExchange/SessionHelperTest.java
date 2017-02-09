@@ -9,10 +9,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.schibsted.webapp.server.ServerHttpExchangeBaseTest;
+import com.schibsted.webapp.server.base.ServerBaseTest;
 import com.schibsted.webapp.server.model.Session;
 
-public class SessionHelperTest extends ServerHttpExchangeBaseTest {
+public class SessionHelperTest extends ServerBaseTest {
 
 	public SessionHelperTest() {
 		super();
