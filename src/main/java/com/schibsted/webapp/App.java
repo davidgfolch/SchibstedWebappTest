@@ -18,8 +18,8 @@ final class App {
 	 */
 	private static final Logger LOG;
 	static {
+		// Tell java logger to use log4j logger
 		System.setProperty("java.util.logging.manager","org.apache.logging.log4j.jul.LogManager");
-		//LoggingConfiguration.inicialize();
 		LOG = LogManager.getLogger(App.class);
 	}
 
@@ -31,8 +31,6 @@ final class App {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		// Tell java logger to use log4j logger
-//		System.setProperty("java.util.logging.manager","org.apache.logging.log4j.jul.LogManager");
 		try {
 			new Server().startServer();
 		} catch (IOException e) {
