@@ -23,6 +23,12 @@
    </repositories>
 
    <dependencies>
+      <!-- https://mvnrepository.com/artifact/io.reactivex/rxjava -->
+      <dependency>
+         <groupId>io.reactivex</groupId>
+         <artifactId>rxjava</artifactId>
+         <version>1.2.2</version>
+      </dependency>
       <!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
       <dependency>
          <groupId>javax.inject</groupId>
