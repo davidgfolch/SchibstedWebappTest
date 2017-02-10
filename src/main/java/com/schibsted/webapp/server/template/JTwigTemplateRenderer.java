@@ -2,8 +2,8 @@ package com.schibsted.webapp.server.template;
 
 import static com.schibsted.webapp.di.DIFactory.inject;
 
+import java.io.OutputStream;
 import java.net.URI;
-import java.util.Map.Entry;
 
 import javax.inject.Named;
 
@@ -21,14 +21,26 @@ public class JTwigTemplateRenderer implements ITemplateRenderer {
 	private final String templateExtension = config.get("templates.extension");
 
 	@Override
+	public void render(OutputStream os, URI uri, ViewModel model) {
+		getTemplate(uri).render(getModel(model), os);
+	}
+
+	@Override
 	public String render(URI uri, ViewModel model) {
-		String templatePath = templateBasePath + uri.getPath() + templateExtension;
-		JtwigTemplate template = JtwigTemplate.classpathTemplate(templatePath);
+		return getTemplate(uri).render(getModel(model));
+	}
+
+	private JtwigModel getModel(ViewModel model) {
 		JtwigModel wigModel = JtwigModel.newModel();
-		for (Entry<String, Object> entry : model.entrySet()) {
-			wigModel.with(entry.getKey(), entry.getValue());
-		}
-		return template.render(wigModel);
+		model.entrySet().forEach(entry -> 
+			wigModel.with(entry.getKey(), entry.getValue())
+		);
+		return wigModel;
+	}
+
+	private JtwigTemplate getTemplate(URI uri) {
+		String templatePath = templateBasePath + uri.getPath() + templateExtension;
+		return JtwigTemplate.classpathTemplate(templatePath);
 	}
 
 }

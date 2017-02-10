@@ -3,6 +3,7 @@ package com.schibsted.webapp.server.handler;
 import static com.schibsted.webapp.di.DIFactory.inject;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,10 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 
 	public String getView(URI uri, ViewModel model) {
 		return templateRenderer.render(uri, model);
+	}
+
+	public void getView(OutputStream os, URI uri, ViewModel model) {
+		templateRenderer.render(os, uri, model);
 	}
 
 	public ViewModel execute(HttpExchange ex) {

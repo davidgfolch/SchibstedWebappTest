@@ -60,4 +60,10 @@ public abstract class BaseHandler implements HttpHandler, ILogger {
 		this.redirect = redirect;
 	}
 
+	public final OutputStream getOutputStream() {
+		return os;
+	}
+	
+	
+
 }
