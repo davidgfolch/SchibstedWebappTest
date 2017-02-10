@@ -1,12 +1,11 @@
 package com.schibsted.webapp.controller.web;
 
-import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.annotation.Authenticated;
 import com.schibsted.webapp.server.annotation.ContextPath;
 
 @ContextPath("/page1")
 @Authenticated(role = "PAGE_1")
-public class Page1Controller extends BaseController implements ILogger {
+public class Page1Controller extends BaseWebController {
 
 	@Override
 	public void doLogic() {

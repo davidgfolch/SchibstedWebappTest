@@ -5,9 +5,9 @@ import static com.schibsted.webapp.di.DIFactory.inject;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.handler.HandlerFactory;
 import com.schibsted.webapp.server.handler.MVCHandler;
-import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 import com.schibsted.webapp.server.helper.ServerConfigHelper;
 import com.sun.net.httpserver.HttpContext;
@@ -33,10 +33,10 @@ public class Server implements ILogger {
 		createInstance().subscribe(instance -> {
 			this.serverInstance = instance;
 			reflectionHelper.getContextHandlers().stream() //
-					.map(serverConfigHelper::addWebController) //
+					.map(serverConfigHelper::createControllerInstance) //
 					.forEach(observable -> observable.subscribe(obj -> {
 						setHandler(obj);
-						MVCHandler.getWebControllers().add(obj);
+						MVCHandler.getControllers().add(obj);
 					}));
 			serverInstance.start();
 		});
@@ -53,9 +53,9 @@ public class Server implements ILogger {
 	}
 
 	public void setHandler(IController ctrl) {
+		ContextHandler handlerAnnotation=reflectionHelper.getContextHandler(ctrl.getClass());
 		String contextPath = reflectionHelper.getContextPath(ctrl.getClass());
-		String handler = config.get("contextHandler." + contextPath, WebHandler.class.getSimpleName());
-		HttpContext ctx = registerHandler(contextPath, handlerFactory.get(handler));
+		HttpContext ctx = registerHandler(contextPath, handlerFactory.get(handlerAnnotation.contextHandler()));
 		setHandlerController(ctx, ctrl);
 	}
 

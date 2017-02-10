@@ -64,6 +64,12 @@ public abstract class BaseHandler implements HttpHandler, ILogger {
 		return os;
 	}
 	
-	
+	public void log(HttpExchange ex) {
+		if (logger().isDebugEnabled()) {
+			String str = ex.getRequestMethod() + " " + ex.getProtocol() + " " + ex.getLocalAddress()
+					+ ex.getRequestURI();
+			logger().debug(str);
+		}
+	}
 
 }

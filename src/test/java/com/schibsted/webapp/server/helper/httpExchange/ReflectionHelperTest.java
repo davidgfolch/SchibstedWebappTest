@@ -1,14 +1,17 @@
 package com.schibsted.webapp.server.helper.httpExchange;
 
 import static com.schibsted.webapp.di.DIFactory.inject;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.schibsted.webapp.server.IMVCController;
+import com.schibsted.webapp.server.annotation.ContextHandler;
 import com.schibsted.webapp.server.base.ServerBaseTest;
 import com.schibsted.webapp.server.controller.TestController;
+import com.schibsted.webapp.server.handler.HandlerFactory.CONTEXT_HANDLER;
 import com.schibsted.webapp.server.helper.ReflectionHelper;
 
 public class ReflectionHelperTest extends ServerBaseTest {
@@ -33,8 +36,14 @@ public class ReflectionHelperTest extends ServerBaseTest {
 	}
 
 	@Test
+	public void getContextHandler() {
+		ContextHandler ctxHandlerAnn=reflectionHelper.getContextHandler(TestController.class);
+		assertEquals(CONTEXT_HANDLER.WEB_HANDLER,ctxHandlerAnn.contextHandler());
+	}
+	@Test
 	public void getContextPath() {
-		assertTrue("/test".equals(reflectionHelper.getContextPath(TestController.class)));
+		String path=reflectionHelper.getContextPath(TestController.class);
+		assertEquals("/test",path);
 	}
 
 	@Test

@@ -3,19 +3,19 @@ package com.schibsted.webapp.controller.web;
 import static com.schibsted.webapp.di.DIFactory.inject;
 
 import java.net.HttpURLConnection;
+import java.net.URI;
 
 import com.schibsted.webapp.server.Config;
 import com.schibsted.webapp.server.IController;
+import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.IMVCController;
-import com.schibsted.webapp.server.annotation.ContextHandler;
-import com.schibsted.webapp.server.handler.WebHandler;
 import com.schibsted.webapp.server.helper.SessionHelper;
 import com.schibsted.webapp.server.model.Parameters;
 import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.ViewModel;
 
-@ContextHandler(value = "/", contextHandler = WebHandler.class)
-public abstract class BaseController implements IController, IMVCController {
+//@ContextHandler(value = "/", contextHandler = WebHandler.class)
+public abstract class BaseController implements IController, IMVCController, ILogger {
 
 	private static final String ERROR_MSG = "errorMsg";
 	private static final String MESSAGE_MSG = "messageMsg";
@@ -29,6 +29,8 @@ public abstract class BaseController implements IController, IMVCController {
 	private Session session;
 	private String redirect;
 	private int statusCode = HttpURLConnection.HTTP_OK;
+	private String path;
+	private URI requestURI;
 
 	@Override
 	public String getHttpMethod() {
@@ -120,6 +122,26 @@ public abstract class BaseController implements IController, IMVCController {
 	@Override
 	public String getRedirect() {
 		return redirect;
+	}
+
+	@Override
+	public void setPath(String path) {
+		this.path=path;
+	}
+
+	@Override
+	public String getPath() {
+		return path;
+	}
+
+	@Override
+	public void setRequestURI(URI requestURI) {
+		this.requestURI=requestURI;
+	}
+
+	@Override
+	public URI getRequestURI() {
+		return requestURI;
 	}
 
 }

@@ -1,14 +1,13 @@
 package com.schibsted.webapp.controller.web;
 
 import com.schibsted.webapp.persistence.InMemory;
-import com.schibsted.webapp.server.ILogger;
 import com.schibsted.webapp.server.annotation.ContextPath;
 import com.schibsted.webapp.server.helper.StringHelper;
 import com.schibsted.webapp.server.helper.UserHelper;
 import com.schibsted.webapp.server.model.User;
 
 @ContextPath("/login")
-public class LoginController extends BaseController implements ILogger {
+public class LoginController extends BaseWebController {
 
 	public static final String MSG_LOGGED_IN_SUCCESSFULY = "Logged in successfuly";
 

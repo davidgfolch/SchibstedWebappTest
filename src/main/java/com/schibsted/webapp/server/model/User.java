@@ -9,6 +9,10 @@ public class User {
 	List<Role> roles;
 	String name;
 	String password;
+	
+	public User() {
+		super();
+	}
 
 	public User(String name, String password, String... roles) {
 		this(UserHelper.createRoles(roles), name, password);

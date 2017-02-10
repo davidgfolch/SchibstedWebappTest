@@ -19,7 +19,6 @@ import com.schibsted.webapp.server.model.Parameters;
 import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.ViewModel;
 import com.schibsted.webapp.server.template.ITemplateRenderer;
-import com.schibsted.webapp.server.template.JTwigTemplateRenderer;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -28,14 +27,13 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 
 	private final HttpExchangeHelper exchangeHelper=inject(HttpExchangeHelper.class);
 	private final HttpServerHelper httpServerHelper=inject(HttpServerHelper.class);
-	private final ITemplateRenderer templateRenderer=inject(JTwigTemplateRenderer.class);
-	private static List<Object> webControllers = new ArrayList<>();
+	private static List<IController> controllers = new ArrayList<>();
 
-	public String getView(URI uri, ViewModel model) {
+	public String getView(URI uri, ViewModel model, ITemplateRenderer templateRenderer) throws IOException {
 		return templateRenderer.render(uri, model);
 	}
 
-	public void getView(OutputStream os, URI uri, ViewModel model) {
+	public void getView(OutputStream os, URI uri, ViewModel model, ITemplateRenderer templateRenderer) throws IOException {
 		templateRenderer.render(os, uri, model);
 	}
 
@@ -52,6 +50,8 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 		IController ctrl = (IController) ctx.getAttributes().get(Config.CONTROLLER);
 		ctrl.setHttpMethod(ex.getRequestMethod());
 		ctrl.setParameters((Parameters) ctx.getAttributes().get(ParamsFilter.PARAMETERS));
+		ctrl.setPath(ctx.getPath());
+		ctrl.setRequestURI(ex.getRequestURI());
 		return ctrl;
 	}
 
@@ -63,18 +63,31 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 		return mvcCtrl;
 	}
 
-	public static List<Object> getWebControllers() {
-		return MVCHandler.webControllers;
+	public static List<IController> getControllers() {
+		return MVCHandler.controllers;
 	}
 
-	public static void setWebControllers(List<Object> webControllers) {
-		MVCHandler.webControllers = webControllers;
+	public static void setControllers(List<IController> webControllers) {
+		MVCHandler.controllers = webControllers;
 	}
 
 	protected int getStatusCode(HttpExchange ex) {
 		IController ctrl = getController(ex);
 		return ctrl.getStatusCode();
 	}
+
+	protected void writeResponseString(HttpExchange ex, ViewModel model, ITemplateRenderer viewRenderer) throws IOException {
+		String res = getView(ex.getRequestURI(), model, viewRenderer);
+		ex.sendResponseHeaders(getStatusCode(ex), res.length());
+		writeResponseBody(res.getBytes());
+	}
+	
+	/*
+	protected void writeResponseOutputStream(HttpExchange ex, ViewModel model) throws IOException {
+		getView(getOutputStream(), ex.getRequestURI(), model);
+		ex.sendResponseHeaders(getStatusCode(ex), 0);
+	}*/
+	
 
 	private void checkRedirect(HttpExchange ex, IMVCController mvcCtrl) {
 		if (mvcCtrl.getRedirect() == null)

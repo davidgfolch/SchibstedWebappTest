@@ -4,6 +4,10 @@ public class Role {
 
 	String name;
 
+	public Role() {
+		super();
+	}
+
 	public Role(String role) {
 		super();
 		this.name = role;

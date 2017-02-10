@@ -25,11 +25,7 @@ public class ServerConfigHelper implements ILogger {
 	private final ParamsFilter paramsFilter = inject(ParamsFilter.class);
 	private final AuthFilter authFilter = inject(AuthFilter.class);
 
-	public Observable<IController> addWebController(Class<?> claz) {
-		return createControllerInstance(claz);
-	}
-
-	private Observable<IController> createControllerInstance(Class<?> claz) {
+	public Observable<IController> createControllerInstance(Class<?> claz) {
 		Observable<IController> res = Observable.empty();
 		if (reflectionHelper.isControllerCandidate(claz)) {
 			logger().debug("Adding controller: {}", claz.getName());

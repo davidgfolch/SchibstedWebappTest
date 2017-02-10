@@ -12,7 +12,7 @@ import com.schibsted.webapp.controller.web.LoginController;
 import com.schibsted.webapp.server.base.ServerBaseTest;
 import com.schibsted.webapp.server.model.Parameter;
 
-public class AppTest extends ServerBaseTest {
+public class WebappTest extends ServerBaseTest {
 
 	@Test
 	public void statusCode302() throws IOException {

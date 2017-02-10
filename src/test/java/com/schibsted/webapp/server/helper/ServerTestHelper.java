@@ -77,7 +77,7 @@ public class ServerTestHelper extends BaseTest {
 		// InputStreamReader(con.getInputStream()));
 	}
 
-	public String getResponseBody(String url) throws Exception {
+	public String getResponseBody(String url) throws IOException {
 		boolean followRedirects = true;
 		return getResponseBody(url, null, followRedirects);
 	}
