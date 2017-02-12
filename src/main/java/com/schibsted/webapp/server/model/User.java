@@ -2,8 +2,10 @@ package com.schibsted.webapp.server.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.schibsted.webapp.server.helper.UserHelper;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class User {
 
 	List<Role> roles;

@@ -19,11 +19,29 @@ import com.schibsted.webapp.server.model.Parameters;
 import com.schibsted.webapp.server.model.Session;
 import com.schibsted.webapp.server.model.ViewModel;
 import com.schibsted.webapp.server.template.ITemplateRenderer;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 
 @SuppressWarnings("restriction")
 public abstract class MVCHandler extends BaseHandler implements ILogger {
+	
+	private static final String HEADER_CONTENT_TYPE = "Content-Type";
+
+	public enum CONTENT_TYPE {
+		JSON("application/json");
+
+	    private final String value;
+
+	    private CONTENT_TYPE(final String value) {
+	        this.value = value;
+	    }
+
+	    @Override
+	    public String toString() {
+	        return value;
+	    }		
+	}
 
 	private final HttpExchangeHelper exchangeHelper=inject(HttpExchangeHelper.class);
 	private final HttpServerHelper httpServerHelper=inject(HttpServerHelper.class);
@@ -74,6 +92,11 @@ public abstract class MVCHandler extends BaseHandler implements ILogger {
 	protected int getStatusCode(HttpExchange ex) {
 		IController ctrl = getController(ex);
 		return ctrl.getStatusCode();
+	}
+	
+	protected void setContentType(HttpExchange ex, CONTENT_TYPE contentType) {
+		Headers headers = ex.getResponseHeaders();
+		headers.add(HEADER_CONTENT_TYPE, contentType.toString());
 	}
 
 	protected void writeResponseString(HttpExchange ex, ViewModel model, ITemplateRenderer viewRenderer) throws IOException {

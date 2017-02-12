@@ -31,6 +31,12 @@ public final class UserHelper {
 				.findFirst().orElse(null);
 	}
 
+	public static List<User> getUsers(List<User> users, String userName) {
+		return users.stream() //
+				.filter(u -> userName!=null && u.getName().toLowerCase().contains(userName.toLowerCase())) //
+				.collect(Collectors.toList());
+	}
+
 	public static User checkCreadentials(List<User> users, String username, String password) {
 		User user = getUser(users, username);
 		if (user == null || !EncryptHelper.checkPassword(password, user.getPassword()))

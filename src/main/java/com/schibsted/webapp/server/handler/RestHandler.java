@@ -19,7 +19,8 @@ public class RestHandler extends MVCHandler implements ILogger {
 	public void doHandle(HttpExchange ex) throws IOException {
 		log(ex);
 		ViewModel model = execute(ex);
-		writeResponseString(ex, model,templateRenderer);
+		setContentType(ex, CONTENT_TYPE.JSON);
+		writeResponseString(ex, model, templateRenderer);
 		/*writeResponseOutputStream(ex, model);*/
 	}
 
