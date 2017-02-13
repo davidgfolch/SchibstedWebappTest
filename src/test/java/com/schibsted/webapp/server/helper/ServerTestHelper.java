@@ -28,14 +28,16 @@ public class ServerTestHelper extends BaseTest {
 
 	public URLConnection connect(String url) throws IOException {
 		boolean followRedirects = false;
-		return connect(url, null, followRedirects);
+		return connect(url, null, null, followRedirects);
 	}
 
-	public URLConnection connect(String url, String data, boolean followRedirects) throws IOException {
+	public URLConnection connect(String url, String data, String requestMethod, boolean followRedirects) throws IOException {
 		URL u = new URL(serverUrl + url);
 		URLConnection con = u.openConnection();
 		post(con, data);
 		HttpURLConnection httpCon = (HttpURLConnection) con;
+		if (requestMethod!=null)
+			httpCon.setRequestMethod(requestMethod);
 		HttpURLConnection.setFollowRedirects(followRedirects);
 		httpCon.setInstanceFollowRedirects(followRedirects);
 		con.connect();
@@ -76,14 +78,19 @@ public class ServerTestHelper extends BaseTest {
 		// BufferedReader in = new BufferedReader(new
 		// InputStreamReader(con.getInputStream()));
 	}
+	
+	public int getResponseCode(String url, String requestMethod) throws IOException {
+		return ((HttpURLConnection) connect(url,null,requestMethod,false)).getResponseCode();
+	}
+	
 
 	public String getResponseBody(String url) throws IOException {
 		boolean followRedirects = true;
-		return getResponseBody(url, null, followRedirects);
+		return getResponseBody(url, null, null, followRedirects);
 	}
-
-	public String getResponseBody(String url, String data, boolean followRedirects) throws IOException {
-		URLConnection con = connect(url, data, followRedirects);
+	
+	public String getResponseBody(String url, String data, String requestMethod, boolean followRedirects) throws IOException {
+		URLConnection con = connect(url, data, requestMethod, followRedirects);
 		con = redirect(con);
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		return in.lines().collect(Collectors.joining("\n"));

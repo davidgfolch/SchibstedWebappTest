@@ -3,7 +3,6 @@ package com.schibsted.webapp.server.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.schibsted.webapp.server.helper.UserHelper;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class User {
@@ -14,10 +13,6 @@ public class User {
 	
 	public User() {
 		super();
-	}
-
-	public User(String name, String password, String... roles) {
-		this(UserHelper.createRoles(roles), name, password);
 	}
 
 	public User(List<Role> roles, String name, String password) {

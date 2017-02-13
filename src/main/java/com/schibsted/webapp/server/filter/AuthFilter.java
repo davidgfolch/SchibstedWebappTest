@@ -32,6 +32,9 @@ public class AuthFilter extends Filter implements ILogger {
 	private final HttpExchangeHelper httpExchangeHelper = inject(HttpExchangeHelper.class);
 	private final ReflectionHelper reflectionHelper = inject(ReflectionHelper.class);
 	private final HttpServerHelper httpServerHelper = inject(HttpServerHelper.class);
+	private final UserHelper userHelper=inject(UserHelper.class);
+
+	
 
 	@Override
 	public void doFilter(HttpExchange ex, Chain chain) throws IOException {
@@ -67,7 +70,7 @@ public class AuthFilter extends Filter implements ILogger {
 		IMVCController ctrl=httpExchangeHelper.getController(ex);
 		String roleRequiredInController = reflectionHelper.getAuthenticationRoles(ctrl);
 		User user = httpExchangeHelper.getSession(ex).getLoggedUser();
-		return !UserHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
+		return !userHelper.hasUserRole(user, roleRequiredInController, InMemory.ROLE_ADMIN);
 	}
 
 }

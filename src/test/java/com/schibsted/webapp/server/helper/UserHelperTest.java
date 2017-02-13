@@ -1,5 +1,6 @@
 package com.schibsted.webapp.server.helper;
 
+import static com.schibsted.webapp.di.DIFactory.inject;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -15,6 +16,9 @@ import com.schibsted.webapp.server.model.Role;
 import com.schibsted.webapp.server.model.User;
 
 public class UserHelperTest extends BaseTest {
+	
+	private final UserHelper userHelper=inject(UserHelper.class);
+
 
 	private final List<User> users = InMemory.getUsers();
 	private final String testUserName = "user1";
@@ -24,8 +28,8 @@ public class UserHelperTest extends BaseTest {
 
 	@Test
 	public void checkCreadentials() {
-		assertNull(UserHelper.checkCreadentials(InMemory.getUsers(), null, testUserPwd));
-		assertNotNull(UserHelper.checkCreadentials(InMemory.getUsers(), testUserName, testUserPwd));
+		assertNull(userHelper.checkCreadentials(null, testUserPwd));
+		assertNotNull(userHelper.checkCreadentials(testUserName, testUserPwd));
 	}
 
 	@Test
@@ -38,15 +42,15 @@ public class UserHelperTest extends BaseTest {
 
 	@Test
 	public void hasUserRole() {
-		assertFalse(UserHelper.hasUserRole(null, "PAGE_1", InMemory.ROLE_ADMIN));
-		assertTrue(UserHelper.hasUserRole(users.get(0), null, InMemory.ROLE_ADMIN));
-		assertTrue(UserHelper.hasUserRole(users.get(0), "PAGE_1", InMemory.ROLE_ADMIN));
+		assertFalse(userHelper.hasUserRole(null, "PAGE_1", InMemory.ROLE_ADMIN));
+		assertTrue(userHelper.hasUserRole(users.get(0), null, InMemory.ROLE_ADMIN));
+		assertTrue(userHelper.hasUserRole(users.get(0), "PAGE_1", InMemory.ROLE_ADMIN));
 	}
 
 	@Test
 	public void getUser() {
-		assertNull(UserHelper.getUser(users, null));
-		assertNotNull(UserHelper.getUser(users, testUserName));
+		assertNull(userHelper.getUser(null));
+		assertNotNull(userHelper.getUser(testUserName));
 	}
 
 }

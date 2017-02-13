@@ -1,6 +1,7 @@
 package com.schibsted.webapp.controller.web;
 
-import com.schibsted.webapp.persistence.InMemory;
+import static com.schibsted.webapp.di.DIFactory.inject;
+
 import com.schibsted.webapp.server.annotation.ContextPath;
 import com.schibsted.webapp.server.helper.StringHelper;
 import com.schibsted.webapp.server.helper.UserHelper;
@@ -10,6 +11,8 @@ import com.schibsted.webapp.server.model.User;
 public class LoginController extends BaseWebController {
 
 	public static final String MSG_LOGGED_IN_SUCCESSFULY = "Logged in successfuly";
+
+	private final UserHelper userHelper=inject(UserHelper.class);
 
 	@Override
 	public void doLogic() {
@@ -26,7 +29,7 @@ public class LoginController extends BaseWebController {
 		String userName = (String) getParameter("user.name");
 		String pass = (String) getParameter("user.password");
 		String redirect = (String) getParameter("redirect");
-		User user = UserHelper.checkCreadentials(InMemory.getUsers(), userName, pass);
+		User user = userHelper.checkCreadentials(userName, pass);
 		if (user != null) {
 			getSession().setLoggedUser(user);
 			setMessage(MSG_LOGGED_IN_SUCCESSFULY);

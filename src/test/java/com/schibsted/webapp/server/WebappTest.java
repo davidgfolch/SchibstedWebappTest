@@ -77,7 +77,7 @@ public class WebappTest extends ServerBaseTest {
 	private String doLogin(String user, String pwd, String redirect, boolean autoFollowRedirects) throws IOException {
 		String postParams = loginParams(user, pwd);
 		String url = "/login?redirect=" + redirect;
-		return serverTestHelper.getResponseBody(url, postParams, autoFollowRedirects);
+		return serverTestHelper.getResponseBody(url, postParams, null, autoFollowRedirects);
 	}
 
 	private String loginParams(String user, String pwd) {
