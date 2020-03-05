@@ -1,18 +1,10 @@
-dist: trusty
-sudo: required
+language: java
 addons:
-  sonarqube:
+  sonarcloud:
     organization: "davidgfolch-github"
     token:
-      secure: "XgBnpcW1cBKIpWth6BDtdgN0slB/t3YMqHdf23zTJsRYvWK3udptMYUFrJ6RrEiCN8Z4lEpXuDyQQNfPdiW+J6dBbN8ZD5JR68CVznX2h343XM+nun5DXaekjmzLA5pRcip8diljDT2SUGTG0T35jjLpH5+F9g39y7SKhMBcoggUqcGdwNpHfkGiYqrBGlND/AGVelcmYu2Z6wBrS4i0m/Krx3Bo3lf/1985O47skuGYeDzr8r9RR5yG2uX9aMqpZ+Gk8NGBbI/ClIDMEqAntQEk5Y33cO1ccaFDGshv2EWWf6r4r8+Ni+mlJfROEethVm0YhizvU/P+gFrkjkLQOls+u/TPKD1NTAQYgI0v4JIaaqoiuWK/GcH3iNxGIprzgLFbULCVVGP70wlLL5ec9hYFI+Bn51H7xeR4kwvfE2IC2Y3fuaYNgzwWRnuuHTgdAWYyGMpbNjVKzPr0mrpil18s3kR0dhA8Ip3jMHqmFEbM4cvyb5nr61akoGd5oMphC04EbtDOJHF0q38/PkRPIZ2PfpmS7FG7QFawqAmn4EC6Ztlt4XUoy04/O+7ODa2bbq/BRFGW+knwK1G/4oZuv1mN49PnVNP9CaVuMrt42jMo8C5V4qKiDQuvkfiYgDc6Bop9Z6IRb7HuOpd/dsZH0d6af239f8wYCuqDqsSiSGg="
-jdk:
-  - oraclejdk8
+      secure: "YYdOsCEj3PTKo8qBFV7mwo7FAhThUKBv7WiBlv5sJLA1ReWS7K+WMb5gHGT3K1M5o2QbPfq7kw4+ivKMH5s3ZLR9fLqhvFgKWLWOztjM/lxm5BN393a4ieYhrjVrfavs50hp1H9vsy4RLv3QG8yWMO4siGLq7RGDjXxqFTFRt3my1Z2CPKsWSDv7SBRnWi5d4aRRnUOFscAidgdLbax0rreScR67e2Ud63+YPa+jivPpStEDrU0agdrUdEeilwFhT8d9d56j2ppoohyoHmwRdgGCqkf8pR5fCwSSz15PPqnBqe5mhG/JRCy1XqA9LoIS/oXbX0+u0akO3zU1XDj1HIJ/53vZ0tioij7XKOyCwr0oxJEGMut/KhXwITOd+HwBUZ2/ae7rxIC4SfI8uB679IjPRQ7bv0IL9RpIkfue3n27XzcR0dX8dBDGgWg/W8cnF3qpTpsdLZR/yHtPw8jQPssHZV47YfwxEKCPlLveEG1pQu+QB+7DRnVREJLOvTbvEETJ11bhqT+Yu+ajKIvZDHglDh3scfsxqNQZuDBIrPnkNetx/E3mtXy6t1PzB4LR/Y8nLrXCGG1HFW8vdYe9f3FFT4XfjIcG43bR5Vgdkj2cLtxTVAp8LdESKGd9XJT1F5T1fEsHCzvYpfIxwUlrSMEo7AOcb6bnu7y+m2iz1sM=" # encrypted value of your token
+
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=SchibstedWebapp
-#  - sonar-scanner
-#  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
-cache:
-  directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.sonar/cache'
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
