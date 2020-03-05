@@ -1,14 +1,17 @@
-language: java
-sudo: false
-install: true
+dist: trusty
+sudo: required
 addons:
   sonarqube:
+    organization: "davidgfolch-github"
     token:
-      secure: "4048f997d81e3e6868c8c65c77dbee6a585be085"
+      secure: "XgBnpcW1cBKIpWth6BDtdgN0slB/t3YMqHdf23zTJsRYvWK3udptMYUFrJ6RrEiCN8Z4lEpXuDyQQNfPdiW+J6dBbN8ZD5JR68CVznX2h343XM+nun5DXaekjmzLA5pRcip8diljDT2SUGTG0T35jjLpH5+F9g39y7SKhMBcoggUqcGdwNpHfkGiYqrBGlND/AGVelcmYu2Z6wBrS4i0m/Krx3Bo3lf/1985O47skuGYeDzr8r9RR5yG2uX9aMqpZ+Gk8NGBbI/ClIDMEqAntQEk5Y33cO1ccaFDGshv2EWWf6r4r8+Ni+mlJfROEethVm0YhizvU/P+gFrkjkLQOls+u/TPKD1NTAQYgI0v4JIaaqoiuWK/GcH3iNxGIprzgLFbULCVVGP70wlLL5ec9hYFI+Bn51H7xeR4kwvfE2IC2Y3fuaYNgzwWRnuuHTgdAWYyGMpbNjVKzPr0mrpil18s3kR0dhA8Ip3jMHqmFEbM4cvyb5nr61akoGd5oMphC04EbtDOJHF0q38/PkRPIZ2PfpmS7FG7QFawqAmn4EC6Ztlt4XUoy04/O+7ODa2bbq/BRFGW+knwK1G/4oZuv1mN49PnVNP9CaVuMrt42jMo8C5V4qKiDQuvkfiYgDc6Bop9Z6IRb7HuOpd/dsZH0d6af239f8wYCuqDqsSiSGg="
 jdk:
   - oraclejdk8
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=SchibstedWebapp
+#  - sonar-scanner
+#  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 cache:
   directories:
     - '$HOME/.m2/repository'
