@@ -29,4 +29,4 @@ Using jtwig for templates.<br/>
 
 ## Sonar build via Travis
 
-I've set a sonar build via Travis, you can see the [dashboard here](https://sonarqube.com/dashboard/index?id=com.schibsted%3Awebapp)
+I've set a sonar build via Travis, you can see the [dashboard here](https://sonarcloud.io/dashboard?id=davidgfolch_SchibstedWebappTest)
