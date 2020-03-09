@@ -74,7 +74,7 @@ public abstract class BaseController implements IController, IMVCController, ILo
 
 	@Override
 	public void checkPermisionDenied() {
-		if ((Boolean) getSession().get("permDenied"))
+		if ((boolean) getSession().get("permDenied"))
 			setStatusCode(HttpURLConnection.HTTP_UNAUTHORIZED);
 	}
 

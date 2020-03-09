@@ -13,10 +13,10 @@ public final class InMemory {
 	public static final String ROLE_ADMIN = "ADMIN";
 
 	private static final List<User> USERS = Arrays
-			.asList(new User[] { new User(roles(ROLE_ADMIN), "admin", EncryptHelper.encript("admin")),
+			.asList(new User(roles(ROLE_ADMIN), "admin", EncryptHelper.encript("admin")),
 					new User(roles("PAGE_1"), "user1", EncryptHelper.encript("user1")),
 					new User(roles("PAGE_2"), "user2", EncryptHelper.encript("user2")),
-					new User(roles("PAGE_3"), "user3", EncryptHelper.encript("user3")) });
+					new User(roles("PAGE_3"), "user3", EncryptHelper.encript("user3")));
 
 	private InMemory() {
 	}

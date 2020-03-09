@@ -36,10 +36,6 @@ public class UserRestController extends BaseRestController implements ILogger {
 		}
 	}
 
-	@Override
-	void post() {
-	}
-	
 	private String getUserId() {
 		return (String) getParameter("pathParam1");
 	}

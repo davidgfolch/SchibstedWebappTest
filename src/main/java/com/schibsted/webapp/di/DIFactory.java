@@ -25,14 +25,14 @@ public final class DIFactory {
 
 	private static Map<Class<?>, Class<?>> namedClasses = new HashMap<>();
 	private static Map<Class<?>, Class<?>> singletonClasses = new HashMap<>();
-	private static Map<Class<?>, Object> singletonInstances = new HashMap<>();
+	private static final Map<Class<?>, Object> singletonInstances = new HashMap<>();
 	private static Reflections reflections;
 
 	static {
 		reflections = new Reflections("");
 		find(Named.class, namedClasses);
 		find(Singleton.class, singletonClasses);
-		singletonClasses.keySet().stream().forEachOrdered(keyset -> LOG.debug("@Singleton class: " + keyset.getName()));
+		singletonClasses.keySet().forEach(keyset -> LOG.debug("@Singleton class: " + keyset.getName()));
 		Set<Class<?>> intersect = namedClasses.keySet().stream() //
 				.filter(singletonClasses.keySet()::contains) //
 				.collect(Collectors.toSet());
@@ -40,7 +40,7 @@ public final class DIFactory {
 				"@Singleton class don't need to be annotated with @Named, its redundant, for class: {}",
 				claz.getName()));
 		namedClasses.keySet().removeAll(singletonClasses.keySet());
-		namedClasses.keySet().stream().forEachOrdered(keyset -> LOG.debug("@Named class: " + keyset.getName()));
+		namedClasses.keySet().forEach(keyset -> LOG.debug("@Named class: " + keyset.getName()));
 
 		reflections = null;
 	}
